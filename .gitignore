@@ -2,8 +2,8 @@
 __pycache__/**
 .vscode/**
 data/**/*.json
-!AAPL.json
-!MSFT.json
 data/fetch_technicals.py
 data/fetch_fundamentals.py
 .pyc
+!AAPL.json
+!MSFT.json
