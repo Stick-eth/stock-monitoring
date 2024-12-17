@@ -45,11 +45,9 @@ def load_data(ticker):
 def parse_income_statement(data):
     reports = data.get("annualReports", [])
     if not reports:
-        return pd.DataFrame()  # Retourne un DataFrame vide si aucun rapport n'est trouvé
+        return pd.DataFrame()
 
     df = pd.DataFrame(reports)
-
-    # Vérifie si 'fiscalDateEnding' existe dans les colonnes
     if 'fiscalDateEnding' not in df.columns:
         print("La colonne 'fiscalDateEnding' est manquante dans les données du compte de résultat.")
         return pd.DataFrame()
@@ -78,23 +76,33 @@ app.layout = html.Div([
         style={'width': '50%', 'margin': '20px auto'}
     ),
 
-    # Graphiques
+        # Graphique des prix
     html.Div([
+        dcc.Graph(id='price-graph', style={'width': '60%', 'margin': '20px auto'}),
         dcc.Graph(id='revenue-graph', style={'width': '48%', 'display': 'inline-block'}),
-        dcc.Graph(id='net-income-graph', style={'width': '48%', 'display': 'inline-block', 'marginLeft': '4%'})
+    ],style={'display': 'flex', 'justify-content': 'center', 'marginTop': '20px'}),
+
+    # Graphiques financiers
+    html.Div([
+        dcc.Graph(id='net-income-graph', style={'width': '48%', 'display': 'inline-block', 'marginLeft': '4%'}),
+        html.Div([
+        html.H3("Transactions d'Insiders", style={'textAlign': 'center'}),
+        html.Div(
+            id='insider-list',
+            style={
+                'width': '80%',
+                'height': '300px',
+                'overflowY': 'scroll',
+                'border': '1px solid #ccc',
+                'margin': '20px auto',
+                'padding': '10px'
+            }
+        ),
+    ])
     ], style={'display': 'flex', 'justify-content': 'center', 'marginTop': '20px'}),
 
-    # Graphique des prix
-    html.Div([
-        dcc.Graph(id='price-graph', style={'width': '60%', 'margin': '20px auto'})
-    ]),
-
-    # Liste déroulante des transactions d'insiders
-    html.Div([
-        html.H3("Transactions d'Insiders", style={'textAlign': 'center'}),
-        dcc.Dropdown(id='insider-dropdown', style={'width': '50%', 'margin': '10px auto'}),
-        html.Div(id='insider-details', style={'textAlign': 'center', 'margin': '20px'})
-    ]),
+    # Liste scrollable des transactions d'insiders
+    
 
     # Footer
     html.Footer([
@@ -103,23 +111,22 @@ app.layout = html.Div([
     ])
 ])
 
+# Callback pour mettre à jour les graphiques en fonction du ticker sélectionné
 @app.callback(
     [Output('revenue-graph', 'figure'),
      Output('net-income-graph', 'figure'),
-     Output('price-graph', 'figure'),
-     Output('insider-dropdown', 'options')],
+     Output('price-graph', 'figure')],
     [Input('ticker-dropdown', 'value')]
 )
-def update_graphs_and_insiders(selected_ticker):
-    balance_sheet_data, income_statement_data, overview_data, prices_data, insiders_data = load_data(selected_ticker)
+def update_graphs(selected_ticker):
+    _, income_statement_data, _, prices_data, _ = load_data(selected_ticker)
 
     # Initialiser des figures vides par défaut
     revenue_fig = go.Figure()
     net_income_fig = go.Figure()
     price_fig = go.Figure()
-    insider_options = []
 
-    # Graphique du chiffre d'affaires si les données de compte de résultat sont disponibles
+    # Graphique du chiffre d'affaires et du bénéfice net
     if income_statement_data:
         income_df = parse_income_statement(income_statement_data)
         if not income_df.empty:
@@ -132,8 +139,7 @@ def update_graphs_and_insiders(selected_ticker):
             revenue_fig.update_layout(
                 title=f"Chiffre d'Affaires de {selected_ticker}",
                 xaxis_title='Date',
-                yaxis_title='Chiffre d\'Affaires',
-                hovermode='x unified'
+                yaxis_title='Chiffre d\'Affaires'
             )
 
             net_income_fig.add_trace(go.Scatter(
@@ -145,11 +151,10 @@ def update_graphs_and_insiders(selected_ticker):
             net_income_fig.update_layout(
                 title=f"Bénéfice Net de {selected_ticker}",
                 xaxis_title='Date',
-                yaxis_title='Bénéfice Net',
-                hovermode='x unified'
+                yaxis_title='Bénéfice Net'
             )
 
-    # Graphique des prix si les données de prix sont disponibles
+    # Graphique des prix
     if prices_data:
         prices_df = parse_prices(prices_data)
         if not prices_df.empty:
@@ -162,38 +167,38 @@ def update_graphs_and_insiders(selected_ticker):
             price_fig.update_layout(
                 title=f"Prix de l'Action de {selected_ticker}",
                 xaxis_title='Date',
-                yaxis_title='Prix de clôture',
-                hovermode='x unified'
+                yaxis_title='Prix de clôture'
             )
 
-    # Liste des transactions d'insiders si les données sont disponibles
-    if insiders_data:
-        insider_options = [{'label': f"{tx['Insider']} - {tx['Start Date']}", 'value': idx} for idx, tx in enumerate(insiders_data)]
+    return revenue_fig, net_income_fig, price_fig
 
-    return revenue_fig, net_income_fig, price_fig, insider_options
-
-
-# Callback pour afficher les détails des transactions d'insiders
+# Callback pour mettre à jour la liste des transactions d'insiders
 @app.callback(
-    Output('insider-details', 'children'),
-    [Input('insider-dropdown', 'value'),
-     Input('ticker-dropdown', 'value')]
+    Output('insider-list', 'children'),
+    [Input('ticker-dropdown', 'value')]
 )
-def display_insider_details(selected_index, selected_ticker):
+def update_insider_list(selected_ticker):
     _, _, _, _, insiders_data = load_data(selected_ticker)
 
-    if selected_index is None or not insiders_data:
-        return "Aucune transaction sélectionnée."
+    if not insiders_data:
+        return html.P("Aucune transaction d'insiders disponible.")
 
-    tx = insiders_data[selected_index]
-    return html.Div([
-        html.P(f"Insider : {tx['Insider']}"),
-        html.P(f"Position : {tx['Position']}"),
-        html.P(f"Date : {tx['Start Date']}"),
-        html.P(f"Nombre d'actions : {tx['Shares']}"),
-        html.P(f"Valeur : {tx['Value']}"),
-        html.P(f"Détail : {tx['Text']}")
-    ])
+    # Limite le nombre d'éléments affichés à 50
+    max_items = 50
+    items = []
+
+    for tx in insiders_data[:max_items]:
+        item = html.Div([
+            html.P(f"{tx['Insider']} - {tx['Start Date']}", style={'fontWeight': 'bold'}),
+            html.P(f"Position : {tx['Position']}"),
+            html.P(f"Nombre d'actions : {tx['Shares']}"),
+            html.P(f"Valeur : {tx['Value']}"),
+            html.P(f"Détail : {tx['Text']}"),
+            html.Hr(style={'margin': '10px 0'})
+        ])
+        items.append(item)
+
+    return items
 
 # Lancer le serveur
 if __name__ == '__main__':
