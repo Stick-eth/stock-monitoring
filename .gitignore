@@ -1,5 +1,6 @@
 .env
 __pycache__/**
+components/__pycache__/**
 .vscode/**
 data/**/*.json
 data/fetch_technicals.py

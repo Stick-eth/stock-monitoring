@@ -33,7 +33,8 @@ def create_layout():
 
         # Graphique des prix
         html.Div([
-            dcc.Graph(id='price-graph', style={'width': '60%', 'margin': '20px auto'},config=no_interaction)
+            dcc.Graph(id='price-graph', style={'width': '60%', 'margin': '20px auto'},config=no_interaction),
+            dcc.Graph(id='fcf-op-graph', style={'width': '60%', 'margin': '20px auto'},config=no_interaction)
         ]),
 
         # Liste scrollable des insiders

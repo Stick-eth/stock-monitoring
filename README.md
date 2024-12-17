@@ -14,8 +14,8 @@ Un outil pour récupérer et visualiser facilement des données financières d'e
 1. **Cloner le projet** :  
 
    ```bash
-   git clone https://github.com/nom_du_projet.git
-   cd nom_du_projet
+   git clone https://github.com/stock-monitoring.git
+   cd stock-monitoring
    ```
 
 2. **Installer les dépendances** :
@@ -23,11 +23,6 @@ Un outil pour récupérer et visualiser facilement des données financières d'e
     pip install -r requirements.txt
     ```
 
-3. **Configurer la clé API** :
-Créer un fichier .env dans le dossier data et y ajouter :
-    ```plaintext
-    API_KEY=cle_api
-    ```
 4. **Lancer l'application** :
      ```bash
     python app.py
@@ -37,3 +32,8 @@ Créer un fichier .env dans le dossier data et y ajouter :
 
 Accéder à l'interface via : http://127.0.0.1:8050
 Sélectionner un ticker pour afficher les données financières
+
+## To - do list
+- [ ] Patch le freecashflow avec les bonnes données
+- [ ] Plannifier la récup des données API via script
+- [ ] Définir les critères qualités
