@@ -76,16 +76,18 @@ app.layout = html.Div([
         style={'width': '50%', 'margin': '20px auto'}
     ),
 
-        # Graphique des prix
+    # Graphique combiné pour le chiffre d'affaires et le bénéfice net
     html.Div([
-        dcc.Graph(id='price-graph', style={'width': '60%', 'margin': '20px auto'}),
-        dcc.Graph(id='revenue-graph', style={'width': '48%', 'display': 'inline-block'}),
-    ],style={'display': 'flex', 'justify-content': 'center', 'marginTop': '20px'}),
+        dcc.Graph(id='revenue-net-income-graph', style={'width': '60%', 'margin': '20px auto'})
+    ]),
 
-    # Graphiques financiers
+    # Graphique des prix
     html.Div([
-        dcc.Graph(id='net-income-graph', style={'width': '48%', 'display': 'inline-block', 'marginLeft': '4%'}),
-        html.Div([
+        dcc.Graph(id='price-graph', style={'width': '60%', 'margin': '20px auto'})
+    ]),
+
+    # Liste scrollable des transactions d'insiders
+    html.Div([
         html.H3("Transactions d'Insiders", style={'textAlign': 'center'}),
         html.Div(
             id='insider-list',
@@ -98,11 +100,7 @@ app.layout = html.Div([
                 'padding': '10px'
             }
         ),
-    ])
-    ], style={'display': 'flex', 'justify-content': 'center', 'marginTop': '20px'}),
-
-    # Liste scrollable des transactions d'insiders
-    
+    ]),
 
     # Footer
     html.Footer([
@@ -113,8 +111,7 @@ app.layout = html.Div([
 
 # Callback pour mettre à jour les graphiques en fonction du ticker sélectionné
 @app.callback(
-    [Output('revenue-graph', 'figure'),
-     Output('net-income-graph', 'figure'),
+    [Output('revenue-net-income-graph', 'figure'),
      Output('price-graph', 'figure')],
     [Input('ticker-dropdown', 'value')]
 )
@@ -122,37 +119,38 @@ def update_graphs(selected_ticker):
     _, income_statement_data, _, prices_data, _ = load_data(selected_ticker)
 
     # Initialiser des figures vides par défaut
-    revenue_fig = go.Figure()
-    net_income_fig = go.Figure()
+    combined_fig = go.Figure()
     price_fig = go.Figure()
 
-    # Graphique du chiffre d'affaires et du bénéfice net
+    # Graphique combiné du chiffre d'affaires et du bénéfice net en barres
     if income_statement_data:
         income_df = parse_income_statement(income_statement_data)
         if not income_df.empty:
-            revenue_fig.add_trace(go.Scatter(
+            combined_fig = go.Figure()
+
+            # Ajouter le chiffre d'affaires en barres
+            combined_fig.add_trace(go.Bar(
                 x=income_df.index,
                 y=income_df["totalRevenue"].astype(float),
-                mode='lines+markers',
-                name='Chiffre d\'affaires'
+                name="Chiffre d'Affaires"
             ))
-            revenue_fig.update_layout(
-                title=f"Chiffre d'Affaires de {selected_ticker}",
-                xaxis_title='Date',
-                yaxis_title='Chiffre d\'Affaires'
-            )
 
-            net_income_fig.add_trace(go.Scatter(
+            # Ajouter le bénéfice net en barres (côte-à-côte)
+            combined_fig.add_trace(go.Bar(
                 x=income_df.index,
                 y=income_df["netIncome"].astype(float),
-                mode='lines+markers',
-                name='Bénéfice Net'
+                name="Bénéfice Net"
             ))
-            net_income_fig.update_layout(
-                title=f"Bénéfice Net de {selected_ticker}",
+
+            # Mettre à jour la disposition pour les barres groupées
+            combined_fig.update_layout(
+                title=f"Chiffre d'Affaires et Bénéfice Net de {selected_ticker}",
                 xaxis_title='Date',
-                yaxis_title='Bénéfice Net'
+                yaxis_title='Valeur',
+                barmode='group',  # Barres côte-à-côte
+                hovermode='x unified'
             )
+
 
     # Graphique des prix
     if prices_data:
@@ -170,7 +168,7 @@ def update_graphs(selected_ticker):
                 yaxis_title='Prix de clôture'
             )
 
-    return revenue_fig, net_income_fig, price_fig
+    return combined_fig, price_fig
 
 # Callback pour mettre à jour la liste des transactions d'insiders
 @app.callback(
