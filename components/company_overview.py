@@ -20,7 +20,7 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
         country = data_overview.get("Country", "N/A") if data_overview else "N/A"
         exchange = data_overview.get("Exchange", "N/A") if data_overview else "N/A"
         capitalization = data_overview.get("MarketCapitalization", "N/A") if data_overview else "N/A"
-
+        dividend_yield = data_overview.get("DividendYield", "N/A") if data_overview else "N/A"
         # Remplace le pays si USA
         if country == "USA":
             country = "United States 🦅"
