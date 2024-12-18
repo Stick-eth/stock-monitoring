@@ -12,7 +12,8 @@ def create_price_chart(data):
         
         fig = go.Figure()
         fig.layout.yaxis.fixedrange = True
-
+        ath = df["Close"].max()
+        fig.add_trace(go.Scatter(x=[df["Date"].min(), df["Date"].max()], y=[ath, ath], mode='lines', name="ATH", line=dict(color='green', dash='dash', width=2), opacity=0.5, text=[f"ATH: {ath:.2f}"]))
         fig.add_trace(go.Scatter(x=df["Date"], y=df["Close"].apply(lambda x: round(x, 2)), mode='lines', name="Prix de Clôture", line=dict(color='rgb(107, 102, 153)'), fill='tozeroy', fillcolor='rgba(167, 163, 194, 0.3)'))
         fig.update_layout(
             title="Prix de l'Action",
