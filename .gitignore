@@ -1,11 +1,10 @@
 .env
-__pycache__/**
-components/__pycache__/**
+__pycache__/
 .vscode/**
 data/**/*.json
 data/fetch_technicals.py
 data/fetch_fundamentals.py
-.pyc
-.cpython-312.pyc
+*.pyc
+*.cpython-312.pyc
 !AAPL.json
 !MSFT.json

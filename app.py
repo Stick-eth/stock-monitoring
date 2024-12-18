@@ -5,9 +5,10 @@ from callbacks import register_callbacks
 
 from pages.home import home_layout
 from pages.stocks import stocks_layout
+from pages.about import about_layout
   
 # Initialisation de l'application Dash avec Bootstrap et suppression des exceptions
-app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP], suppress_callback_exceptions=True)
+app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP],title= "DataStick - Stock Analysis", suppress_callback_exceptions=True)
 
 # Application du layout principal
 app.layout = create_layout()
@@ -20,6 +21,8 @@ app.layout = create_layout()
 def display_page(pathname):
     if pathname == '/stocks':
         return stocks_layout()
+    elif pathname == '/about':
+        return about_layout()
     else:
         return home_layout()
 

@@ -9,7 +9,7 @@ def create_navbar():
                     dbc.Row(
                         [
                             dbc.Col(html.Img(src="/assets/logo.png", height="40px")),
-                            dbc.Col(dbc.NavbarBrand("Stock Monitoring", className="ms-2")),
+                            dbc.Col(dbc.NavbarBrand("DataStick Monitoring", className="ms-2")),
                         ],
                         align="center",
                         className="g-0",
@@ -21,6 +21,7 @@ def create_navbar():
                     [
                         dbc.NavItem(dbc.NavLink("Accueil", href="/")),
                         dbc.NavItem(dbc.NavLink("Stocks", href="/stocks")),
+                        dbc.NavItem(dbc.NavLink("À propos", href="/about")),
                     ],
                     className="ms-auto",
                     navbar=True,

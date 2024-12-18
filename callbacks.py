@@ -14,8 +14,9 @@ def register_callbacks(app):
          Output('growth-graph', 'figure'),
          Output('insider-list', 'children'),
          Output('fcf-op-graph', 'figure')],
-        Input('ticker-dropdown', 'value'),
+        [Input('ticker-dropdown', 'value')]
     )
+    
     def update_data(selected_ticker):
         data = load_data(selected_ticker)
         return (
