@@ -7,7 +7,7 @@ from pages.home import home_layout
 from pages.stocks import stocks_layout
   
 # Initialisation de l'application Dash avec Bootstrap et suppression des exceptions
-app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP], suppress_callback_exceptions=True)
 
 # Application du layout principal
 app.layout = create_layout()
