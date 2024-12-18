@@ -18,8 +18,11 @@ def load_data(ticker):
     try:
         data = {}
         for key, dir_path in DATA_DIRS.items():
-            with open(os.path.join(dir_path, f"{ticker}.json")) as f:
-                data[key] = json.load(f)
+            try:
+                with open(os.path.join(dir_path, f"{ticker}.json")) as f:
+                    data[key] = json.load(f)
+            except FileNotFoundError:
+                data[key] = {}
         return data
     except Exception as e:
         print(f"Erreur de chargement pour {ticker} : {e}")
