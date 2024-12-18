@@ -24,5 +24,5 @@ def register_callbacks(app):
             create_price_chart(data.get("PRICES")),
             create_growth_chart(data.get("INCOME_STATEMENT")),
             create_insider_list(data.get("INSIDERS_TX")),
-            create_fcf_op_chart(data.get("INCOME_STATEMENT"), data.get("BALANCE_SHEET"))
+            create_fcf_op_chart(data.get("INCOME_STATEMENT"),data.get("CASH_FLOW"))
         )

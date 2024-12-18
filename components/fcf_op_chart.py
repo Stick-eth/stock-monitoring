@@ -1,30 +1,31 @@
 import plotly.graph_objs as go
 import pandas as pd
-import numpy as np
 
-def create_fcf_op_chart(data_income, data_balance):
+def create_fcf_op_chart(data_income, data_cashflow):
+    """Crée un graphique combiné pour le Free Cash Flow (FCF) et les Bénéfices Opérationnels."""
+
     try:
-        """Crée un graphique combiné pour le Free Cash Flow (FCF) et les Bénéfices Opérationnels."""
-        if not data_income or not data_balance:
-            return go.Figure()
+        if not data_income or not data_cashflow:
+            return go.Figure().update_layout(title="Données non disponibles")
 
         # Convertir les données en DataFrame
         df_income = pd.DataFrame(data_income.get("annualReports", []))
-        df_balance = pd.DataFrame(data_balance.get("annualReports", []))
-        df_income["fiscalDateEnding"] = pd.to_datetime(df_income["fiscalDateEnding"], utc=True)
-        df_balance["fiscalDateEnding"] = pd.to_datetime(df_balance["fiscalDateEnding"], utc=True)
+        df_cashflow = pd.DataFrame(data_cashflow.get("annualReports", []))
 
-        # Extraire les champs nécessaires
-        df_income["netIncome"] = df_income["netIncome"].astype(float)
-        df_income["depreciationAndAmortization"] = df_income["depreciationAndAmortization"].astype(float)
+        # Convertir les dates en datetime
+        df_income["fiscalDateEnding"] = pd.to_datetime(df_income["fiscalDateEnding"], utc=True)
+        df_cashflow["fiscalDateEnding"] = pd.to_datetime(df_cashflow["fiscalDateEnding"], utc=True)
+
+        # Convertir les champs nécessaires en float
+        df_cashflow["operatingCashflow"] = df_cashflow["operatingCashflow"].astype(float)
+        df_cashflow["capitalExpenditures"] = df_cashflow["capitalExpenditures"].astype(float)
         df_income["operatingIncome"] = df_income["operatingIncome"].astype(float)
-        df_balance["propertyPlantEquipment"] = df_balance["propertyPlantEquipment"].astype(float)
 
         # Fusionner les DataFrames sur la colonne "fiscalDateEnding"
-        df = pd.merge(df_income, df_balance, on="fiscalDateEnding", suffixes=('_income', '_balance'))
+        df = pd.merge(df_income, df_cashflow, on="fiscalDateEnding", suffixes=('_income', '_cashflow'))
 
         # Calculer le Free Cash Flow (FCF)
-        df["FCF"] = df["netIncome"] + df["depreciationAndAmortization"] - df["propertyPlantEquipment"]
+        df["FCF"] = df["operatingCashflow"] - df["capitalExpenditures"]
 
         # Créer le graphique
         fig = go.Figure()
@@ -69,8 +70,7 @@ def create_fcf_op_chart(data_income, data_balance):
         )
 
         return fig
-    
+
     except Exception as e:
         print(f"Erreur lors de la création du graphique FCF/Opérationnel : {e}")
         return go.Figure().update_layout(title="Graphique non disponible")
-
