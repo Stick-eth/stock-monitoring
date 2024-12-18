@@ -5,6 +5,7 @@ from components.price_chart import create_price_chart
 from components.insider_list import create_insider_list
 from components.revenue_growth import create_growth_chart
 from components.fcf_op_chart import create_fcf_op_chart
+from components.company_overview import create_company_overview
 
 def register_callbacks(app):
     """Enregistre les callbacks Dash pour l'application."""
@@ -13,7 +14,8 @@ def register_callbacks(app):
          Output('price-graph', 'figure'),
          Output('growth-graph', 'figure'),
          Output('insider-list', 'children'),
-         Output('fcf-op-graph', 'figure')],
+         Output('fcf-op-graph', 'figure'),
+         Output('company-overview', 'children')],
         [Input('ticker-dropdown', 'value')]
     )
     
@@ -24,5 +26,7 @@ def register_callbacks(app):
             create_price_chart(data.get("PRICES")),
             create_growth_chart(data.get("INCOME_STATEMENT")),
             create_insider_list(data.get("INSIDERS_TX")),
-            create_fcf_op_chart(data.get("INCOME_STATEMENT"),data.get("CASH_FLOW"))
+            create_fcf_op_chart(data.get("INCOME_STATEMENT"),data.get("CASH_FLOW")),
+            create_company_overview(data.get("OVERVIEW"),data.get("INCOME_STATEMENT"),data.get("CASH_FLOW"),data.get("EARNINGS"))
         )
+    
