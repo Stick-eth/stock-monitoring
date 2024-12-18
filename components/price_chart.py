@@ -9,20 +9,21 @@ def create_price_chart(data):
 
         df = pd.DataFrame(data)
         df["Date"] = pd.to_datetime(df["Date"], utc=True)
-
+        
         fig = go.Figure()
-        fig.add_trace(go.Scatter(x=df["Date"], y=df["Close"], mode='lines', name="Prix de Clôture"))
-
         fig.layout.yaxis.fixedrange = True
 
+        fig.add_trace(go.Scatter(x=df["Date"], y=df["Close"].apply(lambda x: round(x, 2)), mode='lines', name="Prix de Clôture", line=dict(color='rgb(107, 102, 153)'), fill='tozeroy', fillcolor='rgba(167, 163, 194, 0.3)'))
         fig.update_layout(
             title="Prix de l'Action",
             xaxis_title="Date",
-            yaxis_title="Prix",
             hovermode="x unified",
             plot_bgcolor='rgba(0,0,0,0)',
             paper_bgcolor='rgba(0,0,0,0)',
-            yaxis=dict(showticklabels=False)
+            yaxis=dict(showticklabels=False, autorange=True,type='log'),
+            xaxis=dict(showgrid=False, autorange=True),
+            margin=dict(t=40),
+            showlegend=False  # Ensure legends are displayed
         )
         return fig
     except Exception as e:

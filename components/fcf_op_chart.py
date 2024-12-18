@@ -35,7 +35,7 @@ def create_fcf_op_chart(data_income, data_cashflow):
             x=df["fiscalDateEnding"],
             y=df["FCF"] / 1e9,
             name="Free Cash Flow",
-            marker_color='rgb(107, 142, 35)',
+            marker_color='rgb(167, 163, 194)',
             hovertemplate='Free Cash Flow : $%{y:.2f} milliards<extra></extra>'
         ))
 
@@ -44,7 +44,7 @@ def create_fcf_op_chart(data_income, data_cashflow):
             x=df["fiscalDateEnding"],
             y=df["operatingIncome"] / 1e9,
             name="Bénéfices Opérationnels",
-            marker_color='rgb(70, 130, 180)',
+            marker_color='rgb(107, 102, 153)',
             hovertemplate='Bénéfices Opérationnels : $%{y:.2f} milliards<extra></extra>'
         ))
 
@@ -55,15 +55,9 @@ def create_fcf_op_chart(data_income, data_cashflow):
         # Mettre à jour la mise en page
         fig.update_layout(
             title="Free Cash Flow et Bénéfices Opérationnels",
-            xaxis_title="Date",
-            yaxis_title="Montant (en milliards de $)",
             barmode="group",  # Barres côte-à-côte
-            legend=dict(
-                orientation="h",
-                y=-0.2,  # Place la légende sous le graphique
-                x=0.5,
-                xanchor="center"
-            ),
+            showlegend=False,  # Retire la légende
+            yaxis=dict(showticklabels=False),  # Retire l'échelle de l'axe y
             plot_bgcolor='rgba(0,0,0,0)',
             paper_bgcolor='rgba(0,0,0,0)',
             hovermode="x unified"

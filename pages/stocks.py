@@ -5,7 +5,6 @@ from data_loader import DATA_DIRS
 # Configuration pour désactiver certaines interactions
 no_interaction = {
     'scrollZoom': False,
-    'doubleClick': False,
     'showTips': True,
     'displayModeBar': False,
     'modeBarButtonsToRemove': ['select2d', 'lasso2d'],
@@ -14,7 +13,7 @@ no_interaction = {
 def stocks_layout():
     """Retourne le layout de la page Stocks."""
     return html.Div([
-        html.H1("Analyse Financière des Tickers", style={'textAlign': 'center', 'marginTop': '20px'}),
+        html.H1("💻Stock Screener", style={'textAlign': 'center', 'marginTop': '20px'}),
 
         # Sélecteur de ticker
         dcc.Dropdown(
@@ -24,8 +23,17 @@ def stocks_layout():
             style={'width': '50%', 'margin': '20px auto'}
         ),
 
-        # Informations principales de l'entreprise
-        html.Div(id='company-overview', style={'width': '80%', 'margin': '20px auto'}),
+        # Conteneur pour le company-overview et le price-graph côte à côte
+        html.Div([
+            html.Div(
+                id='company-overview', 
+                style={'width': '55%', 'padding': '20px', 'boxSizing': 'border-box'}
+            ),
+            html.Div(
+                dcc.Graph(id='price-graph', config=no_interaction),
+                style={'padding': '20px', 'boxSizing': 'border-box', 'width': '45%'}
+            )
+        ], style={'width': '85%', 'margin': '20px auto', 'display': 'flex', 'justifyContent': 'space-between', 'alignItems': 'flex-start'}),
 
         # Graphiques financiers
         html.Div([
@@ -33,8 +41,8 @@ def stocks_layout():
             dcc.Graph(id='growth-graph', style={'width': '48%', 'display': 'inline-block', 'marginLeft': '4%'}, config=no_interaction)
         ], style={'display': 'flex', 'justify-content': 'center', 'marginTop': '20px'}),
 
+        # Autres graphiques
         html.Div([
-            dcc.Graph(id='price-graph', style={'width': '60%', 'margin': '20px auto'}, config=no_interaction),
             dcc.Graph(id='fcf-op-graph', style={'width': '60%', 'margin': '20px auto'}, config=no_interaction)
         ]),
 

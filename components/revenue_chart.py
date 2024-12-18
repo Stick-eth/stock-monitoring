@@ -26,8 +26,6 @@ def create_revenue_chart(data):
         
         fig.update_layout(
             title="Chiffre d'Affaires et Bénéfice Net",
-            xaxis_title="Date",
-            yaxis_title="Valeur",
             barmode="group",  # Barres côte-à-côte
             legend=dict(
                 orientation="h",
