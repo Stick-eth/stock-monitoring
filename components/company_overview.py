@@ -1,6 +1,7 @@
 from dash import html
 import dash_bootstrap_components as dbc
 import pandas as pd
+import json
 
 def create_company_overview(data_overview, data_income, data_cashflow, data_earnings):
     """Crée un composant affichant les données principales de l'entreprise dans une grille avec tooltips."""
@@ -30,6 +31,14 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
             else:
                 capitalization = f"{capitalization / 1_000_000:.2f} Million"
 
+        # Chercher dans assets/emojis.json s'il y a un emoji pour le ticker de l'entreprise (possible de ne pas trouver)
+        try:
+            with open("assets/emojis.json") as f:
+                emojis = json.load(f)
+                emoji = emojis.get(ticker, "")
+        except FileNotFoundError:
+            emoji = ""
+
         # EPS depuis les données EARNINGS
         earnings = data_earnings.get("annualEarnings", [])
         latest_eps = earnings[0].get("reportedEPS", "N/A") if earnings else "N/A"
@@ -54,6 +63,9 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
             # Premier container pour les informations principales : Nom, Ticker, Secteur, Industrie, Country, Exchange
             dbc.Container([
                 dbc.Row([
+                    dbc.Col(html.Div([
+                        html.H1(emoji if emoji else "📈", style={'fontSize': '2.5rem'})
+                    ]), width=12),
                     dbc.Col(html.Div([
                         html.H2(name),
                         html.P(ticker + " - " + exchange)
