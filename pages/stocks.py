@@ -27,11 +27,11 @@ def stocks_layout():
         html.Div([
             html.Div(
                 id='company-overview', 
-                style={'width': '55%', 'padding': '20px', 'boxSizing': 'border-box'}
+                style={'width': '60%', 'padding': '20px', 'boxSizing': 'border-box'}
             ),
             html.Div(
                 dcc.Graph(id='price-graph', config=no_interaction),
-                style={'padding': '20px', 'boxSizing': 'border-box', 'width': '45%'}
+                style={'padding': '20px', 'boxSizing': 'border-box', 'width': '40%'}
             )
         ], style={'width': '85%', 'margin': '20px auto', 'display': 'flex', 'justifyContent': 'space-between', 'alignItems': 'flex-start'}),
 
