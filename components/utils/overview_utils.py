@@ -1,6 +1,75 @@
 
 import json
 
+# Fonction pour calculer le CAGR (Compound Annual Growth Rate) du chiffre d'affaires et du bénéfice net
+def calculate_cagr(data, period=5):
+    import pandas as pd
+    """Calcule le CAGR du chiffre d'affaires et du bénéfice net sur une période donnée.
+
+    Paramètres :
+    - data : dict contenant les rapports financiers avec "totalRevenue" et "netIncome".
+    - period : nombre d'années pour le calcul du CAGR (par défaut : 5).
+
+    Retourne :
+    - Un dictionnaire avec les CAGR pour le CA et le bénéfice net.
+    """
+    try:
+        if not data:
+            return {"CAGR_CA": "N/A", "CAGR_Benefice": "N/A"}
+
+        # Convertir les données en DataFrame
+        df = pd.DataFrame(data.get("annualReports", []))
+        df["fiscalDateEnding"] = pd.to_datetime(df["fiscalDateEnding"], utc=True)
+        df["totalRevenue"] = pd.to_numeric(df["totalRevenue"], errors='coerce')
+        df["netIncome"] = pd.to_numeric(df["netIncome"], errors='coerce')
+
+        # Trier par date décroissante pour s'assurer que les dernières années sont en haut
+        df.sort_values("fiscalDateEnding", ascending=False, inplace=True)
+
+        # Sélectionner les données sur la période spécifiée
+        if len(df) < period:
+            return ["N/A","N/A"]
+        
+        # Valeurs initiales et finales
+        revenue_initial = df["totalRevenue"].iloc[period - 1]
+        revenue_final = df["totalRevenue"].iloc[0]
+
+        net_income_initial = df["netIncome"].iloc[period - 1]
+        net_income_final = df["netIncome"].iloc[0]
+
+        # Calcul du CAGR pour le CA
+        if revenue_initial > 0 and revenue_final > 0:
+            cagr_revenue = ((revenue_final / revenue_initial) ** (1 / period) - 1) * 100
+        else:
+            cagr_revenue = "N/A"
+
+        # Calcul du CAGR pour le bénéfice net
+        if net_income_initial > 0 and net_income_final > 0:
+            cagr_net_income = ((net_income_final / net_income_initial) ** (1 / period) - 1) * 100
+        else:
+            cagr_net_income = "N/A"
+        cagr_ca = f"{cagr_revenue:.2f}%" if cagr_revenue != "N/A" else "N/A"
+        cagr_benefice = f"{cagr_net_income:.2f}%" if cagr_net_income != "N/A" else "N/A"
+
+        return [cagr_ca,cagr_benefice]        
+    except Exception as e:
+        print(f"Erreur lors du calcul du CAGR : {e}")
+        return ["N/A","N/A"]
+
+# Fonction pour obtenir la couleur du badge pour le CAGR CA (Vert si supérieur à 5%, rouge si inférieur à 1%)
+def get_cagr_ca_badge_color(cagr_ca):
+    try:
+        cagr_ca_value = float(cagr_ca.replace("%", "")) if cagr_ca != "N/A" else 0
+        if cagr_ca_value > 5:
+            cagr_ca_badge_color = "success"
+        elif cagr_ca_value < 1:
+            cagr_ca_badge_color = "danger"
+        else:
+            cagr_ca_badge_color = "secondary"
+    except ValueError:
+        cagr_ca_badge_color = "secondary"
+    return cagr_ca_badge_color
+
 # Fonction pour obtenir la couleur du badge pour le PER (Orange si inférieur à 20, vert si entre 20 et 30, rouge si supérieur à 30)
 def get_pe_ratio_badge_color(pe_ratio):
     try:
@@ -46,23 +115,26 @@ def fetch_last_price(ticker: str):
     import yfinance as yf
     if not isinstance(ticker, str):
         raise ValueError("Le ticker doit être une chaîne de caractères.")
-    
-    # Récupération des données pour le dernier jour
-    data = yf.Ticker(ticker).history(period='1d')
-    
-    # Vérification que le DataFrame n'est pas vide
-    if data.empty:
-        raise ValueError(f"Aucune donnée disponible pour le ticker '{ticker}'.")
-    
-    # Récupération des données pour l'année précédente
-    data_year_ago = yf.Ticker(ticker).history(start=(pd.Timestamp.now() - pd.to_timedelta(365, unit='d')).strftime('%Y-%m-%d'), end=pd.Timestamp.now().strftime('%Y-%m-%d'))
-    
-    # Vérification que le DataFrame n'est pas vide
-    if data_year_ago.empty:
-        raise ValueError(f"Aucune donnée disponible pour le ticker '{ticker}' il y a un an.")
-    
-    # Retourne le dernier prix de clôture et le prix de clôture un an plus tôt
-    return data['Close'].iloc[-1], data_year_ago['Close'].iloc[0]
+    try:
+        # Récupération des données pour le dernier jour
+        data = yf.Ticker(ticker).history(period='1d')
+        
+        # Vérification que le DataFrame n'est pas vide
+        if data.empty:
+            raise ValueError(f"Aucune donnée disponible pour le ticker '{ticker}'.")
+        
+        # Récupération des données pour l'année précédente
+        data_year_ago = yf.Ticker(ticker).history(start=(pd.Timestamp.now() - pd.to_timedelta(365, unit='d')).strftime('%Y-%m-%d'), end=pd.Timestamp.now().strftime('%Y-%m-%d'))
+        
+        # Vérification que le DataFrame n'est pas vide
+        if data_year_ago.empty:
+            raise ValueError(f"Aucune donnée disponible pour le ticker '{ticker}' il y a un an.")
+        
+        # Retourne le dernier prix de clôture et le prix de clôture un an plus tôt
+        return data['Close'].iloc[-1], data_year_ago['Close'].iloc[0]
+    except Exception as e:
+        print(f"Erreur lors de la récupération des prix pour le ticker '{ticker}': {e}")
+        return 0, 0
 
 # Fonction pour extraire les données principales de l'entreprise
 def extract_company_data(data_overview):
@@ -139,6 +211,7 @@ def dividend_to_percent(dividend_yield):
     else:
         dividend_yield = "N/A"
     return dividend_yield
+
 
 
 

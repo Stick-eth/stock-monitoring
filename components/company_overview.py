@@ -31,6 +31,9 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
         # Dernier EPS depuis data_earnings
         latest_eps = get_latest_eps(data_earnings)
 
+        # CAGR CA & Benefice net
+        cagr = calculate_cagr(data_income)
+
         # Conversion en DataFrame avec vérification
         df_income = pd.DataFrame(data_income.get("annualReports", [])) if data_income else pd.DataFrame()
         df_cashflow = pd.DataFrame(data_cashflow.get("annualReports", [])) if data_cashflow else pd.DataFrame()
@@ -79,6 +82,15 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
                     dbc.Col(html.Div([
                         html.H6("Capitalisation Boursière", style={'textTransform': 'none'}),
                         html.P(format_market_cap(capitalization) if format_market_cap(capitalization) != "N/A" else "", className="fw-bold mb-0")
+                    ]), className="d-flex align-items-center justify-content-center"),
+                    dbc.Col(html.Div([
+                        html.H6("CAGR CA", style={'textTransform': 'none'}),
+                        html.P(cagr[0], className="fw-bold mb-0"),
+                        dbc.Badge("> 5%", color=get_cagr_ca_badge_color(cagr[0]))
+                    ]), className="d-flex align-items-center justify-content-center"),
+                    dbc.Col(html.Div([
+                        html.H6("CAGR Bénéfice Net", style={'textTransform': 'none'}),
+                        html.P(cagr[1], className="fw-bold mb-0")
                     ]), className="d-flex align-items-center justify-content-center"),
                     dbc.Col(html.Div([
                         html.H6("PER (Price-to-Earnings Ratio)", id="tooltip-pe-ratio", style={'textTransform': 'none'}),
