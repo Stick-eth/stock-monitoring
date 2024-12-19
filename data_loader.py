@@ -10,7 +10,7 @@ DATA_DIRS = {
     "INSIDERS_TX": "./data/INSIDERS_TX",
     "CASH_FLOW": "./data/CASH_FLOW",
     "EARNINGS": "./data/EARNINGS",
-    "DIVIDENDS": "./data/DIVIDENDS"
+    "DIVIDENDS": "./data/DIVIDENDS",
 }
 
 def load_data(ticker):
