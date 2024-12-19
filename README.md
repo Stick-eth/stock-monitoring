@@ -34,6 +34,7 @@ Accéder à l'interface via : http://127.0.0.1:8050
 Sélectionner un ticker pour afficher les données financières
 
 ## To - do list
-- [ ] Patch le freecashflow avec les bonnes données
 - [ ] Plannifier la récup des données API via script
+- [ ] Patch le Graph du freecashflow avec les bonnes données
 - [ ] Définir les critères qualités
+- [ ] Créer l'onglet "A propos"

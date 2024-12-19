@@ -35,7 +35,6 @@ def create_growth_chart(data):
 
         # Créer le graphique
         fig = go.Figure()
-
         # Ajouter la croissance du CA
         fig.add_trace(go.Bar(
             x=df["fiscalDateEnding"],
@@ -51,7 +50,7 @@ def create_growth_chart(data):
             y=df["NetIncomeGrowth"],
             name="Croissance du Bénéfice Net",
             marker_color=["#66CC66" if v > 0 else "#FF6347" for v in df["NetIncomeGrowth"]],
-            hovertemplate='Croissance Bénéf. Net : %{y:.2f}%<extra></extra>'
+            hovertemplate='Croissance  :Bénéf. Net %{y:.2f}%<extra></extra>'
         ))
 
         # Fixer les plages des axes pour éviter le zoom
@@ -61,8 +60,6 @@ def create_growth_chart(data):
         # Personnaliser le graphique
         fig.update_layout(
             title="Croissance Chiffre d'Affaires & Bénéfice Net",
-            xaxis_title="Année",
-            yaxis_title="Croissance (%)",
             barmode="group",
             hovermode="x unified",
             legend=dict(
@@ -71,9 +68,10 @@ def create_growth_chart(data):
                 x=0.5,
                 xanchor="center"
             ),
+            showlegend=False,  # Retire la légende
             plot_bgcolor='rgba(0,0,0,0)',
             paper_bgcolor='rgba(0,0,0,0)',
-            yaxis=dict(showticklabels=True)
+            yaxis=dict(showticklabels=False)
         )
 
         return fig
