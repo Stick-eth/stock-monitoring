@@ -1,13 +1,10 @@
 from dash import html
 import dash_bootstrap_components as dbc
-import pandas as pd
-import json
 from components.utils.overview_utils import *
-
 
 def create_company_overview(data_overview, data_income, data_cashflow, data_earnings):
     """Crée un composant affichant les données principales de l'entreprise dans une grille avec tooltips,
-    même si certaines données sont manquantes."""
+    même si certaines données sont manquantes, sans pandas."""
 
     try:
         # Si les données sont manquantes, on remplace par "N/A" au lieu de stopper l'affichage.
@@ -31,17 +28,19 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
         # Dernier EPS depuis data_earnings
         latest_eps = get_latest_eps(data_earnings)
 
-        # CAGR CA & Benefice net
-        cagr = calculate_cagr(data_income)
+        # Calculer les CAGR du chiffre d'affaires et du bénéfice net
+        cagr_ca = calculate_cagr_key(data_income, key="totalRevenue")
+        cagr_benefice_net = calculate_cagr_key(data_income, key="netIncome")
 
-        # Conversion en DataFrame avec vérification
-        df_income = pd.DataFrame(data_income.get("annualReports", [])) if data_income else pd.DataFrame()
-        df_cashflow = pd.DataFrame(data_cashflow.get("annualReports", [])) if data_cashflow else pd.DataFrame()
+        # Extraction des flux de trésorerie
+        operating_cashflows = [
+            float(report.get("operatingCashflow", 0)) for report in data_cashflow.get("annualReports", [])
+        ]
 
-        if "totalRevenue" in df_income.columns:
-            df_income["totalRevenue"] = pd.to_numeric(df_income["totalRevenue"], errors='coerce')
-        if "operatingCashflow" in df_cashflow.columns:
-            df_cashflow["operatingCashflow"] = pd.to_numeric(df_cashflow["operatingCashflow"], errors='coerce')
+        # Extraire les revenus totaux si disponibles
+        total_revenues = [
+            float(report.get("totalRevenue", 0)) for report in data_income.get("annualReports", [])
+        ]
 
         return html.Div([
             # Premier container
@@ -85,12 +84,12 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
                     ]), className="d-flex align-items-center justify-content-center"),
                     dbc.Col(html.Div([
                         html.H6("CAGR CA", style={'textTransform': 'none'}),
-                        html.P(cagr[0], className="fw-bold mb-0"),
-                        dbc.Badge("> 5%", color=get_cagr_ca_badge_color(cagr[0]))
+                        html.P(cagr_ca, className="fw-bold mb-0"),
+                        dbc.Badge("> 5%", color=get_cagr_ca_badge_color(cagr_ca))
                     ]), className="d-flex align-items-center justify-content-center"),
                     dbc.Col(html.Div([
                         html.H6("CAGR Bénéfice Net", style={'textTransform': 'none'}),
-                        html.P(cagr[1], className="fw-bold mb-0")
+                        html.P(cagr_benefice_net, className="fw-bold mb-0")
                     ]), className="d-flex align-items-center justify-content-center"),
                     dbc.Col(html.Div([
                         html.H6("PER (Price-to-Earnings Ratio)", id="tooltip-pe-ratio", style={'textTransform': 'none'}),
@@ -118,24 +117,14 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
             ], fluid=True, className="border rounded p-4 shadow-sm bg-light", style={'marginleft': 'auto', 'marginright': 'auto'}),
 
             # Tooltips
-            dbc.Tooltip("Le secteur d'activité de l'entreprise. Ex : Technologie, Santé, Finance.", 
-                        target="tooltip-sector", placement="top"),
-            dbc.Tooltip("L'industrie précise au sein du secteur. Ex : Logiciels, Biotechnologie.", 
-                        target="tooltip-industry", placement="top"),
-            dbc.Tooltip("Le pays où l'entreprise est basée, ce qui peut influencer les régulations et le marché.", 
-                        target="tooltip-country", placement="top"),
-            dbc.Tooltip("Pourcentage des profits distribués aux actionnaires sous forme de dividendes. Un rendement élevé est souvent attractif pour les investisseurs.", 
-                        target="tooltip-dividend-yield", placement="right"),
-            dbc.Tooltip("Le ratio entre le prix de l'action et le bénéfice par action. Un PER faible peut indiquer que l'action est sous-évaluée.", 
-                        target="tooltip-pe-ratio", placement="right"),
-            dbc.Tooltip("Mesure de la volatilité de l'action par rapport au marché. Un Beta supérieur à 1 signifie plus de risque, mais aussi plus de potentiel de gain.", 
-                        target="tooltip-beta", placement="bottom"),
-            dbc.Tooltip("Le bénéfice net divisé par le nombre d'actions. Plus l'EPS est élevé, plus l'entreprise est rentable.", 
-                        target="tooltip-eps", placement="bottom"),
-            dbc.Tooltip("Le pourcentage d'augmentation des ventes sur une période donnée. Une croissance positive indique une entreprise en expansion.", 
-                        target="tooltip-revenue-growth", placement="bottom"),
+            dbc.Tooltip("Le secteur d'activité de l'entreprise.", target="tooltip-sector", placement="top"),
+            dbc.Tooltip("L'industrie précise au sein du secteur.", target="tooltip-industry", placement="top"),
+            dbc.Tooltip("Le pays où l'entreprise est basée.", target="tooltip-country", placement="top"),
+            dbc.Tooltip("Pourcentage des profits distribués sous forme de dividendes.", target="tooltip-dividend-yield", placement="right"),
+            dbc.Tooltip("Le ratio entre le prix de l'action et le bénéfice par action.", target="tooltip-pe-ratio", placement="right"),
+            dbc.Tooltip("Mesure de la volatilité de l'action par rapport au marché.", target="tooltip-beta", placement="bottom"),
+            dbc.Tooltip("Le bénéfice net divisé par le nombre d'actions.", target="tooltip-eps", placement="bottom"),
         ])
     except Exception as e:
         print(f"Erreur de création de l'aperçu de l'entreprise : {e}")
         return html.Div("Erreur de création de l'aperçu de l'entreprise", style={'textAlign': 'center', 'marginTop': '20px'})
-
