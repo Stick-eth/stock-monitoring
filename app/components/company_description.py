@@ -1,8 +1,5 @@
 from dash import html
 import dash_bootstrap_components as dbc
-import json
-
-
 
 def create_description_company(data_overview):
     """Crée un composant affichant la description de l'entreprise."""
