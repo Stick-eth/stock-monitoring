@@ -5,3 +5,4 @@ requests==2.31.0
 plotly==5.22.0
 python-dotenv==1.0.1
 gunicorn
+pymongo
