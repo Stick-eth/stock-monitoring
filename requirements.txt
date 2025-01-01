@@ -1,6 +1,5 @@
 dash==2.15.0
 dash-bootstrap-components
-pandas==2.2.1
 yfinance==0.2.36
 requests==2.31.0
 plotly==5.22.0

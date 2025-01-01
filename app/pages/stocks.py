@@ -35,6 +35,8 @@ def stocks_layout():
             )
         ], style={'width': '85%', 'margin': '20px auto', 'display': 'flex', 'justifyContent': 'space-between', 'alignItems': 'flex-start'}),
 
+        # Description de l'entreprise
+        html.Div(id='company-description', style={'width': '80%', 'margin': '20px auto'}),
         # Graphiques financiers
         html.Div([
             dcc.Graph(id='revenue-net-income-graph', style={'width': '48%', 'display': 'inline-block'}, config=no_interaction),

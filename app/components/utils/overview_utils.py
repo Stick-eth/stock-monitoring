@@ -1,61 +1,6 @@
 
 import json
 
-# Fonction pour calculer le CAGR (Compound Annual Growth Rate) du chiffre d'affaires et du bénéfice net
-def calculate_cagr(data, period=5):
-    import pandas as pd
-    """Calcule le CAGR du chiffre d'affaires et du bénéfice net sur une période donnée.
-
-    Paramètres :
-    - data : dict contenant les rapports financiers avec "totalRevenue" et "netIncome".
-    - period : nombre d'années pour le calcul du CAGR (par défaut : 5).
-
-    Retourne :
-    - Un dictionnaire avec les CAGR pour le CA et le bénéfice net.
-    """
-    try:
-        if not data:
-            return {"CAGR_CA": "N/A", "CAGR_Benefice": "N/A"}
-
-        # Convertir les données en DataFrame
-        df = pd.DataFrame(data.get("annualReports", []))
-        df["fiscalDateEnding"] = pd.to_datetime(df["fiscalDateEnding"], utc=True)
-        df["totalRevenue"] = pd.to_numeric(df["totalRevenue"], errors='coerce')
-        df["netIncome"] = pd.to_numeric(df["netIncome"], errors='coerce')
-
-        # Trier par date décroissante pour s'assurer que les dernières années sont en haut
-        df.sort_values("fiscalDateEnding", ascending=False, inplace=True)
-
-        # Sélectionner les données sur la période spécifiée
-        if len(df) < period:
-            return ["N/A","N/A"]
-        
-        # Valeurs initiales et finales
-        revenue_initial = df["totalRevenue"].iloc[period - 1]
-        revenue_final = df["totalRevenue"].iloc[0]
-
-        net_income_initial = df["netIncome"].iloc[period - 1]
-        net_income_final = df["netIncome"].iloc[0]
-
-        # Calcul du CAGR pour le CA
-        if revenue_initial > 0 and revenue_final > 0:
-            cagr_revenue = ((revenue_final / revenue_initial) ** (1 / period) - 1) * 100
-        else:
-            cagr_revenue = "N/A"
-
-        # Calcul du CAGR pour le bénéfice net
-        if net_income_initial > 0 and net_income_final > 0:
-            cagr_net_income = ((net_income_final / net_income_initial) ** (1 / period) - 1) * 100
-        else:
-            cagr_net_income = "N/A"
-        cagr_ca = f"{cagr_revenue:.2f}%" if cagr_revenue != "N/A" else "N/A"
-        cagr_benefice = f"{cagr_net_income:.2f}%" if cagr_net_income != "N/A" else "N/A"
-
-        return [cagr_ca,cagr_benefice]        
-    except Exception as e:
-        print(f"Erreur lors du calcul du CAGR : {e}")
-        return ["N/A","N/A"]
-
 # Fonction pour obtenir la couleur du badge pour le CAGR CA (Vert si supérieur à 5%, rouge si inférieur à 1%)
 def get_cagr_ca_badge_color(cagr_ca):
     try:
@@ -212,6 +157,39 @@ def dividend_to_percent(dividend_yield):
         dividend_yield = "N/A"
     return dividend_yield
 
+def calculate_cagr_key(data, key):
+    """
+    Calcule le CAGR (Compound Annual Growth Rate) pour une clé spécifique dans les données.
+    
+    Arguments :
+    - data : dictionnaire contenant les rapports annuels.
+    - key : clé pour laquelle calculer le CAGR (par exemple "totalRevenue" ou "netIncome").
+    
+    Retourne :
+    - CAGR en pourcentage sous forme de chaîne ou "N/A" si les données sont insuffisantes.
+    """
+    try:
+        # Extraire les valeurs de la clé spécifiée
+        annual_reports = data.get("annualReports", [])
+        values = [
+            float(report.get(key, 0)) for report in annual_reports if key in report and report.get(key, None) is not None
+        ]
+
+        # Vérifier qu'il y a au moins deux valeurs pour calculer le CAGR
+        if len(values) >= 2:
+            start_value = values[-1]  # Première année (la plus ancienne)
+            end_value = values[0]    # Dernière année (la plus récente)
+            n_years = len(values) - 1
+
+            if start_value > 0:  # Éviter les divisions par zéro
+                cagr = ((end_value / start_value) ** (1 / n_years) - 1) * 100
+                return f"{cagr:.2f}%"
+        
+        # Retourner "N/A" si les données sont insuffisantes ou invalide
+        return "N/A"
+    except Exception as e:
+        print(f"Erreur lors du calcul du CAGR pour la clé {key} : {e}")
+        return "N/A"
 
 
 
