@@ -24,7 +24,7 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
     
         # Charger les emojis
         emoji = get_emoji_by_ticker(ticker)
-
+    
         # Dernier EPS depuis data_earnings
         latest_eps = get_latest_eps(data_earnings)
 

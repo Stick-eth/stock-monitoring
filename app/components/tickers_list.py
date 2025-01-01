@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from pymongo import MongoClient
 
-def get_tickers(DATA_DIRS):
+def get_tickers():
     """
     Retourne la liste des tickers pour lesquels il existe au moins un document en base.
     On ignore 'DATA_DIRS' car on ne se base plus sur les fichiers locaux, mais sur MongoDB.

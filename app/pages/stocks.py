@@ -18,7 +18,7 @@ def stocks_layout():
         # Sélecteur de ticker
         dcc.Dropdown(
             id='ticker-dropdown',
-            options=[{'label': ticker, 'value': ticker} for ticker in get_tickers(DATA_DIRS)],
+            options=[{'label': ticker, 'value': ticker} for ticker in get_tickers()],
             value='AAPL',
             style={'width': '50%', 'margin': '20px auto'}
         ),
