@@ -8,3 +8,4 @@ data/fetch_fundamentals.py
 *.cpython-312.pyc
 !AAPL.json
 !MSFT.json
+settings.json
