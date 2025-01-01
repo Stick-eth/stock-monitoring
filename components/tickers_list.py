@@ -1,15 +1,37 @@
-# creer une fonction qui a pour but de retourner une liste de tickers
-# Pour cela, chercher les fichiers JSON. Remonter dans le dossier puis aller dans le dossier data et ensuite dans chaque dossier présent se trouvent des fichiers JSON avec le nom des tickers (attentions aux doublons)
 import os
+from dotenv import load_dotenv
+from pymongo import MongoClient
 
 def get_tickers(DATA_DIRS):
+    """
+    Retourne la liste des tickers pour lesquels il existe au moins un document en base.
+    On ignore 'DATA_DIRS' car on ne se base plus sur les fichiers locaux, mais sur MongoDB.
+    """
     try:
-        """Retourne une liste de tickers basée sur les fichiers JSON disponibles."""
+        load_dotenv()
+        MONGO_URI = os.getenv("MONGO_URI")
+        DB_NAME = os.getenv("DB_NAME")
+
+        if not MONGO_URI or not DB_NAME:
+            print("Erreur: MONGO_URI ou DB_NAME non défini dans le .env.")
+            return []
+
+        client = MongoClient(MONGO_URI)
+        db = client[DB_NAME]
+
+        # Récupère la liste de toutes les collections (chaque collection = un ticker)
+        collections = db.list_collection_names()
+
         tickers = set()
-        for dir_path in DATA_DIRS.values():
-            for file_name in os.listdir(dir_path):
-                if file_name.endswith('.json'):
-                    tickers.add(file_name.split('.')[0])
-        return sorted(list(tickers))
+        for col_name in collections:
+            # Vérifier si la collection a au moins un document
+            # count_documents({}) donne le nombre total de documents
+            if db[col_name].count_documents({}) > 0:
+                tickers.add(col_name)
+
+        # Retourne la liste triée des tickers trouvés
+        return sorted(tickers)
+
     except Exception as e:
+        print(f"Erreur dans get_tickers: {e}")
         return []
