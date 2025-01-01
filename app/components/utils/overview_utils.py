@@ -1,4 +1,3 @@
-
 import json
 
 # Fonction pour obtenir la couleur du badge pour le CAGR CA (Vert si supérieur à 5%, rouge si inférieur à 1%)
