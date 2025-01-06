@@ -11,7 +11,6 @@ def create_description_company(data_overview):
             dbc.Container([
                 dbc.Row([
                     dbc.Col(html.Div([
-                        html.H5("Description de l'entreprise"),
                         html.P(description)
                     ]), className="d-flex align-items-center justify-content-center"),
                 ])

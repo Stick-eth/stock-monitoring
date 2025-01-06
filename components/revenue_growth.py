@@ -1,4 +1,6 @@
 import plotly.graph_objs as go
+from components.utils.common_layout import apply_common_layout
+
 
 def create_growth_chart(data):
     try:
@@ -55,6 +57,10 @@ def create_growth_chart(data):
         # Fixer les plages des axes pour éviter le zoom
         fig.layout.xaxis.fixedrange = True
         fig.layout.yaxis.fixedrange = True
+
+        fig = apply_common_layout(
+            fig
+        )
 
         # Personnaliser le graphique
         fig.update_layout(

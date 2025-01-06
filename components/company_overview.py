@@ -72,49 +72,49 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
                         html.P(f"{current_price:.2f}$",  style={'fontSize': '1.5rem'}, className="fw-bold mb-0"),
                         dbc.Badge(f"{variation:.2f}%", color=price_badge_color, className="mt-2")
                     ]), className="d-flex align-items-center justify-content-center")
-                ], className="bg-light border rounded p-2 shadow-sm mb-2 mt-4"),
+                ], className="bg-dark rounded p-2 shadow-sm mb-2 mt-4"),
             ], fluid=True, className="text-center", style={'marginleft': 'auto', 'marginright': 'auto'}),
 
             # Deuxième container
             dbc.Container([
                 dbc.Row([
                     dbc.Col(html.Div([
-                        html.H6("Capitalisation Boursière", style={'textTransform': 'none'}),
-                        html.P(format_market_cap(capitalization) if format_market_cap(capitalization) != "N/A" else "", className="fw-bold mb-0")
+                        html.P("Capitalisation Boursière", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'}, className="fw-bold mb-0"),
+                        html.H5(format_market_cap(capitalization) if format_market_cap(capitalization) != "N/A" else "", className="fw-bold mb-0")
                     ]), className="d-flex align-items-center justify-content-center"),
                     dbc.Col(html.Div([
-                        html.H6("CAGR CA", style={'textTransform': 'none'}),
-                        html.P(cagr_ca, className="fw-bold mb-0"),
+                        html.P("CAGR CA", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'},className="fw-bold mb-0"),
+                        html.H5(cagr_ca, className="fw-bold mb-0"),
                         dbc.Badge("> 5%", color=get_cagr_ca_badge_color(cagr_ca))
                     ]), className="d-flex align-items-center justify-content-center"),
                     dbc.Col(html.Div([
-                        html.H6("CAGR Bénéfice Net", style={'textTransform': 'none'}),
-                        html.P(cagr_benefice_net, className="fw-bold mb-0")
+                        html.P("CAGR Bénéf. net", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'},className="fw-bold mb-0"),
+                        html.H5(cagr_benefice_net, className="fw-bold mb-0")
                     ]), className="d-flex align-items-center justify-content-center"),
                     dbc.Col(html.Div([
-                        html.H6("PER (Price-to-Earnings Ratio)", id="tooltip-pe-ratio", style={'textTransform': 'none'}),
-                        html.P(pe_ratio if pe_ratio != "N/A" else "", className="fw-bold mb-0"),
+                        html.P("PER", id="tooltip-pe-ratio", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'},className="fw-bold mb-0"),
+                        html.H5(pe_ratio if pe_ratio != "N/A" else "", className="fw-bold mb-0"),
                         dbc.Badge("< 30", color=get_pe_ratio_badge_color(pe_ratio))
                     ]), className="d-flex align-items-center justify-content-center"),
                 ], className="mb-4"),
 
                 dbc.Row([
                     dbc.Col(html.Div([
-                        html.H6("Beta", id="tooltip-beta", style={'textTransform': 'none'}),
+                        html.H6("Beta", id="tooltip-beta", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'}),
                         html.P(beta if beta != "N/A" else "", className="fw-bold mb-0"),
                         dbc.Badge("> 1", color=get_beta_badge_color(beta))
                     ]), className="d-flex align-items-center justify-content-center"),
                     dbc.Col(html.Div([
-                        html.H6("Bénéfice par Action (EPS)", id="tooltip-eps", style={'textTransform': 'none'}),
+                        html.H6("Bénéfice par Action (EPS)", id="tooltip-eps", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'}),
                         html.P(latest_eps if latest_eps != "N/A" else "", className="fw-bold mb-0")
                     ]), className="d-flex align-items-center justify-content-center"),
                     dbc.Col(html.Div([
-                        html.H6("Rendement des Dividendes", id="tooltip-dividend-yield", style={'textTransform': 'none'}),
+                        html.H6("Rendement des Dividendes", id="tooltip-dividend-yield", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'}),
                         html.P(dividend_to_percent(dividend_yield) if dividend_to_percent(dividend_yield) != "N/A" else "", className="fw-bold mb-0"),
                         dbc.Badge("< 2%", color=get_dividend_yield_badge_color(dividend_yield))
                     ]), className="d-flex align-items-center justify-content-center")
                 ])
-            ], fluid=True, className="border rounded p-4 shadow-sm bg-light", style={'marginleft': 'auto', 'marginright': 'auto'}),
+            ], fluid=True, className="bg-dark rounded rounded p-4 shadow-sm ", style={'marginleft': 'auto', 'marginright': 'auto'}),
 
             # Tooltips
             dbc.Tooltip("Le secteur d'activité de l'entreprise.", target="tooltip-sector", placement="top"),
