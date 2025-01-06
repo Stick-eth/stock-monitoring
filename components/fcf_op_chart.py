@@ -1,4 +1,5 @@
 import plotly.graph_objs as go
+from components.utils.common_layout import apply_common_layout
 from datetime import datetime
 
 def create_fcf_op_chart(data_income, data_cashflow):
@@ -72,6 +73,9 @@ def create_fcf_op_chart(data_income, data_cashflow):
         fig.layout.xaxis.fixedrange = True
         fig.layout.yaxis.fixedrange = True
 
+        fig = apply_common_layout(
+            fig
+        )
         # Mettre à jour la mise en page
         fig.update_layout(
             title="Free Cash Flow et Bénéfices Opérationnels",

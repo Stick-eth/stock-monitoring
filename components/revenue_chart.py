@@ -1,4 +1,5 @@
 import plotly.graph_objs as go
+from components.utils.common_layout import apply_common_layout
 from datetime import datetime
 
 def create_revenue_chart(data):
@@ -43,6 +44,9 @@ def create_revenue_chart(data):
         fig.layout.xaxis.fixedrange = True
         fig.layout.yaxis.fixedrange = True
 
+        fig = apply_common_layout(
+            fig
+        )
         # Mettre à jour la mise en page
         fig.update_layout(
             title="Chiffre d'Affaires et Bénéfice Net",

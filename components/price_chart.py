@@ -1,5 +1,6 @@
 import plotly.graph_objs as go
 from datetime import datetime
+from components.utils.common_layout import apply_common_layout
 
 def create_price_chart(data):
     try:
@@ -33,23 +34,24 @@ def create_price_chart(data):
             x=dates,
             y=[round(close, 2) for close in closes],
             mode='lines',
-            name="Prix de Clôture",
-            line=dict(color='rgb(107, 102, 153)'),
+            name="USD",
+            line=dict(color='rgb(182, 174, 255)'),
             fill='tozeroy',
-            fillcolor='rgba(167, 163, 194, 0.3)'
+            fillcolor='rgba(0, 0, 0, 0)'
         ))
 
         # Mettre à jour la mise en page
-        fig.update_layout(
+        fig = apply_common_layout(
+            fig,
             title="Prix de l'Action",
-            xaxis_title="Date",
-            hovermode="x unified",
-            plot_bgcolor='rgba(0,0,0,0)',
-            paper_bgcolor='rgba(0,0,0,0)',
-            yaxis=dict(showticklabels=False, autorange=True, type='log'),
-            xaxis=dict(showgrid=False, autorange=True),
-            margin=dict(t=40),
+            xaxis_title=None,
+            yaxis_title=None,
             showlegend=False
+        )
+        
+        fig.update_layout(
+            yaxis=dict(type="log", showticklabels=False, showline=False),
+            xaxis=dict(color='rgb(90, 86, 126)', showline=True, linecolor='rgb(53, 51, 75)')
         )
 
         return fig

@@ -18,18 +18,30 @@ def register_callbacks(app):
          Output('fcf-op-graph', 'figure'),
          Output('company-overview', 'children'),
          Output('company-description', 'children')],
-        [Input('ticker-dropdown', 'value')]
+        [Input('url', 'pathname')]
     )
-    
-    def update_data(selected_ticker):
-        data = load_data(selected_ticker)
+    def update_data(pathname):
+        # Extraire le ticker depuis l'URL
+        if pathname.startswith("/stocks/"):
+            ticker = pathname.split("/stocks/")[-1]
+        else:
+            return (None, None, None, None, None, None, None)  # Retourner des valeurs vides si pas de ticker
+
+        # Charger les données pour le ticker si ce n'est pas un point
+        if ticker != ".":
+            data = load_data(ticker)
+        else:
+            return (None, None, None, None, None, None, None)  # Retourner des valeurs vides si le ticker est un point
+
+        # Générer les composants avec les données
         revenue_chart = create_revenue_chart(data.get("INCOME_STATEMENT"))
         price_chart = create_price_chart(data.get("PRICES"))
         growth_chart = create_growth_chart(data.get("INCOME_STATEMENT"))
         insider_list = create_insider_list(data.get("INSIDERS_TX"))
-        fcf_op_chart = create_fcf_op_chart(data.get("INCOME_STATEMENT"),data.get("CASH_FLOW"))
-        company_overview = create_company_overview(data.get("OVERVIEW"),data.get("INCOME_STATEMENT"),data.get("CASH_FLOW"),data.get("EARNINGS"))
+        fcf_op_chart = create_fcf_op_chart(data.get("INCOME_STATEMENT"), data.get("CASH_FLOW"))
+        company_overview = create_company_overview(data.get("OVERVIEW"), data.get("INCOME_STATEMENT"), data.get("CASH_FLOW"), data.get("EARNINGS"))
         company_description = create_description_company(data.get("OVERVIEW"))
+
         return (
             revenue_chart,
             price_chart,
@@ -39,4 +51,3 @@ def register_callbacks(app):
             company_overview,
             company_description
         )
-    
