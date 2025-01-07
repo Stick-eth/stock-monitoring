@@ -1,5 +1,14 @@
 import json
 
+# Fonction pour obtenir la couleur du badge pour le EPS (Vert si supérieur à 10; sinon gris)
+def get_eps_badge_color(eps):
+    try:
+        eps_value = float(eps) if eps != "N/A" else 0
+        eps_badge_color = "success" if eps_value > 10 else "secondary"
+    except ValueError:
+        eps_badge_color = "secondary"
+    return eps_badge_color
+
 # Fonction pour obtenir la couleur du badge pour le CAGR CA (Vert si supérieur à 5%, rouge si inférieur à 1%)
 def get_cagr_ca_badge_color(cagr_ca):
     try:
@@ -55,27 +64,40 @@ def get_beta_badge_color(beta):
 
 # Fonction pour récuperer le prix de clôture d'un ticker
 def fetch_last_price(ticker: str):
-    import pandas as pd
+    from datetime import datetime, timedelta
     import yfinance as yf
+    """
+    Récupère le dernier prix de clôture et le prix de clôture il y a un an pour un ticker donné.
+    """
     if not isinstance(ticker, str):
         raise ValueError("Le ticker doit être une chaîne de caractères.")
+
     try:
         # Récupération des données pour le dernier jour
-        data = yf.Ticker(ticker).history(period='1d')
+        ticker_data = yf.Ticker(ticker)
+        data = ticker_data.history(period='1d')
         
-        # Vérification que le DataFrame n'est pas vide
-        if data.empty:
+        # Vérification que les données ne sont pas vides
+        if not data.empty:
+            last_close_price = data['Close'].values[-1]
+        else:
             raise ValueError(f"Aucune donnée disponible pour le ticker '{ticker}'.")
         
+        # Déterminer la plage de temps pour l'année précédente
+        end_date = datetime.now()
+        start_date = end_date - timedelta(days=365)
+        
         # Récupération des données pour l'année précédente
-        data_year_ago = yf.Ticker(ticker).history(start=(pd.Timestamp.now() - pd.to_timedelta(365, unit='d')).strftime('%Y-%m-%d'), end=pd.Timestamp.now().strftime('%Y-%m-%d'))
+        data_year_ago = ticker_data.history(start=start_date.strftime('%Y-%m-%d'), end=end_date.strftime('%Y-%m-%d'))
         
-        # Vérification que le DataFrame n'est pas vide
-        if data_year_ago.empty:
+        # Vérification que les données pour l'année précédente ne sont pas vides
+        if not data_year_ago.empty:
+            close_price_year_ago = data_year_ago['Close'].values[0]
+        else:
             raise ValueError(f"Aucune donnée disponible pour le ticker '{ticker}' il y a un an.")
-        
-        # Retourne le dernier prix de clôture et le prix de clôture un an plus tôt
-        return data['Close'].iloc[-1], data_year_ago['Close'].iloc[0]
+
+        return last_close_price, close_price_year_ago
+
     except Exception as e:
         print(f"Erreur lors de la récupération des prix pour le ticker '{ticker}': {e}")
         return 0, 0
@@ -102,7 +124,7 @@ def extract_company_data(data_overview):
 def calculate_price_variation(current_price, last_price_year_ago):
     if current_price is not None and last_price_year_ago is not None and last_price_year_ago != 0:
         variation = ((current_price - last_price_year_ago) / last_price_year_ago) * 100
-        price_badge_color = "success" if variation >= 0 else "danger"
+        price_badge_color = "success" if variation >= 0 else "secondary"
     else:
         variation = 0
         price_badge_color = "secondary"
@@ -190,5 +212,25 @@ def calculate_cagr_key(data, key):
         print(f"Erreur lors du calcul du CAGR pour la clé {key} : {e}")
         return "N/A"
 
-
-
+# Fonction pour obtenir la couleur du badge pour la capitalisation boursière 
+def get_marketcap_badge_info(capitalization):
+    # retourner le type de taille de la capitalisation boursière (small, medium, large) en fonction de la valeur ainsi qu'une couleur associée
+    try:
+        cap_val = float(capitalization)
+        if cap_val < 1_000_000_000:
+            marketcap_type = "Small-cap"
+            marketcap_badge_color = "success"
+        elif cap_val < 10_000_000_000:
+            marketcap_type = "Mid-cap"
+            marketcap_badge_color = "warning"
+        elif cap_val >= 1_000_000_000_000:
+            marketcap_type = "Mega-cap 🚀"
+            marketcap_badge_color = "secondary"
+        else:
+            marketcap_type = "Large-cap"
+            marketcap_badge_color = "secondary"
+    except:
+        marketcap_type = "N/A"
+        marketcap_badge_color = "secondary"
+    return marketcap_type, marketcap_badge_color
+    

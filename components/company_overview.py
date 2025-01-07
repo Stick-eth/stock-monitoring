@@ -1,4 +1,4 @@
-from dash import html
+from dash import html,dcc
 import dash_bootstrap_components as dbc
 from components.utils.overview_utils import *
 
@@ -68,7 +68,7 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
                     ]), className="d-flex align-items-center justify-content-center"),
 
                     dbc.Col(html.Div([
-                        html.H6("Prix", style={'textTransform': 'none'}),
+                        html.H6("Prix", id="tooltip-price", style={'textTransform': 'none'}),
                         html.P(f"{current_price:.2f}$",  style={'fontSize': '1.5rem'}, className="fw-bold mb-0"),
                         dbc.Badge(f"{variation:.2f}%", color=price_badge_color, className="mt-2")
                     ]), className="d-flex align-items-center justify-content-center")
@@ -79,20 +79,23 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
             dbc.Container([
                 dbc.Row([
                     dbc.Col(html.Div([
-                        html.P("Capitalisation Boursière", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'}, className="fw-bold mb-0"),
-                        html.H5(format_market_cap(capitalization) if format_market_cap(capitalization) != "N/A" else "", className="fw-bold mb-0")
+                        html.P("Capitalisation Boursière", id="tooltip-market-cap", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'}, className="fw-bold mb-0"),
+                        html.H5(format_market_cap(capitalization) if format_market_cap(capitalization) != "N/A" else "", className="fw-bold mb-0"),
+                        # Ajouter un badge pour la capitalisation boursière get_market_cap_badge_info(capitalization), retourn  un tuple (text,color)
+                        dbc.Badge(get_marketcap_badge_info(capitalization)[0], color=get_marketcap_badge_info(capitalization)[1])
                     ]), className="d-flex align-items-center justify-content-center"),
                     dbc.Col(html.Div([
-                        html.P("CAGR CA", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'},className="fw-bold mb-0"),
+                        html.P("CAGR CA", id="tooltip-cagr-ca", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'},className="fw-bold mb-0"),
                         html.H5(cagr_ca, className="fw-bold mb-0"),
                         dbc.Badge("> 5%", color=get_cagr_ca_badge_color(cagr_ca))
                     ]), className="d-flex align-items-center justify-content-center"),
                     dbc.Col(html.Div([
-                        html.P("CAGR Bénéf. net", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'},className="fw-bold mb-0"),
-                        html.H5(cagr_benefice_net, className="fw-bold mb-0")
+                        html.P("CAGR Bénéf. net", id="tooltip-cagr-net-income", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'},className="fw-bold mb-0"),
+                        html.H5(cagr_benefice_net, className="fw-bold mb-0"),
+                        dbc.Badge("> 0%", color="secondary")
                     ]), className="d-flex align-items-center justify-content-center"),
                     dbc.Col(html.Div([
-                        html.P("PER", id="tooltip-pe-ratio", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'},className="fw-bold mb-0"),
+                        html.P("P/E Ratio", id="tooltip-pe-ratio", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'},className="fw-bold mb-0"),
                         html.H5(pe_ratio if pe_ratio != "N/A" else "", className="fw-bold mb-0"),
                         dbc.Badge("< 30", color=get_pe_ratio_badge_color(pe_ratio))
                     ]), className="d-flex align-items-center justify-content-center"),
@@ -106,7 +109,8 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
                     ]), className="d-flex align-items-center justify-content-center"),
                     dbc.Col(html.Div([
                         html.H6("Bénéfice par Action (EPS)", id="tooltip-eps", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'}),
-                        html.P(latest_eps if latest_eps != "N/A" else "", className="fw-bold mb-0")
+                        html.P(latest_eps if latest_eps != "N/A" else "", className="fw-bold mb-0"),
+                        dbc.Badge("> 1", color=get_eps_badge_color(latest_eps))
                     ]), className="d-flex align-items-center justify-content-center"),
                     dbc.Col(html.Div([
                         html.H6("Rendement des Dividendes", id="tooltip-dividend-yield", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'}),
@@ -114,7 +118,7 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
                         dbc.Badge("< 2%", color=get_dividend_yield_badge_color(dividend_yield))
                     ]), className="d-flex align-items-center justify-content-center")
                 ])
-            ], fluid=True, className="bg-light border rounded rounded p-4 shadow-sm ", style={'marginleft': 'auto', 'marginright': 'auto'}),
+            ], fluid=True, className="border rounded p-4 shadow-sm bg-light", style={'marginleft': 'auto', 'marginright': 'auto'}),
 
             # Tooltips
             dbc.Tooltip("Le secteur d'activité de l'entreprise.", target="tooltip-sector", placement="top"),
@@ -123,7 +127,25 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
             dbc.Tooltip("Pourcentage des profits distribués sous forme de dividendes.", target="tooltip-dividend-yield", placement="right"),
             dbc.Tooltip("Le ratio entre le prix de l'action et le bénéfice par action.", target="tooltip-pe-ratio", placement="right"),
             dbc.Tooltip("Mesure de la volatilité de l'action par rapport au marché.", target="tooltip-beta", placement="bottom"),
-            dbc.Tooltip("Le bénéfice net divisé par le nombre d'actions.", target="tooltip-eps", placement="bottom"),
+            dbc.Tooltip(
+                dcc.Markdown(
+                    """
+                    L'EPS mesure le bénéfice net par action en USD d'une entreprise.
+                    - **Technologie** : >10  
+                    - **Énergie** : >10  
+                    - **Conso.Disc.** : 5-15  
+                    - **Industrie** : 5-15 
+                    - **Finance** : 8-15  
+                    - **Santé** : 5-10
+                    """
+                ),
+                target="tooltip-eps",
+                placement="bottom",
+            ),
+            dbc.Tooltip("Le taux de croissance annuel composé du chiffre d'affaires.", target="tooltip-cagr-ca", placement="top"),
+            dbc.Tooltip("Le taux de croissance annuel composé du bénéfice net.", target="tooltip-cagr-net-income", placement="top"),
+            dbc.Tooltip("le nombre total d'actions multiplié par le prix de l'action, indiquant la taille de l'entreprise.", target="tooltip-market-cap", placement="top"),
+            dbc.Tooltip("Le prix actuel de l'action.", target="tooltip-price", placement="top")
         ])
     except Exception as e:
         print(f"Erreur de création de l'aperçu de l'entreprise : {e}")
