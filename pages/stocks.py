@@ -1,6 +1,7 @@
 from dash import html, dcc
 from components.tickers_list import get_tickers
 from data_loader import DATA_DIRS
+import dash_bootstrap_components as dbc
 
 # Configuration pour désactiver certaines interactions
 no_interaction = {
@@ -34,38 +35,48 @@ def stocks_layout(ticker=None):
     return html.Div([
         html.H1(f"💻 Stock Screener", style={'textAlign': 'center', 'marginTop': '20px'}),
 
-        # Conteneur pour le company-overview et le price-graph côte à côte
-        html.Div([
-            html.Div(
-                id='company-overview', 
-                style={'width': '60%', 'padding': '20px', 'boxSizing': 'border-box'}
-            ),
-            html.Div(
-                dcc.Graph(id='price-graph', config=no_interaction),
-                style={'padding': '20px', 'boxSizing': 'border-box', 'width': '40%'}
-            )
-        ], style={'width': '85%', 'margin': '20px auto', 'display': 'flex', 'justifyContent': 'space-between', 'alignItems': 'flex-start'}),
+        # Loading autour des composants dynamiques
+        dcc.Loading(
+            id="loading-container",
+            overlay_style={"visibility":"visible", "opacity": .5, "backgroundColor": "white"},
+            type="circle",  # Type de spinner : "circle", "dot", "cube", etc.
+            color="blue",  # Couleur du spinner
+            custom_spinner=html.H2(["My Custom Spinner", dbc.Spinner(color="danger")]), 
+            children=[
+                # Conteneur pour le company-overview et le price-graph côte à côte
+                html.Div([
+                    html.Div(
+                        id='company-overview', 
+                        style={'width': '60%', 'padding': '20px', 'boxSizing': 'border-box'}
+                    ),
+                    html.Div(
+                        dcc.Graph(id='price-graph', config=no_interaction),
+                        style={'padding': '20px', 'boxSizing': 'border-box', 'width': '40%'}
+                    )
+                ], style={'width': '85%', 'margin': '20px auto', 'display': 'flex', 'justifyContent': 'space-between', 'alignItems': 'flex-start'}),
 
-        # Description de l'entreprise
-        html.Div(id='company-description', style={'width': '80%', 'margin': '20px auto', 'color': 'rgb(80, 77, 113)'}),
+                # Description de l'entreprise
+                html.Div(id='company-description', style={'width': '80%', 'margin': '20px auto', 'color': 'rgb(80, 77, 113)'}),
 
-        # Graphiques financiers
-        html.Div([
-            dcc.Graph(id='revenue-net-income-graph', style={'width': '48%', 'display': 'inline-block'}, config=no_interaction),
-            dcc.Graph(id='growth-graph', style={'width': '48%', 'display': 'inline-block', 'marginLeft': '4%'}, config=no_interaction)
-        ], style={'display': 'flex', 'marginTop': '20px'}),
+                # Graphiques financiers
+                html.Div([
+                    dcc.Graph(id='revenue-net-income-graph', style={'width': '48%', 'display': 'inline-block'}, config=no_interaction),
+                    dcc.Graph(id='growth-graph', style={'width': '48%', 'display': 'inline-block', 'marginLeft': '4%'}, config=no_interaction)
+                ], style={'display': 'flex', 'marginTop': '20px'}),
 
-        # Autres graphiques
-        html.Div([
-            dcc.Graph(id='fcf-op-graph', style={'width': '48%', 'display': 'inline-block'}, config=no_interaction),
-            dcc.Graph(id='roce-graph', style={'width': '48%', 'display': 'inline-block', 'marginLeft': '4%'}, config=no_interaction)
-        ], style={'display': 'flex', 'marginTop': '20px'}),
+                # Autres graphiques
+                html.Div([
+                    dcc.Graph(id='fcf-op-graph', style={'width': '48%', 'display': 'inline-block'}, config=no_interaction),
+                    dcc.Graph(id='roce-graph', style={'width': '48%', 'display': 'inline-block', 'marginLeft': '4%'}, config=no_interaction)
+                ], style={'display': 'flex', 'marginTop': '20px'}),
 
-        # Liste scrollable des insiders
-        html.Div(id='insider-list', style={
-            'width': '80%', 'height': '300px', 'overflowY': 'scroll',
-            'border': '1px solid #ccc', 'margin': '20px auto', 'padding': '10px'
-        }),
+                # Liste scrollable des insiders
+                html.Div(id='insider-list', style={
+                    'width': '80%', 'height': '300px', 'overflowY': 'scroll',
+                    'border': '1px solid #ccc', 'margin': '20px auto', 'padding': '10px'
+                }),
+            ]
+        ),
 
         html.Footer([
             html.P("Aniss SEJEAN", style={'textAlign': 'center'})

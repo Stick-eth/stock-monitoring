@@ -20,7 +20,7 @@ def create_navbar():
                 dbc.Nav(
                     [
                         dbc.NavItem(dbc.NavLink("Accueil", href="/")),
-                        dbc.NavItem(dbc.NavLink("Stocks", href="/stocks/")),
+                        dbc.NavItem(dbc.NavLink("Stocks", href="/stocks/", external_link=True)),
                         dbc.NavItem(dbc.NavLink("À propos", href="/about")),
                     ],
                     className="ms-auto",
