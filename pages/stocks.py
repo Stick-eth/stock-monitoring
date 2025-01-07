@@ -57,9 +57,9 @@ def stocks_layout(ticker=None):
 
         # Autres graphiques
         html.Div([
-            dcc.Graph(id='fcf-op-graph', style={'width': '60%', 'margin': '20px auto'}, config=no_interaction),
-            dcc.Graph(id='roce-graph', style={'width': '60%', 'margin': '20px auto'}, config=no_interaction)
-        ]),
+            dcc.Graph(id='fcf-op-graph', style={'width': '48%', 'display': 'inline-block'}, config=no_interaction),
+            dcc.Graph(id='roce-graph', style={'width': '48%', 'display': 'inline-block', 'marginLeft': '4%'}, config=no_interaction)
+        ], style={'display': 'flex', 'marginTop': '20px'}),
 
         # Liste scrollable des insiders
         html.Div(id='insider-list', style={

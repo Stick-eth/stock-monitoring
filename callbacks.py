@@ -27,13 +27,13 @@ def register_callbacks(app):
         if pathname.startswith("/stocks/"):
             ticker = pathname.split("/stocks/")[-1]
         else:
-            return (None, None, None, None, None, None, None)  # Retourner des valeurs vides si pas de ticker
+            return (None, None, None, None, None, None, None, None)  # Retourner des valeurs vides si pas de ticker
 
         # Charger les données pour le ticker si ce n'est pas un point
         if ticker != ".":
             data = load_data(ticker)
         else:
-            return (None, None, None, None, None, None, None)  # Retourner des valeurs vides si le ticker est un point
+            return (None, None, None, None, None, None, None, None)  # Retourner des valeurs vides si le ticker est un point
 
         # Générer les composants avec les données
         revenue_chart = create_revenue_chart(data.get("INCOME_STATEMENT"))

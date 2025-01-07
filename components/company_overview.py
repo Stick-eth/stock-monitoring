@@ -72,7 +72,7 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
                         html.P(f"{current_price:.2f}$",  style={'fontSize': '1.5rem'}, className="fw-bold mb-0"),
                         dbc.Badge(f"{variation:.2f}%", color=price_badge_color, className="mt-2")
                     ]), className="d-flex align-items-center justify-content-center")
-                ], className="bg-dark rounded p-2 shadow-sm mb-2 mt-4"),
+                ], className="bg-light border rounded p-2 shadow-sm mb-2 mt-4"),
             ], fluid=True, className="text-center", style={'marginleft': 'auto', 'marginright': 'auto'}),
 
             # Deuxième container
@@ -114,7 +114,7 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
                         dbc.Badge("< 2%", color=get_dividend_yield_badge_color(dividend_yield))
                     ]), className="d-flex align-items-center justify-content-center")
                 ])
-            ], fluid=True, className="bg-dark rounded rounded p-4 shadow-sm ", style={'marginleft': 'auto', 'marginright': 'auto'}),
+            ], fluid=True, className="bg-light border rounded rounded p-4 shadow-sm ", style={'marginleft': 'auto', 'marginright': 'auto'}),
 
             # Tooltips
             dbc.Tooltip("Le secteur d'activité de l'entreprise.", target="tooltip-sector", placement="top"),

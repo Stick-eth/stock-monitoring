@@ -21,6 +21,10 @@ def apply_common_layout(fig, title=None, xaxis_title=None, yaxis_title=None, sho
         xaxis=dict(showgrid=False, autorange=True, color='rgb(90, 86, 126)', showline=True, linecolor='rgb(53, 51, 75)'),  # Pas de grille sur X
         yaxis=dict(showgrid=False, autorange=True),  # Pas de grille sur Y
         margin=dict(t=40),  # Marges supérieures
-        showlegend=showlegend  # Afficher ou non la légende
+        showlegend=showlegend,  # Afficher ou non la légende
+        hoverlabel=dict(
+        bgcolor="rgba(0, 0, 0, 0.8)",  # Fond semi-transparent noir
+        font_size=12,                 # Taille de police
+        font_color="white")
     )
     return fig

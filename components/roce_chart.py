@@ -1,5 +1,7 @@
 import plotly.graph_objs as go
 from datetime import datetime
+from components.utils.common_layout import apply_common_layout
+
 
 def create_roce_chart(data_income_statement, data_balance_sheet):
     try:
@@ -41,8 +43,11 @@ def create_roce_chart(data_income_statement, data_balance_sheet):
             y=[value if value is not None else 0 for value in roces],  # Remplacer None par 0 pour l'affichage
             name="ROCE (%)",
             hovertemplate='ROCE : %{y:.2f}%<extra></extra>',
-            marker_color=['rgb(107, 142, 35)' if value and value >= 0 else 'red' for value in roces]  # Vert si positif, rouge si négatif ou nul
+            marker_color=['rgb(107, 102, 153)' if value and value >= 0 else 'red' for value in roces],
         ))
+
+        # Appliquer le layout commun
+        apply_common_layout(fig)
 
         # Mettre à jour la mise en page
         fig.update_layout(
