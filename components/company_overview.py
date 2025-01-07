@@ -1,6 +1,7 @@
 from dash import html,dcc
 import dash_bootstrap_components as dbc
 from components.utils.overview_utils import *
+from components.utils.stock_score import *
 
 def create_company_overview(data_overview, data_income, data_cashflow, data_earnings):
     """Crée un composant affichant les données principales de l'entreprise dans une grille avec tooltips,
@@ -32,15 +33,8 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
         cagr_ca = calculate_cagr_key(data_income, key="totalRevenue")
         cagr_benefice_net = calculate_cagr_key(data_income, key="netIncome")
 
-        # Extraction des flux de trésorerie
-        operating_cashflows = [
-            float(report.get("operatingCashflow", 0)) for report in data_cashflow.get("annualReports", [])
-        ]
-
-        # Extraire les revenus totaux si disponibles
-        total_revenues = [
-            float(report.get("totalRevenue", 0)) for report in data_income.get("annualReports", [])
-        ]
+        # Score de l'entreprise
+        score = calculate_stock_score(cagr_ca, beta, pe_ratio, latest_eps, dividend_yield)
 
         return html.Div([
             # Premier container
@@ -116,7 +110,23 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
                         html.H6("Rendement des Dividendes", id="tooltip-dividend-yield", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'}),
                         html.P(dividend_to_percent(dividend_yield) if dividend_to_percent(dividend_yield) != "N/A" else "", className="fw-bold mb-0"),
                         dbc.Badge("< 2%", color=get_dividend_yield_badge_color(dividend_yield))
-                    ]), className="d-flex align-items-center justify-content-center")
+                    ]), className="d-flex align-items-center justify-content-center"),
+                    dbc.Col(html.Div(
+                        [
+                            dbc.Badge(
+                                f"{score}",  # Le score en grand
+                                color=get_score_badge_color(score),
+                                className="fw-bold", id="tooltip-score",
+                                style={"fontSize": "1.5rem", "padding": "10px 20px"}  # Grande taille pour le score
+                            ),
+                            html.Div(
+                                "Score",  # Le label en plus petit
+                                style={"fontSize": "1rem", "marginTop": "5px", "textAlign": "center"}  # Taille réduite et centré
+                            )
+                        ],
+                        style={"textAlign": "center"}  # Centrer le tout
+                    )
+                    )
                 ])
             ], fluid=True, className="border rounded p-4 shadow-sm bg-light", style={'marginleft': 'auto', 'marginright': 'auto'}),
 
@@ -145,7 +155,15 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
             dbc.Tooltip("Le taux de croissance annuel composé du chiffre d'affaires.", target="tooltip-cagr-ca", placement="top"),
             dbc.Tooltip("Le taux de croissance annuel composé du bénéfice net.", target="tooltip-cagr-net-income", placement="top"),
             dbc.Tooltip("le nombre total d'actions multiplié par le prix de l'action, indiquant la taille de l'entreprise.", target="tooltip-market-cap", placement="top"),
-            dbc.Tooltip("Le prix actuel de l'action.", target="tooltip-price", placement="top")
+            dbc.Tooltip("Le prix actuel de l'action.", target="tooltip-price", placement="top"),
+            dbc.Tooltip(dcc.Markdown(
+                    """
+                    ### Score éxperimental
+                    -----------------
+                    Ce score est donné à titre indicatif. 
+                    Il est calculé en fonction de plusieurs critères et se calcule sur 10.
+                    """
+                ), target="tooltip-score", placement="top"),
         ])
     except Exception as e:
         print(f"Erreur de création de l'aperçu de l'entreprise : {e}")

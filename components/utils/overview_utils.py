@@ -233,4 +233,12 @@ def get_marketcap_badge_info(capitalization):
         marketcap_type = "N/A"
         marketcap_badge_color = "secondary"
     return marketcap_type, marketcap_badge_color
-    
+
+
+def get_score_badge_color(score):
+    if score >= 8:
+        return "success"
+    elif score >= 5:
+        return "warning"
+    else:
+        return "danger"

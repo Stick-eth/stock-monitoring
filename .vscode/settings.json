@@ -9,6 +9,7 @@
         "components/utils/__pycache__": true
     },
     "hide-files.files": [
-        "components/utils/__pycache__"
+        "components/utils/__pycache__",
+        "components/__pycache__"
     ]
 }

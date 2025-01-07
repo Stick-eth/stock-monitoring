@@ -5,6 +5,7 @@ from callbacks import register_callbacks
 from pages.home import home_layout
 from pages.stocks import stocks_layout
 from pages.about import about_layout
+from pages.stocks_list import stocks_list_layout
 import warnings
 
 # Initialisation de l'application Dash
@@ -31,7 +32,6 @@ def display_page(pathname):
         ticker = parts[-1] if len(parts) > 1 else None
         # Si aucun ticker n'est spécifié, afficher une liste de tickers
         if not ticker:
-            from pages.stocks_list import stocks_list_layout
             return stocks_list_layout()
         # Sinon, charger le layout des stocks avec le ticker spécifié
         return stocks_layout(ticker=ticker)
