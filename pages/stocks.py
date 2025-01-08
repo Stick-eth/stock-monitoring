@@ -64,9 +64,6 @@ def stocks_layout(ticker=None):
                     )
                 ], style={'width': '85%', 'margin': '20px auto', 'display': 'flex', 'justifyContent': 'space-between', 'alignItems': 'flex-start'}),
 
-                # Description de l'entreprise
-                html.Div(id='company-description', style={'width': '80%', 'margin': '20px auto', 'color': 'rgb(80, 77, 113)'}),
-
                 # Graphiques financiers
                 html.Div([
                     dcc.Graph(id='revenue-net-income-graph', style={'width': '48%', 'display': 'inline-block'}, config=no_interaction),
@@ -84,6 +81,9 @@ def stocks_layout(ticker=None):
                     'width': '80%', 'height': '300px', 'overflowY': 'scroll',
                     'border': '1px solid #ccc', 'margin': '20px auto', 'padding': '10px'
                 }),
+
+                # Description de l'entreprise
+                html.Div(id='company-description', style={'width': '80%', 'margin': '20px auto', 'color': 'rgb(80, 77, 113)'}),
 
         html.Footer([
             html.P("Aniss SEJEAN", style={'textAlign': 'center'})
