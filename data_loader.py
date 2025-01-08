@@ -2,6 +2,7 @@ import os
 from dotenv import load_dotenv
 from pymongo import MongoClient
 from cache_config import cache
+import time
 
 DATA_DIRS = {
     "BALANCE_SHEET": "./data/BALANCE_SHEET",
@@ -16,6 +17,7 @@ DATA_DIRS = {
 
 @cache.memoize()
 def load_data(ticker):
+    time.sleep(0.15) # DDOS protection du pauvre
     """
     Charge les données d'un ticker depuis MongoDB (ou depuis les fichiers, selon l'implémentation).
     Retourne un dict ayant les mêmes clés que DATA_DIRS.

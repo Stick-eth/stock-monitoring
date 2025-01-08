@@ -6,6 +6,7 @@ from pages.home import home_layout
 from pages.stocks import stocks_layout
 from pages.about import about_layout
 from pages.stocks_list import stocks_list_layout
+from ip_access import add_ip_to_atlas
 import dash_mantine_components as dmc
 import warnings
 from cache_config import cache
@@ -48,6 +49,9 @@ def display_page(pathname):
 
 # Enregistrer les callbacks
 register_callbacks(app)
+
+# Ajouter l'adresse IP à la liste d'accès de MongoDB Atlas
+add_ip_to_atlas()
 
 # Exécution locale
 if __name__ == "__main__":

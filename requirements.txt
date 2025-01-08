@@ -7,5 +7,5 @@ python-dotenv==1.0.1
 gunicorn
 pymongo
 dash_mantine_components
-flask_caching
+flask_caching==2.3.0
 time
