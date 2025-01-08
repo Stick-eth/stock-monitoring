@@ -8,6 +8,8 @@ from pages.about import about_layout
 from pages.stocks_list import stocks_list_layout
 import dash_mantine_components as dmc
 import warnings
+from cache_config import cache
+
 
 _dash_renderer._set_react_version("18.2.0")
 # Initialisation de l'application Dash
@@ -21,6 +23,8 @@ app._favicon = "assets/favicon.ico"
 
 # Définir le layout principal
 app.layout = dmc.MantineProvider(create_layout())
+
+cache.init_app(app.server)
 
 # Callback pour gérer le routage entre les pages
 @app.callback(

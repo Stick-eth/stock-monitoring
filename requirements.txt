@@ -6,3 +6,6 @@ plotly==5.22.0
 python-dotenv==1.0.1
 gunicorn
 pymongo
+dash_mantine_components
+flask_caching
+time

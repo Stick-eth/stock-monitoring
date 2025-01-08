@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 from pymongo import MongoClient
+from cache_config import cache
 
 DATA_DIRS = {
     "BALANCE_SHEET": "./data/BALANCE_SHEET",
@@ -13,6 +14,7 @@ DATA_DIRS = {
     "DIVIDENDS": "./data/DIVIDENDS",
 }
 
+@cache.memoize()
 def load_data(ticker):
     """
     Charge les données d'un ticker depuis MongoDB (ou depuis les fichiers, selon l'implémentation).
