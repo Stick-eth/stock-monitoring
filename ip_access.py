@@ -1,5 +1,7 @@
 import requests
 from requests.auth import HTTPDigestAuth
+from dotenv import load_dotenv
+import os
 
 def get_public_ip():
     response = requests.get("https://api.ipify.org")
@@ -7,8 +9,11 @@ def get_public_ip():
 
 def add_ip_to_atlas():
     atlas_group_id = "67732ef17724126e525745e0"
+    load_dotenv()
+
     atlas_api_key_public = "qsrlmhjo"
-    atlas_api_key_private = "844f374e-e6f6-4b22-84e4-7cd28865b094"
+    atlas_api_key_private = os.getenv("ATLAS_API_KEY_PRIVATE")
+    
     ip = get_public_ip()
     resp = requests.post(
         "https://cloud.mongodb.com/api/atlas/v1.0/groups/{atlas_group_id}/accessList".format(atlas_group_id=atlas_group_id),
@@ -24,4 +29,3 @@ def add_ip_to_atlas():
             ),
             flush=True
         )
-
