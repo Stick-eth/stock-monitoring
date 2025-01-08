@@ -2,6 +2,8 @@ from dash import html, dcc
 from components.tickers_list import get_tickers
 from data_loader import DATA_DIRS
 import dash_bootstrap_components as dbc
+import dash_mantine_components as dmc
+
 
 # Configuration pour désactiver certaines interactions
 no_interaction = {
@@ -34,16 +36,23 @@ def stocks_layout(ticker=None):
 
     return html.Div([
         html.H1(f"💻 Stock Screener", style={'textAlign': 'center', 'marginTop': '20px'}),
-
-        # Loading autour des composants dynamiques
-        dcc.Loading(
-            id="loading-container",
-            overlay_style={"visibility":"visible", "opacity": .5, "backgroundColor": "white"},
-            type="circle",  # Type de spinner : "circle", "dot", "cube", etc.
-            color="blue",  # Couleur du spinner
-            custom_spinner=html.H2(["My Custom Spinner", dbc.Spinner(color="danger")]), 
-            children=[
-                # Conteneur pour le company-overview et le price-graph côte à côte
+        dmc.LoadingOverlay(
+                    visible=True,
+                    id="loading-overlay",
+                    zIndex=10,
+                    loaderProps={
+                        "variant": "custom",
+                        "children": dmc.Image(
+                            h=150,
+                            radius="md",
+                            src="/assets/loading.gif",
+                        ),
+                    },
+                    overlayProps={"radius": "sm", "blur": 2},
+                    transitionProps={ "transition": 'fade', "duration": 1000 }
+            
+                ),
+      
                 html.Div([
                     html.Div(
                         id='company-overview', 
@@ -75,8 +84,6 @@ def stocks_layout(ticker=None):
                     'width': '80%', 'height': '300px', 'overflowY': 'scroll',
                     'border': '1px solid #ccc', 'margin': '20px auto', 'padding': '10px'
                 }),
-            ]
-        ),
 
         html.Footer([
             html.P("Aniss SEJEAN", style={'textAlign': 'center'})

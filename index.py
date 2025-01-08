@@ -1,4 +1,4 @@
-from dash import Dash, html, Input, Output, dcc
+from dash import Dash, html, Input, Output, dcc, _dash_renderer
 import dash_bootstrap_components as dbc
 from layout import create_layout
 from callbacks import register_callbacks
@@ -6,8 +6,10 @@ from pages.home import home_layout
 from pages.stocks import stocks_layout
 from pages.about import about_layout
 from pages.stocks_list import stocks_list_layout
+import dash_mantine_components as dmc
 import warnings
 
+_dash_renderer._set_react_version("18.2.0")
 # Initialisation de l'application Dash
 app = Dash(
     __name__,
@@ -18,7 +20,7 @@ app = Dash(
 app._favicon = "assets/favicon.ico"
 
 # Définir le layout principal
-app.layout = create_layout()
+app.layout = dmc.MantineProvider(create_layout())
 
 # Callback pour gérer le routage entre les pages
 @app.callback(
