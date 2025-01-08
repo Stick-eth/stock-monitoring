@@ -11,7 +11,7 @@ def add_ip_to_atlas():
     atlas_group_id = "67732ef17724126e525745e0"
     load_dotenv()
 
-    atlas_api_key_public = "jwheqkpk"
+    atlas_api_key_public = os.getenv("ATLAS_API_KEY_PUBLIC")
     atlas_api_key_private = os.getenv("ATLAS_API_KEY_PRIVATE")
     
     ip = get_public_ip()
