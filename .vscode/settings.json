@@ -9,12 +9,14 @@
         "components/utils/__pycache__": true,
         "components/__pycache__": true,
         ".vscode": true,
-        "__pycache__": true
+        "__pycache__": true,
+        "callbacks/__pycache__": true
     },
     "hide-files.files": [
         "components/utils/__pycache__",
         "components/__pycache__",
         ".vscode",
-        "__pycache__"
+        "__pycache__",
+        "callbacks/__pycache__"
     ]
 }

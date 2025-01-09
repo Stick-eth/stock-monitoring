@@ -156,11 +156,11 @@ def format_market_cap(capitalization):
         try:
             cap_val = float(capitalization)
             if cap_val >= 1_000_000_000_000:
-                capitalization = f"{cap_val / 1_000_000_000_000:.2f} Trillion"
+                capitalization = f"{cap_val / 1_000_000_000_000:.2f} T"
             elif cap_val >= 1_000_000_000:
-                capitalization = f"{cap_val / 1_000_000_000:.2f} Billion"
+                capitalization = f"{cap_val / 1_000_000_000:.2f} B"
             else:
-                capitalization = f"{cap_val / 1_000_000:.2f} Million"
+                capitalization = f"{cap_val / 1_000_000:.2f} M"
         except:
             capitalization = "N/A"
     else:

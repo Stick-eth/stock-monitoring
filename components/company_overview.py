@@ -64,7 +64,7 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
                     dbc.Col(html.Div([
                         html.H6("Prix", id="tooltip-price", style={'textTransform': 'none'}),
                         html.P(f"{current_price:.2f}$",  style={'fontSize': '1.5rem'}, className="fw-bold mb-0"),
-                        dbc.Badge(f"{variation:.2f}%", color=price_badge_color, className="mt-2")
+                        dbc.Badge(f"1Y: {variation:.2f}%", color=price_badge_color, className="mt-2")
                     ]), className="d-flex align-items-center justify-content-center")
                 ], className="bg-light border rounded p-2 shadow-sm mb-2 mt-4"),
             ], fluid=True, className="text-center", style={'marginleft': 'auto', 'marginright': 'auto'}),
@@ -73,18 +73,18 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
             dbc.Container([
                 dbc.Row([
                     dbc.Col(html.Div([
-                        html.P("Capitalisation Boursière", id="tooltip-market-cap", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'}, className="fw-bold mb-0"),
+                        html.P("MarketCap", id="tooltip-market-cap", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'}, className="fw-bold mb-0"),
                         html.H5(format_market_cap(capitalization) if format_market_cap(capitalization) != "N/A" else "", className="fw-bold mb-0"),
                         # Ajouter un badge pour la capitalisation boursière get_market_cap_badge_info(capitalization), retourn  un tuple (text,color)
                         dbc.Badge(get_marketcap_badge_info(capitalization)[0], color=get_marketcap_badge_info(capitalization)[1])
                     ]), className="d-flex align-items-center justify-content-center"),
                     dbc.Col(html.Div([
-                        html.P("CAGR CA", id="tooltip-cagr-ca", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'},className="fw-bold mb-0"),
+                        html.P("CAGR CA (5Y)", id="tooltip-cagr-ca", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'},className="fw-bold mb-0"),
                         html.H5(cagr_ca, className="fw-bold mb-0"),
                         dbc.Badge("> 5%", color=get_cagr_ca_badge_color(cagr_ca))
                     ]), className="d-flex align-items-center justify-content-center"),
                     dbc.Col(html.Div([
-                        html.P("CAGR Bénéf. net", id="tooltip-cagr-net-income", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'},className="fw-bold mb-0"),
+                        html.P("CAGR B. net", id="tooltip-cagr-net-income", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'},className="fw-bold mb-0"),
                         html.H5(cagr_benefice_net, className="fw-bold mb-0"),
                         dbc.Badge("> 0%", color="secondary")
                     ]), className="d-flex align-items-center justify-content-center"),
@@ -97,38 +97,38 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
 
                 dbc.Row([
                     dbc.Col(html.Div([
-                        html.H6("Beta", id="tooltip-beta", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'}),
+                        html.H6("Beta", id="tooltip-beta", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'},className="fw-bold mb-0"),
                         html.P(beta if beta != "N/A" else "", className="fw-bold mb-0"),
                         dbc.Badge("> 1", color=get_beta_badge_color(beta))
                     ]), className="d-flex align-items-center justify-content-center"),
                     dbc.Col(html.Div([
-                        html.H6("Bénéfice par Action (EPS)", id="tooltip-eps", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'}),
+                        html.H6("EPS", id="tooltip-eps", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'},className="fw-bold mb-0"),
                         html.P(latest_eps if latest_eps != "N/A" else "", className="fw-bold mb-0"),
                         dbc.Badge("> 1", color=get_eps_badge_color(latest_eps))
                     ]), className="d-flex align-items-center justify-content-center"),
                     dbc.Col(html.Div([
-                        html.H6("Rendement des Dividendes", id="tooltip-dividend-yield", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'}),
+                        html.H6("Dividendes", id="tooltip-dividend-yield", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'},className="fw-bold mb-0"),
                         html.P(dividend_to_percent(dividend_yield) if dividend_to_percent(dividend_yield) != "N/A" else "", className="fw-bold mb-0"),
                         dbc.Badge("< 2%", color=get_dividend_yield_badge_color(dividend_yield))
                     ]), className="d-flex align-items-center justify-content-center"),
                     dbc.Col(html.Div(
                         [
+                            html.H6(
+                                "Score",  # Le label en plus petit
+                                style={"fontSize": "1rem", "marginTop": "5px", "textAlign": "center", 'color': 'rgb(127, 121, 178)'}  # Taille réduite et centré
+                            ),
                             dbc.Badge(
                                 f"{score}",  # Le score en grand
                                 color=get_score_badge_color(score),
                                 className="fw-bold", id="tooltip-score",
                                 style={"fontSize": "1.5rem", "padding": "10px 20px"}  # Grande taille pour le score
-                            ),
-                            html.Div(
-                                "Score",  # Le label en plus petit
-                                style={"fontSize": "1rem", "marginTop": "5px", "textAlign": "center"}  # Taille réduite et centré
                             )
                         ],
                         style={"textAlign": "center"}  # Centrer le tout
                     )
                     )
-                ])
-            ], fluid=True, className="border rounded p-4 shadow-sm bg-light", style={'marginleft': 'auto', 'marginright': 'auto'}),
+                ]),
+            ], fluid=True, className="border rounded p-4 shadow-sm bg-light mb-4", style={'marginleft': 'auto', 'marginright': 'auto'}),
 
             # Tooltips
             dbc.Tooltip("Le secteur d'activité de l'entreprise.", target="tooltip-sector", placement="top"),

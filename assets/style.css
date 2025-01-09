@@ -1,0 +1,37 @@
+#responsive-div {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+#company-overview {
+    width: 48%;
+    /* Center the div vertically */
+    justify-content: center;
+    align-items: center;
+}
+
+.dash-graph {
+    width: 48%;
+}
+
+
+@media screen and (max-width: 900px) {
+    #responsive-div {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    .dash-graph  {
+        display: flex;
+        width: 100%;
+        max-width: 100%;
+    }
+    #company-overview {
+        display: flex;
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+

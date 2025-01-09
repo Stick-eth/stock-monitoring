@@ -74,41 +74,34 @@ def stocks_layout(ticker=None):
       
                 html.Div([
                     html.Div(
-                        id='company-overview', 
-                        style={'width': '60%', 'padding': '20px', 'boxSizing': 'border-box'}
+                        id='company-overview'
                     ),
-                    html.Div(
-                        dcc.Graph(id='price-graph', config=no_interaction),
-                        style={'padding': '20px', 'boxSizing': 'border-box', 'width': '40%'}
-                    )
+                        dcc.Graph(id='price-graph',style={'display': 'inline-block', 'marginLeft': '4%'}, config=no_interaction),
                 ], style={
-                    'width': '85%',
-                    'margin': '20px auto',
                     'display': 'flex',
                     'flexWrap': 'wrap',  # Permet de basculer les éléments sur une nouvelle ligne
-                    'justifyContent': 'space-between',
-                    'alignItems': 'flex-start'
-                }),
+                    'marginTop': '20px'
+                },id="responsive-div"),
 
                 # Graphiques financiers
                 html.Div([
-                    dcc.Graph(id='revenue-net-income-graph', style={'width': '48%', 'display': 'inline-block'}, config=no_interaction),
-                    dcc.Graph(id='growth-graph', style={'width': '48%', 'display': 'inline-block', 'marginLeft': '4%'}, config=no_interaction)
+                    dcc.Graph(id='revenue-net-income-graph', style={'display': 'inline-block'}, config=no_interaction),
+                    dcc.Graph(id='growth-graph', style={'display': 'inline-block', 'marginLeft': '4%'}, config=no_interaction)
                 ], style={
                     'display': 'flex',
                     'flexWrap': 'wrap',  # Permet de basculer les éléments sur une nouvelle ligne
                     'marginTop': '20px'
-                }),
+                },id ="responsive-div"),
 
                 # Autres graphiques
                 html.Div([
-                    dcc.Graph(id='fcf-op-graph', style={'width': '48%', 'display': 'inline-block'}, config=no_interaction),
-                    dcc.Graph(id='roce-graph', style={'width': '48%', 'display': 'inline-block', 'marginLeft': '4%'}, config=no_interaction)
+                    dcc.Graph(id='fcf-op-graph', style={'display': 'inline-block'}, config=no_interaction),
+                    dcc.Graph(id='roce-graph', style={'display': 'inline-block', 'marginLeft': '4%'}, config=no_interaction)
                 ], style={
                     'display': 'flex',
                     'flexWrap': 'wrap',  # Permet de basculer les éléments sur une nouvelle ligne
                     'marginTop': '20px'
-                }),
+                },id ="responsive-div"),
 
                 # Liste scrollable des insiders
                 html.Div(id='insider-list', style={
@@ -131,4 +124,4 @@ def stocks_layout(ticker=None):
                 html.Footer([
                     html.P("Aniss SEJEAN", style={'textAlign': 'center'})
                 ])
-    ])
+    ], style={'maxWidth': '1200px', 'margin': '0 auto', 'padding': '20px'})
