@@ -244,9 +244,19 @@ def get_marketcap_badge_info(capitalization):
 
 
 def get_score_badge_color(score):
-    if score >= 8:
-        return "success"
-    elif score >= 5:
-        return "warning"
-    else:
-        return "danger"
+    # > 8 : vert foncé, 6-8 : vert clair, 4-6 : jaune, 2-4 : orange, < 2 : rouge
+    try:
+        score_value = float(score)
+        if score_value > 8:
+            score_badge_color = "success"
+        elif score_value > 6:
+            score_badge_color = "info"
+        elif score_value > 4:
+            score_badge_color = "warning"
+        elif score_value > 2:
+            score_badge_color = "danger"
+        else:
+            score_badge_color = "secondary"
+    except:
+        score_badge_color = "secondary"
+    return score_badge_color
