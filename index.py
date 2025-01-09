@@ -1,4 +1,4 @@
-from dash import Dash, html, Input, Output, dcc, _dash_renderer
+from dash import Dash, html, Input, Output, dcc, _dash_renderer, clientside_callback
 import dash_bootstrap_components as dbc
 from layout import create_layout
 from callbacks.stocks_callbacks import register_stocks_callbacks
@@ -8,6 +8,7 @@ from pages.about import about_layout
 from pages.stocks_list import stocks_list_layout
 from ip_access import add_ip_to_atlas
 import dash_mantine_components as dmc
+from dash_bootstrap_templates import load_figure_template
 import warnings
 from cache_config import cache
 
@@ -16,16 +17,29 @@ _dash_renderer._set_react_version("18.2.0")
 # Initialisation de l'application Dash
 app = Dash(
     __name__,
-    external_stylesheets=[dbc.themes.CERULEAN],
+    external_stylesheets=[dbc.themes.LUMEN, dbc.icons.FONT_AWESOME],
     title="DataStick - Stock Analysis",
     suppress_callback_exceptions=True,
 )
 app._favicon = "assets/favicon.ico"
 
+
+
 # Définir le layout principal
-app.layout = dmc.MantineProvider(create_layout())
+app.layout = dmc.MantineProvider([create_layout()])
 
 cache.init_app(app.server)
+
+clientside_callback(
+    """
+    (switchOn) => {
+       document.documentElement.setAttribute("data-bs-theme", switchOn ? "light" : "dark"); 
+       return window.dash_clientside.no_update
+    }
+    """,
+    Output("switch", "id"),
+    Input("switch", "value"),
+)
 
 # Callback pour gérer le routage entre les pages
 @app.callback(
