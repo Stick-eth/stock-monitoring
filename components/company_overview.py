@@ -97,18 +97,18 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
 
                 dbc.Row([
                     dbc.Col(html.Div([
-                        html.H6("Beta", id="tooltip-beta", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'},className="fw-bold mb-0"),
-                        html.P(beta if beta != "N/A" else "", className="fw-bold mb-0"),
+                        html.P("Beta", id="tooltip-beta", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'},className="fw-bold mb-0"),
+                        html.H5(beta if beta != "N/A" else "", className="fw-bold mb-0"),
                         dbc.Badge("> 1", color=get_beta_badge_color(beta))
                     ]), className="d-flex align-items-center justify-content-center"),
                     dbc.Col(html.Div([
-                        html.H6("EPS", id="tooltip-eps", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'},className="fw-bold mb-0"),
-                        html.P(latest_eps if latest_eps != "N/A" else "", className="fw-bold mb-0"),
+                        html.P("EPS", id="tooltip-eps", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'},className="fw-bold mb-0"),
+                        html.H5(latest_eps if latest_eps != "N/A" else "", className="fw-bold mb-0"),
                         dbc.Badge("> 1", color=get_eps_badge_color(latest_eps))
                     ]), className="d-flex align-items-center justify-content-center"),
                     dbc.Col(html.Div([
-                        html.H6("Dividendes", id="tooltip-dividend-yield", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'},className="fw-bold mb-0"),
-                        html.P(dividend_to_percent(dividend_yield) if dividend_to_percent(dividend_yield) != "N/A" else "", className="fw-bold mb-0"),
+                        html.P("Dividendes", id="tooltip-dividend-yield", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'},className="fw-bold mb-0"),
+                        html.H5(dividend_to_percent(dividend_yield) if dividend_to_percent(dividend_yield) != "N/A" else "", className="fw-bold mb-0"),
                         dbc.Badge("< 2%", color=get_dividend_yield_badge_color(dividend_yield))
                     ]), className="d-flex align-items-center justify-content-center"),
                     dbc.Col(html.Div(
