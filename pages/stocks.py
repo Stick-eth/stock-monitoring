@@ -81,7 +81,7 @@ def stocks_layout(ticker=None):
                     'display': 'flex',
                     'flexWrap': 'wrap',  # Permet de basculer les éléments sur une nouvelle ligne
                     'marginTop': '20px'
-                },id="responsive-div"),
+                },className="responsive-div"),
 
                 # Graphiques financiers
                 html.Div([
@@ -91,7 +91,7 @@ def stocks_layout(ticker=None):
                     'display': 'flex',
                     'flexWrap': 'wrap',  # Permet de basculer les éléments sur une nouvelle ligne
                     'marginTop': '20px'
-                },id ="responsive-div"),
+                },className="responsive-div"),
 
                 # Autres graphiques
                 html.Div([
@@ -101,7 +101,7 @@ def stocks_layout(ticker=None):
                     'display': 'flex',
                     'flexWrap': 'wrap',  # Permet de basculer les éléments sur une nouvelle ligne
                     'marginTop': '20px'
-                },id ="responsive-div"),
+                },className="responsive-div"),
 
                 # Liste scrollable des insiders
                 html.Div(id='insider-list', style={

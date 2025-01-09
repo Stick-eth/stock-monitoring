@@ -115,9 +115,17 @@ def extract_company_data(data_overview):
     exchange = data_overview.get("Exchange", "N/A") if data_overview else "N/A"
     capitalization = data_overview.get("MarketCapitalization", "N/A") if data_overview else "N/A"
     dividend_yield = data_overview.get("DividendYield", "N/A") if data_overview else "N/A"
+
+    # essayer de ne garder que les 16 premiers caractères de l'industrie
+    if len(industry) > 16:
+        industry = industry[:16] + "..."
+    if len(sector) > 16:
+        sector = sector[:16] + "..."
+    if len(name) > 16:
+        name = name[:16] + "..."
         # Remplace le pays si USA
     if country == "USA":
-        country = "United States 🦅"
+        country = "USA 🦅"
     return name,ticker,dividend_yield,pe_ratio,beta,sector,industry,country,exchange,capitalization
 
 # Fonction pour calculer la variation du prix

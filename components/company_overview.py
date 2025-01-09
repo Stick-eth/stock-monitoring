@@ -41,8 +41,8 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
             dbc.Container([
                 dbc.Row([
                     dbc.Col(html.Div([
-                        html.H4(emoji if emoji else "📈", style={'fontSize': '2.5rem'}),
-                        html.H5(name),
+                        html.H6(emoji if emoji else "📈", style={'fontSize': '1.5rem'}),
+                        html.H6(name),
                         html.P((ticker if ticker != "N/A" else "") + (" - " + exchange if exchange != "N/A" else ""))
                     ]), className="d-flex align-items-center justify-content-center"),
 
@@ -63,7 +63,7 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
 
                     dbc.Col(html.Div([
                         html.H6("Prix", id="tooltip-price", style={'textTransform': 'none'}),
-                        html.P(f"{current_price:.2f}$",  style={'fontSize': '1.5rem'}, className="fw-bold mb-0"),
+                        html.P(f"{current_price:.2f}$",  style={'fontSize': '1.2rem'}, className="fw-bold mb-0"),
                         dbc.Badge(f"1Y: {variation:.2f}%", color=price_badge_color, className="mt-2")
                     ]), className="d-flex align-items-center justify-content-center")
                 ], className="bg-light border rounded p-2 shadow-sm mb-2 mt-4"),
