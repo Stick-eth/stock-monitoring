@@ -46,11 +46,30 @@ def stocks_layout(ticker=None):
                             h=150,
                             radius="md",
                             src="/assets/loading.gif",
+                            style={
+                                "objectFit": "contain",  # Empêche le GIF d'être coupé
+                                "width": "100%",        # S'assure que le GIF occupe tout l'espace horizontal
+                                "height": "100%",       # S'assure que le GIF occupe tout l'espace vertical
+                                "display": "block",     # Évite les marges automatiques indésirables
+                            },
                         ),
                     },
-                    overlayProps={"radius": "sm", "blur": 2},
+                    overlayProps={
+                        "radius": "sm",
+                        "blur": 2,
+                        "style": {
+                            "display": "flex",           # Permet un centrage avec flexbox
+                            "alignItems": "center",      # Centre verticalement
+                            "justifyContent": "center",  # Centre horizontalement
+                            "position": "fixed",         # Assure une position absolue pleine page
+                            "top": 0,
+                            "left": 0,
+                            "width": "100%",
+                            "height": "100%",
+                            "overflow": "hidden",        # Empêche tout dépassement
+                        },
+                    },
                     transitionProps={ "transition": 'fade', "duration": 1000 }
-            
                 ),
       
                 html.Div([
@@ -62,30 +81,54 @@ def stocks_layout(ticker=None):
                         dcc.Graph(id='price-graph', config=no_interaction),
                         style={'padding': '20px', 'boxSizing': 'border-box', 'width': '40%'}
                     )
-                ], style={'width': '85%', 'margin': '20px auto', 'display': 'flex', 'justifyContent': 'space-between', 'alignItems': 'flex-start'}),
+                ], style={
+                    'width': '85%',
+                    'margin': '20px auto',
+                    'display': 'flex',
+                    'flexWrap': 'wrap',  # Permet de basculer les éléments sur une nouvelle ligne
+                    'justifyContent': 'space-between',
+                    'alignItems': 'flex-start'
+                }),
 
                 # Graphiques financiers
                 html.Div([
                     dcc.Graph(id='revenue-net-income-graph', style={'width': '48%', 'display': 'inline-block'}, config=no_interaction),
                     dcc.Graph(id='growth-graph', style={'width': '48%', 'display': 'inline-block', 'marginLeft': '4%'}, config=no_interaction)
-                ], style={'display': 'flex', 'marginTop': '20px'}),
+                ], style={
+                    'display': 'flex',
+                    'flexWrap': 'wrap',  # Permet de basculer les éléments sur une nouvelle ligne
+                    'marginTop': '20px'
+                }),
 
                 # Autres graphiques
                 html.Div([
                     dcc.Graph(id='fcf-op-graph', style={'width': '48%', 'display': 'inline-block'}, config=no_interaction),
                     dcc.Graph(id='roce-graph', style={'width': '48%', 'display': 'inline-block', 'marginLeft': '4%'}, config=no_interaction)
-                ], style={'display': 'flex', 'marginTop': '20px'}),
+                ], style={
+                    'display': 'flex',
+                    'flexWrap': 'wrap',  # Permet de basculer les éléments sur une nouvelle ligne
+                    'marginTop': '20px'
+                }),
 
                 # Liste scrollable des insiders
                 html.Div(id='insider-list', style={
-                    'width': '80%', 'height': '300px', 'overflowY': 'scroll',
-                    'border': '1px solid #ccc', 'margin': '20px auto', 'padding': '10px'
+                    'width': '80%',
+                    'height': '300px',
+                    'overflowY': 'scroll',
+                    'border': '1px solid #ccc',
+                    'margin': '20px auto',
+                    'padding': '10px'
                 }),
 
                 # Description de l'entreprise
-                html.Div(id='company-description', style={'width': '80%', 'margin': '20px auto', 'color': 'rgb(80, 77, 113)'}),
+                html.Div(id='company-description', style={
+                    'width': '80%',
+                    'margin': '20px auto',
+                    'color': 'rgb(80, 77, 113)'
+                }),
 
-        html.Footer([
-            html.P("Aniss SEJEAN", style={'textAlign': 'center'})
-        ])
+                # Footer
+                html.Footer([
+                    html.P("Aniss SEJEAN", style={'textAlign': 'center'})
+                ])
     ])
