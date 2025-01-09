@@ -1,7 +1,7 @@
 from dash import Dash, html, Input, Output, dcc, _dash_renderer
 import dash_bootstrap_components as dbc
 from layout import create_layout
-from callbacks import register_callbacks
+from callbacks.stocks_callbacks import register_stocks_callbacks
 from pages.home import home_layout
 from pages.stocks import stocks_layout
 from pages.about import about_layout
@@ -48,7 +48,7 @@ def display_page(pathname):
         return home_layout()
 
 # Enregistrer les callbacks
-register_callbacks(app)
+register_stocks_callbacks(app)
 
 # Ajouter l'adresse IP à la liste d'accès de MongoDB Atlas
 add_ip_to_atlas()

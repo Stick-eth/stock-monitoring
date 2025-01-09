@@ -9,7 +9,7 @@ from components.company_overview import create_company_overview
 from components.company_description import create_description_company
 from components.roce_chart import create_roce_chart
 
-def register_callbacks(app):
+def register_stocks_callbacks(app):
     """Enregistre les callbacks Dash pour l'application."""
     @app.callback(
         [Output('revenue-net-income-graph', 'figure'),
@@ -31,7 +31,7 @@ def register_callbacks(app):
             return (None, None, None, None, None, None, None, None ,False)
 
         # Charger les données pour le ticker si ce n'est pas un point
-        if ticker != ".":
+        if ticker != "":
             data = load_data(ticker)
         else:
             return (None, None, None, None, None, None, None, None, False)
