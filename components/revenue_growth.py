@@ -6,7 +6,7 @@ def create_growth_chart(data):
     try:
         """Crée un graphique de croissance annuelle pour le CA et le Bénéfice Net sans utiliser pandas."""
         if not data or "annualReports" not in data:
-            return go.Figure()
+            return go.Figure().update_layout(title="Graphique non disponible")
 
         # Extraire les rapports annuels et les trier par date
         annual_reports = data["annualReports"]
@@ -52,7 +52,8 @@ def create_growth_chart(data):
             y=net_income_growth,
             name="Croissance du Bénéfice Net",
             marker_color=["#66CC66" if v is not None and v > 0 else "#FF6347" for v in net_income_growth],
-            hovertemplate='Croissance Bénéf. Net : %{y:.2f}%<extra></extra>'
+            hovertemplate='Croissance Bénéf. Net : %{y:.2f}%<extra></extra>',
+            marker_line_color='rgba(0,0,0,0)'
         ))
 
         # Fixer les plages des axes pour éviter le zoom

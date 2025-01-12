@@ -36,5 +36,6 @@ Sélectionner un ticker pour afficher les données financières (CONNEXION DATAB
 ## To - do list
 - [ ] Fetch des stocks en automatique
 - [ ] Méthode d'Authentification
+
 - [ ] Core : Orienter la vision de l'app vers un outil de gestion tout en 1 avec du calcul de répartition cohérent des actifs
 - [ ] Core : Création portfolio orienté patrimoine

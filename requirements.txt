@@ -9,3 +9,4 @@ pymongo
 dash_mantine_components
 flask_caching
 time
+dash_iconify
