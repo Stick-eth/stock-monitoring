@@ -27,7 +27,7 @@ def create_navbar():
                 ),
                 dbc.Nav(
                     [
-                        dbc.NavItem(dbc.NavLink("Accueil", href="/")),
+                        dbc.NavItem(dbc.NavLink("Home", href="/")),
                         dbc.DropdownMenu(
                             children=[
                                 dbc.DropdownMenuItem("Stocks", href="/stocks/", external_link=True),

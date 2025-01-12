@@ -25,16 +25,16 @@ Un outil pour récupérer et visualiser facilement des données financières d'e
 
 4. **Lancer l'application** :
      ```bash
-    python app.py
+    python index.py
     ```
 
 ## 🚀 Utilisation
 
 Accéder à l'interface via : http://127.0.0.1:8050
-Sélectionner un ticker pour afficher les données financières
+Sélectionner un ticker pour afficher les données financières (CONNEXION DATABASE SOON)
 
 ## To - do list
-- [ ] Plannifier la récup des données API via script
-- [ ] Patch le Graph du freecashflow avec les bonnes données
-- [ ] Définir les critères qualités
-- [ ] Créer l'onglet "A propos"
+- [ ] Fetch des stocks en automatique
+- [ ] Méthode d'Authentification
+- [ ] Core : Orienter la vision de l'app vers un outil de gestion tout en 1 avec du calcul de répartition cohérent des actifs
+- [ ] Core : Création portfolio orienté patrimoine
