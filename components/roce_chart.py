@@ -44,6 +44,7 @@ def create_roce_chart(data_income_statement, data_balance_sheet):
             name="ROCE (%)",
             hovertemplate='ROCE : %{y:.2f}%<extra></extra>',
             marker_color=['rgb(107, 102, 153)' if value and value >= 0 else 'red' for value in roces],
+            marker_line_color='rgba(0,0,0,0)'
         ))
 
         # Appliquer le layout commun
@@ -57,8 +58,6 @@ def create_roce_chart(data_income_statement, data_balance_sheet):
             plot_bgcolor='rgba(0,0,0,0)',
             paper_bgcolor='rgba(0,0,0,0)',
             hovermode="x unified",
-            yaxis=dict(showgrid=True),
-            xaxis=dict(showgrid=True),
             legend=dict(
                 orientation="h",
                 y=-0.2,

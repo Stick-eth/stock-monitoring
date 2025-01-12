@@ -42,31 +42,31 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
                 dbc.Row([
                     dbc.Col(html.Div([
                         html.H6(emoji if emoji else "📈", style={'fontSize': '1.5rem'}),
-                        html.H6(name),
+                        html.H6(name, style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'}, className="fw-bold mb-0"),
                         html.P((ticker if ticker != "N/A" else "") + (" - " + exchange if exchange != "N/A" else ""))
                     ]), className="d-flex align-items-center justify-content-center"),
 
                     dbc.Col(html.Div([
-                        html.H6("Secteur", id="tooltip-sector", style={'textTransform': 'none'}),
-                        html.P(sector if sector != "N/A" else "", className=" mb-0")
+                        html.P("Secteur", id="tooltip-sector", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'}, className="fw-bold mb-0"),
+                        html.H6(sector if sector != "N/A" else "", className=" mb-0")
                     ]), className="d-flex align-items-center justify-content-center"),
 
                     dbc.Col(html.Div([
-                        html.H6("Industrie", id="tooltip-industry", style={'textTransform': 'none'}),
-                        html.P(industry if industry != "N/A" else "", className="mb-0")
+                        html.P("Industrie", id="tooltip-industry", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'}, className="fw-bold mb-0"),
+                        html.H6(industry if industry != "N/A" else "", className="mb-0")
                     ]), className="d-flex align-items-center justify-content-center"),
 
                     dbc.Col(html.Div([
-                        html.H6("Pays", id="tooltip-country", style={'textTransform': 'none'}),
-                        html.P(country if country != "N/A" else "", className="mb-0")
+                        html.P("Pays", id="tooltip-country", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'}, className="fw-bold mb-0"),
+                        html.H6(country if country != "N/A" else "", className="mb-0")
                     ]), className="d-flex align-items-center justify-content-center"),
 
                     dbc.Col(html.Div([
-                        html.H6("Prix", id="tooltip-price", style={'textTransform': 'none'}),
-                        html.P(f"{current_price:.2f}$",  style={'fontSize': '1.2rem'}, className="fw-bold mb-0"),
+                        html.P("Prix", id="tooltip-price", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'}, className="fw-bold mb-0"),
+                        html.H6(f"{current_price:.2f}$",  style={'fontSize': '1.2rem'}, className="fw-bold mb-0"),
                         dbc.Badge(f"1Y: {variation:.2f}%", color=price_badge_color, className="mt-2")
                     ]), className="d-flex align-items-center justify-content-center")
-                ], className="bg-light border rounded p-2 shadow-sm mb-2 mt-4"),
+                ], className=" border rounded p-2 shadow-sm mb-2 mt-4"),
             ], fluid=True, className="text-center", style={'marginleft': 'auto', 'marginright': 'auto'}),
 
             # Deuxième container
@@ -128,7 +128,7 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
                     )
                     )
                 ]),
-            ], fluid=True, className="border rounded p-4 shadow-sm bg-light mb-4", style={'marginleft': 'auto', 'marginright': 'auto'}),
+            ], fluid=True, className="border rounded p-4 shadow-sm mb-4", style={'marginleft': 'auto', 'marginright': 'auto'}),
 
             # Tooltips
             dbc.Tooltip("Le secteur d'activité de l'entreprise.", target="tooltip-sector", placement="top"),

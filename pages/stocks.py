@@ -35,7 +35,6 @@ def stocks_layout(ticker=None):
         ])
 
     return html.Div([
-        html.H1(f"💻 Stock Screener", style={'textAlign': 'center', 'marginTop': '20px'}),
         dmc.LoadingOverlay(
                     visible=True,
                     id="loading-overlay",
@@ -104,9 +103,10 @@ def stocks_layout(ticker=None):
                 },className="responsive-div"),
 
                 # Liste scrollable des insiders
+                html.H6("Transactions d'Insiders", style={'textAlign': 'center', 'marginTop': '20px'}),
                 html.Div(id='insider-list', style={
-                    'width': '80%',
-                    'height': '300px',
+                    'width': '50%',
+                    'height': '350px',
                     'overflowY': 'scroll',
                     'border': '1px solid #ccc',
                     'margin': '20px auto',

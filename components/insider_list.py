@@ -6,7 +6,7 @@ def create_insider_list(data):
         if not data:
             return html.P("Aucune transaction d'insiders disponible.")
 
-        max_items = 50
+        max_items = 30
         items = []
 
         for tx in data[:max_items]:
@@ -25,11 +25,10 @@ def create_insider_list(data):
 
             # Créer l'élément de la liste avec le style approprié
             item = html.Div([
-                html.P(f"{tx['Insider']} - {tx['Start Date']}", style={'fontWeight': 'bold'}),
-                html.P(f"Position : {tx['Position']} | Actions : {tx['Shares']} | Valeur : {tx['Value']}"),
-                html.P(f"Détail : {text}"),
-                html.Hr(style={'margin': '10px 0'})
-            ], style={'backgroundColor': background_color, 'padding': '10px', 'marginBottom': '10px', 'borderRadius': '5px'})
+                html.P(f"{tx['Insider']} - {tx['Start Date']}", style={'fontWeight': 'bold'}, className='mb-1'),
+                html.P(f"Position : {tx['Position']} | Actions : {tx['Shares']} | Valeur : {tx['Value']}", className='mb-1'),
+                html.P(f"Détail : {text}", className='mb-1')
+            ], style={'backgroundColor': background_color, 'padding': '10px', 'marginBottom': '10px', 'borderRadius': '5px','color':'black'})
 
             items.append(item)
 

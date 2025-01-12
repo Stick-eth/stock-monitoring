@@ -28,7 +28,8 @@ def create_revenue_chart(data):
             y=[revenue / 1e9 for revenue in total_revenues],  # Convertir en milliards
             name="Chiffre d'Affaires",
             hovertemplate='Chiffre d\'Affaires : $%{y:.2f} milliards<extra></extra>',
-            marker_color='rgb(107, 102, 153)'  # Couleur pour le Chiffre d'Affaires
+            marker_color='rgb(107, 102, 153)',  # Couleur pour le Chiffre d'Affaires
+            marker_line_color='rgba(0,0,0,0)'
         ))
 
         # Ajouter les barres pour le Bénéfice Net

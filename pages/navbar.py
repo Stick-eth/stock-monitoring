@@ -28,8 +28,25 @@ def create_navbar():
                 dbc.Nav(
                     [
                         dbc.NavItem(dbc.NavLink("Accueil", href="/")),
-                        dbc.NavItem(dbc.NavLink("Stocks", href="/stocks/", external_link=True)),
+                        dbc.DropdownMenu(
+                            children=[
+                                dbc.DropdownMenuItem("Stocks", href="/stocks/", external_link=True),
+                            ],
+                            nav=True,
+                            in_navbar=True,
+                            label="Screener",
+                        ),
+                        dbc.DropdownMenu(
+                            children=[
+                                dbc.DropdownMenuItem("Manage", header=True),
+                                dbc.DropdownMenuItem("Overview", href="#"),
+                            ],
+                            nav=True,
+                            in_navbar=True,
+                            label="Portfolio",
+                        ),
                         dbc.NavItem(dbc.NavLink("À propos", href="/about")),
+                        html.Div(style={"width": "40px"}),
                     ],
                     className="ms-auto",
                     navbar=True,

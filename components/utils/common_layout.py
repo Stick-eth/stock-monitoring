@@ -25,6 +25,6 @@ def apply_common_layout(fig, title=None, xaxis_title=None, yaxis_title=None, sho
         hoverlabel=dict(
         bgcolor="rgba(0, 0, 0, 0.8)",  # Fond semi-transparent noir
         font_size=12,                 # Taille de police
-        font_color="white")
+        )
     )
     return fig

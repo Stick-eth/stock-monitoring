@@ -1,38 +1,29 @@
-from dash import html
+from dash import html, dcc
 
 def about_layout():
-    """Layout de la page à propos.
-    Contenu : Titre, Description, Crédits.
-    Centré verticalement et horizontalement.
-    """
+    """Layout de la page 'À Propos' avec texte et CV en anglais."""
     return html.Div([
-        html.H1("À Propos", style={'textAlign': 'center', 'marginTop': '20px'}),
-
+        # Introduction et présentation
+        html.H1("About", style={'textAlign': 'center', 'marginTop': '20px'}),
         html.Div([
             html.P(
-                "📊DataStick est une application web dédiée à l'analyse financière des entreprises cotées en bourse. "
-                "Conçue pour offrir une interface simple et intuitive, elle permet de visualiser efficacement les données financières "
-                "comme le feraient des solutions de screening coûteuses."
-            ),
-            html.P(
-                "L'idée de DataStick m'est venue après avoir constaté que les outils d'analyse d'actions disponibles sur le marché "
-                "sont souvent proposés à des prix exorbitants, atteignant plusieurs centaines d'euros par an. 🫣"
-            ),
-            html.P(
-                "Je développe donc cet outil petit à petit sur mon temps libre, afin de m'en servir pour mes propres analyses et de les partager. "
-                "Je suis convaincu que l'accès à l'information ne devrait pas coûter un bras."
-            ),
-            html.P(
-                "👋 D'ailleurs moi c'est Aniss, étudiant en ingénierie informatique et passionné par la finance / big data. ",
-                "J'espère que DataStick vous sera utile et vous permettra de prendre des décisions d'investissement éclairées."
-            ),
-            html.P(
-                "Pour suivre l'évolution du projet, consultez le dépôt GitHub :"
-            ),
+                    "📊 DataStick is a web application designed to simplify financial analysis for publicly traded companies. "
+                    "It provides an intuitive interface for exploring financial data, bridging the gap between accessibility and professional-grade insights."
+                ),
+                html.P(
+                    "👷Developed during my free time, DataStick is both a tool to democratize financial information and a personal project to enhance my expertise in data visualization and analysis."
+                ),
+                html.P(
+                    "👋 I'm Aniss, an IT engineering student with a deep interest in empowering informed investment decisions through technology and data-driven solutions."
+                )
+        ], style={'width': '60%', 'margin': '40px auto', 'lineHeight': '1.6'}),
+
+        # Ajout du CV en markdown (anglais)
+        html.Div([
             html.A(
-                "https://github.com/Stick-eth/stock-monitoring",
-                href="https://github.com/Stick-eth/stock-monitoring",
-                style={'display': 'block', 'textAlign': 'center', 'marginTop': '10px'}
+                'View my portfolio',
+                href='https://aniss-sej.notion.site',
+                style={'fontSize': '20px', 'textDecoration': 'none'}
             )
-        ], style={'width': '60%', 'margin': '20px auto', 'lineHeight': '1.6'}),
+        ], style={'display': 'flex', 'justifyContent': 'center'})
     ])

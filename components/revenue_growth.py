@@ -42,7 +42,8 @@ def create_growth_chart(data):
             y=revenue_growth,
             name="Croissance du Chiffre d'Affaires",
             marker_color=["green" if v is not None and v > 0 else "red" for v in revenue_growth],
-            hovertemplate='Croissance CA : %{y:.2f}%<extra></extra>'
+            hovertemplate='Croissance CA : %{y:.2f}%<extra></extra>',
+            marker_line_color='rgba(0,0,0,0)'
         ))
 
         # Ajouter la croissance du bénéfice net

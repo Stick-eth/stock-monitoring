@@ -66,7 +66,8 @@ def create_fcf_op_chart(data_income, data_cashflow):
             y=operating_income_values,
             name="Bénéfices Opérationnels",
             marker_color='rgb(107, 102, 153)',
-            hovertemplate='Bénéfices Opérationnels : $%{y:.2f} milliards<extra></extra>'
+            hovertemplate='Bénéfices Opérationnels : $%{y:.2f} milliards<extra></extra>',
+            marker_line_color='rgba(0,0,0,0)'
         ))
 
         # Fixer les plages des axes pour éviter le zoom
