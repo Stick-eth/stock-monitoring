@@ -39,4 +39,4 @@ Sélectionner un ticker pour afficher les données financières (CONNEXION DATAB
 - [ ] Méthode d'Authentification
 
 - [ ] Core : Orienter la vision de l'app vers un outil de gestion tout en 1 avec du calcul de répartition cohérent des actifs
-- [ ] Core : Création portfolio orienté patrimoine
+- [ ] Core : Création portfolio orienté patrimoine (+dump offline des données)
