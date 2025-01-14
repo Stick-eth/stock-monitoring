@@ -1,5 +1,6 @@
 from dash import html
 import dash_bootstrap_components as dbc
+from dash_iconify import DashIconify
 
 color_mode_switch =  html.Span(
     [
@@ -52,6 +53,11 @@ def create_navbar():
                     navbar=True,
                 ),
                 color_mode_switch,
+                html.Div(style={"width": "40px"}),
+                html.A(
+                    DashIconify(icon="healthicons:ui-user-profile", width=30, height=30, color="primary"),
+                    href="/login"
+                ),
             ]
         ),
         color="primary",

@@ -6,6 +6,7 @@ from pages.home import home_layout
 from pages.stocks import stocks_layout
 from pages.about import about_layout
 from pages.stocks_list import stocks_list_layout
+from pages.login import login_layout
 from ip_access import add_ip_to_atlas
 import dash_mantine_components as dmc
 from dash_bootstrap_templates import load_figure_template
@@ -58,6 +59,8 @@ def display_page(pathname):
         return stocks_layout(ticker=ticker)
     elif pathname == "/about":
         return about_layout()
+    elif pathname == "/login":
+        return login_layout()
     else:
         return home_layout()
 
