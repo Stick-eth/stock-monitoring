@@ -50,7 +50,7 @@ def create_price_chart(data):
         )
         
         fig.update_layout(
-            yaxis=dict(type="log", showticklabels=False, showline=False),
+            yaxis=dict( showticklabels=False, showline=False),
             xaxis=dict(color='rgb(90, 86, 126)', showline=True, linecolor='rgb(53, 51, 75)')
         )
 

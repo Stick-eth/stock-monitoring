@@ -125,4 +125,4 @@ def stocks_layout(ticker=None):
                 html.Footer([
                     html.P("Aniss SEJEAN", style={'textAlign': 'center'})
                 ])
-    ], style={'maxWidth': '1200px', 'margin': '0 auto', 'padding': '20px'})
+    ], style={'maxWidth': '1400px', 'margin': '0 auto', 'padding': '20px'})

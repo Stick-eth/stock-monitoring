@@ -7,16 +7,16 @@ def format_market_cap(value):
     try:
         value = float(value)
         if value >= 1e12:
-            return f"{value / 1e12:.2f} Trillion"
+            return f"{value / 1e12:.2f} T"
         elif value >= 1e9:
-            return f"{value / 1e9:.2f} Billion"
+            return f"{value / 1e9:.2f} B"
         elif value >= 1e6:
-            return f"{value / 1e6:.2f} Million"
+            return f"{value / 1e6:.2f} M"
         return f"{value:.0f}"
     except (ValueError, TypeError):
         return "N/A"
 
-def get_tickers(limit=50):
+def get_tickers(limit=100):
     """
     Retourne une liste de tickers avec leur nom et capitalisation boursière,
     limitant le nombre de résultats affichés.
