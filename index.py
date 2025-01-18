@@ -18,6 +18,9 @@ import os
 from flask import Flask, session, redirect, request, url_for
 from urllib.parse import urlencode, urlparse, parse_qs
 
+# Mettre à jour la version de React pour éviter les avertissements
+_dash_renderer._set_react_version("18.2.0")
+
 # Charger les variables d'environnement
 from dotenv import load_dotenv
 load_dotenv()
@@ -138,9 +141,14 @@ clientside_callback(
 )
 def display_page(pathname):
     if pathname.startswith("/stocks/"):
+        # Extraire le ticker depuis l'URL
         parts = pathname.split("/stocks/")
         ticker = parts[-1] if len(parts) > 1 else None
-        return stocks_layout(ticker=ticker) if ticker else stocks_list_layout()
+        # Si aucun ticker n'est spécifié, afficher une liste de tickers
+        if not ticker:
+            return stocks_list_layout()
+        # Sinon, charger le layout des stocks avec le ticker spécifié
+        return stocks_layout(ticker=ticker)
     elif pathname == "/about":
         return about_layout()
     elif pathname == "/login":
