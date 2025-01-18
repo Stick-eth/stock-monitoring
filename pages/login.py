@@ -1,5 +1,35 @@
 from dash import html, dcc
 import dash_bootstrap_components as dbc
+from urllib.parse import urlencode, urlparse, parse_qs
+import dotenv
+import os
+
+# Charger les variables d'environnement
+dotenv.load_dotenv()
+
+# Récupérer les paramètres client_id, scope, redirect_uri depuis le fichier .env
+GOOGLE_AUTH_CLIENT_ID = os.getenv("GOOGLE_AUTH_CLIENT_ID")
+GOOGLE_AUTH_SCOPE = os.getenv("GOOGLE_AUTH_SCOPE")
+GOOGLE_AUTH_URL = os.getenv("GOOGLE_AUTH_URL")
+GOOGLE_AUTH_REDIRECT_URI = os.getenv("GOOGLE_AUTH_REDIRECT_URI")
+
+def build_google_oauth_url():
+    """
+    Construit l'URL d'authentification Google.
+    """
+    params = {
+        "client_id": GOOGLE_AUTH_CLIENT_ID,
+        "redirect_uri": GOOGLE_AUTH_REDIRECT_URI,
+        "response_type": "code",
+        "scope": "openid email profile",  # Google OAuth nécessite ces scopes de base
+        "access_type": "offline",
+        "include_granted_scopes": "true",
+        "prompt": "consent"
+    }
+    url = f"https://accounts.google.com/o/oauth2/auth?{urlencode(params)}"
+    return url
+
+
 
 # Contenu de l'onglet Login
 tab1_content = dbc.Card(
@@ -12,10 +42,11 @@ tab1_content = dbc.Card(
                 dbc.Input(type="password", id="login-password", placeholder="Enter your password", className="mb-3"),
                 dbc.Button("Login", id="login-button", color="primary", className="mb-3"),
                 html.Div("OR", style={"textAlign": "center", "margin": "10px 0", "color": "gray"}),
+                html.A(
                 dbc.Button(
                     "Login with Google", id="google-login-button", color="danger", className="mb-3",
                     style={"width": "100%"}
-                ),
+                ),href=build_google_oauth_url()),
             ])
         ]
     ),

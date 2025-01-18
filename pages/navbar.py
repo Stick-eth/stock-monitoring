@@ -55,7 +55,7 @@ def create_navbar():
                 color_mode_switch,
                 html.Div(style={"width": "40px"}),
                 html.A(
-                    DashIconify(icon="healthicons:ui-user-profile", width=30, height=30, color="primary"),
+                    DashIconify(icon="healthicons:ui-user-profile", width=30, height=30,color="white"),
                     href="/login"
                 ),
             ]
