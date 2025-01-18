@@ -7,6 +7,7 @@ from pages.stocks import stocks_layout
 from pages.about import about_layout
 from pages.stocks_list import stocks_list_layout
 from pages.login import login_layout
+from pages.profile import profile_layout
 from ip_access import add_ip_to_atlas
 import dash_mantine_components as dmc
 from dash_bootstrap_templates import load_figure_template
@@ -82,8 +83,6 @@ def get_user_info(access_token):
     response.raise_for_status()
     return response.json()
 
-from flask import make_response
-
 @server.route("/login/callback")
 def google_auth_callback():
     """
@@ -146,6 +145,11 @@ def display_page(pathname):
         return about_layout()
     elif pathname == "/login":
         return login_layout()
+    elif pathname == "/logout":
+        session.clear()
+        return home_layout()
+    elif pathname == "/profile":
+        return profile_layout()
     else:
         return home_layout()
 
@@ -155,7 +159,6 @@ register_stocks_callbacks(app)
 
 # Ajouter l'adresse IP à la liste d'accès de MongoDB Atlas
 add_ip_to_atlas()
-
 
 # Exécution locale
 if __name__ == "__main__":

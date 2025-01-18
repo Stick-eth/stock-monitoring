@@ -56,7 +56,7 @@ def create_navbar():
                 html.Div(style={"width": "40px"}),
                 html.A(
                     DashIconify(icon="healthicons:ui-user-profile", width=30, height=30,color="white"),
-                    href="/login"
+                    href="/profile",
                 ),
             ]
         ),
