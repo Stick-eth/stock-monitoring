@@ -34,16 +34,15 @@ GOOGLE_AUTH_USERINFO_URI = "https://www.googleapis.com/oauth2/v3/userinfo"
 
 # Initialisation de l'application Flask et Dash
 server = Flask(__name__)
-server.secret_key = os.getenv("SECRET_KEY", "supersecretkey")  # Nécessaire pour les sessions Flask
+server.secret_key = os.getenv("SECRET_KEY", "ajoutezmonlinkedin")  # Nécessaire pour les sessions Flask
 app = Dash(
     __name__,
     server=server,
     external_stylesheets=[dbc.themes.LUMEN, dbc.icons.FONT_AWESOME],
-    title="DataStick - Stock Analysis",
+    title="DataStick - Financial Tool",
     suppress_callback_exceptions=True,
 )
 app._favicon = "assets/favicon.ico"
-
 
 def build_google_oauth_url():
     """
@@ -60,7 +59,6 @@ def build_google_oauth_url():
     }
     return f"https://accounts.google.com/o/oauth2/auth?{urlencode(params)}"
 
-
 def exchange_code_for_token(auth_code):
     """
     Échange le 'code' contre un token d'accès et un refresh_token si présent.
@@ -75,7 +73,6 @@ def exchange_code_for_token(auth_code):
     response = requests.post(GOOGLE_AUTH_TOKEN_URI, data=data)
     response.raise_for_status()
     return response.json()
-
 
 def get_user_info(access_token):
     """
@@ -114,8 +111,6 @@ def google_auth_callback():
     except Exception as e:
         return f"Une erreur s'est produite lors de l'échange du code : {e}", 500
 
-
-
 # Définir le layout principal
 app.layout = dmc.MantineProvider([create_layout()])
 
@@ -132,7 +127,6 @@ clientside_callback(
     Output("switch", "id"),
     Input("switch", "value"),
 )
-
 
 # Callback pour gérer le routage entre les pages
 @app.callback(
@@ -161,7 +155,6 @@ def display_page(pathname):
     else:
         return home_layout()
 
-
 # Enregistrer les callbacks
 register_stocks_callbacks(app)
 
@@ -170,7 +163,5 @@ add_ip_to_atlas()
 
 # Exécution locale
 if __name__ == "__main__":
-    warnings.filterwarnings(
-        "ignore", message="The 'unit' keyword in TimedeltaIndex construction is deprecated"
-    )
+    warnings.filterwarnings("ignore", message="The 'unit' keyword in TimedeltaIndex construction is deprecated")
     app.run_server(debug=True)

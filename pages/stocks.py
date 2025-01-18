@@ -16,6 +16,7 @@ no_interaction = {
 def stocks_layout(ticker=None):
     """Retourne le layout de la page Stocks."""
     tickers = get_tickers()
+    tickers = [ticker['symbol'] for ticker in tickers]
 
     # Vérifier si le ticker est valide
     if ticker and ticker not in tickers:

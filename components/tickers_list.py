@@ -2,10 +2,24 @@ import os
 from dotenv import load_dotenv
 from pymongo import MongoClient
 
-def get_tickers():
+def format_market_cap(value):
+    """Formate la capitalisation boursière en milliards/trillions."""
+    try:
+        value = float(value)
+        if value >= 1e12:
+            return f"{value / 1e12:.2f} Trillion"
+        elif value >= 1e9:
+            return f"{value / 1e9:.2f} Billion"
+        elif value >= 1e6:
+            return f"{value / 1e6:.2f} Million"
+        return f"{value:.0f}"
+    except (ValueError, TypeError):
+        return "N/A"
+
+def get_tickers(limit=50):
     """
-    Retourne la liste des tickers pour lesquels il existe au moins un document en base.
-    On ignore 'DATA_DIRS' car on ne se base plus sur les fichiers locaux, mais sur MongoDB.
+    Retourne une liste de tickers avec leur nom et capitalisation boursière,
+    limitant le nombre de résultats affichés.
     """
     try:
         load_dotenv()
@@ -19,18 +33,23 @@ def get_tickers():
         client = MongoClient(MONGO_URI)
         db = client[DB_NAME]
 
-        # Récupère la liste de toutes les collections (chaque collection = un ticker)
-        collections = db.list_collection_names()
+        # Rechercher uniquement les documents "OVERVIEW"
+        overview_docs = db.list_collection_names()
+        tickers_info = []
 
-        tickers = set()
-        for col_name in collections:
-            # Vérifier si la collection a au moins un document
-            # count_documents({}) donne le nombre total de documents
-            if db[col_name].count_documents({}) > 0:
-                tickers.add(col_name)
+        for ticker in overview_docs:
+            doc = db[ticker].find_one({"function": "OVERVIEW"})
+            if doc and "data" in doc:
+                name = doc["data"].get("Name", "Unknown")
+                market_cap = format_market_cap(doc["data"].get("MarketCapitalization", "N/A"))
 
-        # Retourne la liste triée des tickers trouvés
-        return sorted(tickers)
+                tickers_info.append({"symbol": ticker, "name": name, "market_cap": market_cap})
+
+            # Limiter le nombre de résultats
+            if len(tickers_info) >= limit:
+                break
+
+        return tickers_info
 
     except Exception as e:
         print(f"Erreur dans get_tickers: {e}")
