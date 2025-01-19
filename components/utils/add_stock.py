@@ -5,7 +5,6 @@ import yfinance as yf
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 from pymongo import MongoClient
-import warnings
 
 # Chargement des variables d'environnement
 load_dotenv()

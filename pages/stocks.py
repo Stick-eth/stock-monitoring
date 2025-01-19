@@ -120,6 +120,8 @@ def stocks_layout(ticker=None):
                     'margin': '20px auto',
                     'color': 'rgb(80, 77, 113)'
                 }),
+                # Bouton TradingView
+                html.Div(id='tradingview-button', style={'textAlign': 'center'}),
 
                 # Footer
                 html.Footer([
