@@ -158,7 +158,7 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
             dbc.Tooltip("Le prix actuel de l'action.", target="tooltip-price", placement="top"),
             dbc.Tooltip(dcc.Markdown(
                     """
-                    ### Score éxperimental
+                    ### Score expérimental
                     -----------------
                     Ce score est donné à titre indicatif. 
                     Il est calculé en fonction de plusieurs critères et se calcule sur 10.
