@@ -5,3 +5,6 @@ H6 {
     text-transform: none !important;
 }
 
+.form-label {
+    margin-bottom: 0;
+}

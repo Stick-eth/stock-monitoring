@@ -3,13 +3,13 @@ from dash import html
 from dash_iconify import DashIconify
 from dash import Input, Output, State, callback
 
-color_mode_switch =  html.Span(
+color_mode_switch = html.Span(
     [
-        dbc.Label(className="fa fa-moon", html_for="switch"),
-        dbc.Switch(id="switch", value=True, className="d-inline-block ms-1", persistence=True),
+        dbc.Label(className="fa fa-moon", html_for="switch", style={"align-self": "center"}),
+        dbc.Switch(id="switch", value=True, className="d-inline-block ms-2", persistence=True, style={"align-self": "center"}),
         dbc.Label(className="fa fa-sun", html_for="switch"),
     ],
-    className="ml-4",
+    className="d-flex justify-content-center align-items-center"
 )
 
 def create_navbar():
@@ -68,7 +68,7 @@ def create_navbar():
                             html.A(
                                 DashIconify(icon="healthicons:ui-user-profile", width=30, height=30, color="white"),
                                 href="/profile",
-                                style={"textDecoration": "none"},
+                                style={"textDecoration": "none", "align-self": "center"},
                             ),
                         ],
                         className="ms-auto",  # pousse la liste d'items vers la droite
