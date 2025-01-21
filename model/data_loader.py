@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 from pymongo import MongoClient
-from cache_config import cache
+from components.utils.cache_config import cache
 import time
 
 DATA_DIRS = {
@@ -32,10 +32,10 @@ def load_data(ticker):
     try:
         load_dotenv()
         MONGO_URI = os.getenv("MONGO_URI")
-        DB_NAME = os.getenv("DB_NAME")
+        DB_STOCKS = os.getenv("DB_NAME_STOCKS")
 
         client = MongoClient(MONGO_URI)
-        db = client[DB_NAME]
+        db = client[DB_STOCKS]
 
         data = {}
         for key in DATA_DIRS:

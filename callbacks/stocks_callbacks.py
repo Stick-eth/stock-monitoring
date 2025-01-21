@@ -1,5 +1,5 @@
 from dash.dependencies import Input, Output
-from data_loader import load_data
+from model.data_loader import load_data
 from components.revenue_chart import create_revenue_chart
 from components.price_chart import create_price_chart
 from components.insider_list import create_insider_list

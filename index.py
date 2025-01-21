@@ -1,6 +1,6 @@
 from dash import Dash, html, Input, Output, dcc, _dash_renderer, clientside_callback
 import dash_bootstrap_components as dbc
-from layout import create_layout
+from pages.layout import create_layout
 from callbacks.stocks_callbacks import register_stocks_callbacks
 from pages.home import home_layout
 from pages.stocks import stocks_layout
@@ -8,11 +8,11 @@ from pages.about import about_layout
 from pages.stocks_list import stocks_list_layout
 from pages.login import login_layout
 from pages.profile import profile_layout
-from ip_access import add_ip_to_atlas
+from components.utils.ip_access import add_ip_to_atlas
 import dash_mantine_components as dmc
 from dash_bootstrap_templates import load_figure_template
 import warnings
-from cache_config import cache
+from components.utils.cache_config import cache
 import requests
 import os
 from flask import Flask, session, redirect, request, url_for
