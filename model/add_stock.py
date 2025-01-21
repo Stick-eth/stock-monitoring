@@ -12,7 +12,7 @@ load_dotenv()
 # Variables d'environnement
 API_KEY = os.getenv("API_KEY")      # Clé AlphaVantage
 MONGO_URI = os.getenv("MONGO_URI")
-DB_NAME = os.getenv("DB_NAME")
+DB_NAME = os.getenv("DB_NAME_STOCKS")
 
 # Connexion MongoDB
 client = MongoClient(MONGO_URI)

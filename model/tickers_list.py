@@ -24,7 +24,7 @@ def get_tickers(limit=100):
     try:
         load_dotenv()
         MONGO_URI = os.getenv("MONGO_URI")
-        DB_NAME = os.getenv("DB_NAME")
+        DB_NAME = os.getenv("DB_NAME_STOCKS")
 
         if not MONGO_URI or not DB_NAME:
             print("Erreur: MONGO_URI ou DB_NAME non défini dans le .env.")

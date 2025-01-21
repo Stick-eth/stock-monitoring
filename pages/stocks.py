@@ -1,6 +1,6 @@
 from dash import html, dcc
-from components.tickers_list import get_tickers
-from model.data_loader import DATA_DIRS
+from model.tickers_list import get_tickers
+from model.data_loader import *
 import dash_bootstrap_components as dbc
 import dash_mantine_components as dmc
 

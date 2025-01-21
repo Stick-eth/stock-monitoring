@@ -1,8 +1,8 @@
 import threading
 from dash import html, dcc, Input, Output, State, callback, ctx
 import dash_bootstrap_components as dbc
-from components.tickers_list import get_tickers
-from components.utils.add_stock import get_ticker
+from model.tickers_list import get_tickers
+from model.add_stock import get_ticker
 from flask import session
 import os
 import dash
