@@ -16,47 +16,46 @@ try:
 except errors.ConnectionFailure:
     print("❌ ERREUR: Impossible de se connecter à MongoDB.")
 
-def add_favorite_tickers(email, tickers):
+def add_favorite_ticker(email, ticker):
     """
-    Ajoute un ou plusieurs tickers à la liste des favoris d'un utilisateur.
+    Ajoute un ticker à la liste des favoris d'un utilisateur.
     Si l'utilisateur n'existe pas encore, il est créé.
     """
     try:
-        if not email or not tickers:
+        if not email or not ticker:
             return False  # Vérification des entrées
 
-        tickers = set(tickers)  # Éviter les doublons
         user = users_collection.find_one({"email": email})
 
         if user:
-            updated_tickers = list(set(user.get("favorites", []) + list(tickers)))
+            updated_tickers = list(set(user.get("favorites", []) + [ticker]))
             users_collection.update_one({"email": email}, {"$set": {"favorites": updated_tickers}})
         else:
-            users_collection.insert_one({"email": email, "favorites": list(tickers)})
+            users_collection.insert_one({"email": email, "favorites": [ticker]})
 
         return True
     except Exception as e:
-        print(f"❌ ERREUR lors de l'ajout des tickers pour {email}: {e}")
+        print(f"❌ ERREUR lors de l'ajout du ticker pour {email}: {e}")
         return False
 
-def remove_favorite_tickers(email, tickers):
+def remove_favorite_ticker(email, ticker):
     """
-    Supprime un ou plusieurs tickers des favoris d'un utilisateur.
+    Supprime un ticker des favoris d'un utilisateur.
     """
     try:
-        if not email or not tickers:
+        if not email or not ticker:
             return False
 
         user = users_collection.find_one({"email": email})
 
         if user:
-            updated_tickers = [t for t in user.get("favorites", []) if t not in tickers]
+            updated_tickers = [t for t in user.get("favorites", []) if t != ticker]
             users_collection.update_one({"email": email}, {"$set": {"favorites": updated_tickers}})
             return True
 
         return False
     except Exception as e:
-        print(f"❌ ERREUR lors de la suppression des tickers pour {email}: {e}")
+        print(f"❌ ERREUR lors de la suppression du ticker pour {email}: {e}")
         return False
 
 def get_favorite_tickers(email):

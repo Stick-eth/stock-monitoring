@@ -1,8 +1,12 @@
-from dash import html, dcc
+from dash import html, dcc, callback, Output, Input, State, ctx
 from model.tickers_list import get_tickers
 from model.data_loader import *
 import dash_bootstrap_components as dbc
 import dash_mantine_components as dmc
+from flask import session, request
+from model.user_favorite import get_favorite_tickers, add_favorite_ticker, remove_favorite_ticker
+
+
 
 
 # Configuration pour désactiver certaines interactions
@@ -15,8 +19,13 @@ no_interaction = {
 
 def stocks_layout(ticker=None):
     """Retourne le layout de la page Stocks."""
+    if "user_name" in session and "user_email" in session:
+        user_email = session["user_email"]
+    else:
+        user_email = ""
+
     tickers = get_tickers()
-    tickers = [ticker['symbol'] for ticker in tickers]
+    tickers = [t['symbol'] for t in tickers]
 
     # Vérifier si le ticker est valide
     if ticker and ticker not in tickers:
@@ -47,7 +56,7 @@ def stocks_layout(ticker=None):
                             radius="md",
                             src="/assets/loading.gif",
                             style={
-                                "objectFit": "contain",  # Empêche le GIF d'être coupé
+                                "objectFit": "contain", # Empêche le GIF d'être coupé
                                 "width": "100%",        # S'assure que le GIF occupe tout l'espace horizontal
                                 "height": "100%",       # S'assure que le GIF occupe tout l'espace vertical
                                 "display": "block",     # Évite les marges automatiques indésirables
@@ -122,9 +131,42 @@ def stocks_layout(ticker=None):
                 }),
                 # Bouton TradingView
                 html.Div(id='tradingview-button', style={'textAlign': 'center'}),
+                # Bouton pour ajouter le ticker à la liste des favoris
+                html.Div([
+                    dcc.Store(id="user-email-store", data={"user_email": user_email, "ticker" : ticker }),  # Stocker user_email + ticker
+                    dbc.Button("Ajouter aux favoris", id="add-to-favorites", color="primary", n_clicks=0),
+                ]),
 
                 # Footer
                 html.Footer([
                     html.P("Aniss SEJEAN", style={'textAlign': 'center'})
                 ])
     ], style={'maxWidth': '1400px', 'margin': '0 auto', 'padding': '20px'})
+
+    
+@callback(
+    Output("add-to-favorites", "children"),
+    Input("add-to-favorites", "n_clicks"),
+    State("user-email-store", "data")  # Récupérer user_email
+)
+def toggle_favorite(n_clicks, user_data):
+    user_email = user_data.get("user_email", "")  # Récupérer user_email
+    ticker = user_data.get("ticker", "")
+
+
+    if not user_email:
+        return "Vous devez être connecté"
+
+    if n_clicks == 0:
+        if ticker in get_favorite_tickers(user_email):
+            return "Retirer des favoris"
+        else:
+            return "Ajouter aux favoris"
+    else:
+        if ticker in get_favorite_tickers(user_email):
+            remove_favorite_ticker(user_email, ticker)
+            return "Ajouter aux favoris"
+        else:
+            add_favorite_ticker(user_email, ticker)
+            return "Retirer des favoris"
+
