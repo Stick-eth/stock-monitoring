@@ -8,6 +8,7 @@ from pages.about import about_layout
 from pages.stocks_list import stocks_list_layout
 from pages.login import login_layout
 from pages.profile import profile_layout
+from pages.privacypolicy import privacy_policy_layout
 from components.utils.ip_access import add_ip_to_atlas
 import dash_mantine_components as dmc
 from dash_bootstrap_templates import load_figure_template
@@ -152,6 +153,8 @@ def display_page(pathname):
         return home_layout()
     elif pathname == "/profile":
         return profile_layout()
+    elif pathname == "/privacy":
+        return privacy_policy_layout()
     else:
         return home_layout()
 
