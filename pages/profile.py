@@ -21,13 +21,13 @@ def profile_layout():
     return html.Div([
         dbc.Container([
             # Titre
-            html.H2("Mon profil", className="text-center mt-4 mb-4"),
+            html.H2("My profile", className="text-center mt-4 mb-4"),
 
             # Affichage des informations utilisateur
             dbc.Card([
                 dbc.CardBody([
-                    html.H4("Informations du compte", className="card-title"),
-                    html.P(f"Nom : {user_name}", className="card-text"),
+                    html.H4("Account informations", className="card-title"),
+                    html.P(f"Name : {user_name}", className="card-text"),
                     html.P(f"Email : {user_email}", className="card-text"),
                 ])
             ], className="mb-3"),
@@ -35,7 +35,7 @@ def profile_layout():
             # Bouton logout (redirection vers /logout)
             html.Div([
                 html.A(
-                    dbc.Button("Se déconnecter", color="danger"),
+                    dbc.Button("Log out", color="danger"),
                     href="/logout"  # Vous devez avoir une route Flask ou Dash qui gère la déconnexion
                 )
             ], style={"textAlign": "center"})

@@ -6,7 +6,7 @@ def create_fcf_op_chart(data_income, data_cashflow):
     """Crée un graphique combiné pour le Free Cash Flow (FCF) et les Bénéfices Opérationnels sans pandas."""
     try:
         if not data_income or not data_cashflow:
-            return go.Figure().update_layout(title="Données non disponibles")
+            return go.Figure().update_layout(title="No data available")
 
         # Extraire et convertir les données nécessaires
         income_reports = data_income.get("annualReports", [])
@@ -57,16 +57,16 @@ def create_fcf_op_chart(data_income, data_cashflow):
             y=fcf_values,
             name="Free Cash Flow",
             marker_color='rgb(167, 163, 194)',
-            hovertemplate='Free Cash Flow : $%{y:.2f} milliards<extra></extra>'
+            hovertemplate='Free Cash Flow : $%{y:.2f} billions<extra></extra>',
         ))
 
         # Ajouter les Bénéfices Opérationnels
         fig.add_trace(go.Bar(
             x=dates,
             y=operating_income_values,
-            name="Bénéfices Opérationnels",
+            name="Operating Income",
             marker_color='rgb(107, 102, 153)',
-            hovertemplate='Bénéfices Opérationnels : $%{y:.2f} milliards<extra></extra>',
+            hovertemplate='Operating Income : $%{y:.2f} billions<extra></extra>',
             marker_line_color='rgba(0,0,0,0)'
         ))
 
@@ -79,7 +79,7 @@ def create_fcf_op_chart(data_income, data_cashflow):
         )
         # Mettre à jour la mise en page
         fig.update_layout(
-            title="Free Cash Flow et Bénéfices Opérationnels",
+            title="Free Cash Flow and Operating Income",
             barmode="group",  # Barres côte-à-côte
             showlegend=False,  # Retire la légende
             yaxis=dict(showticklabels=False),  # Retire l'échelle de l'axe y
@@ -91,5 +91,5 @@ def create_fcf_op_chart(data_income, data_cashflow):
         return fig
 
     except Exception as e:
-        print(f"Erreur lors de la création du graphique FCF/Opérationnel : {e}")
-        return go.Figure().update_layout(title="Graphique non disponible")
+        print(f"Error creating FCF and Operating Income chart: {e}")
+        return go.Figure().update_layout(title="An error occurred while creating the chart.")

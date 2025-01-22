@@ -15,14 +15,14 @@ def stocks_list_layout():
 
     layout_children = [
         html.H1("💻 Stock Screener", style={'textAlign': 'center', 'marginTop': '20px'}),
-        html.P("Recherchez une entreprise ou sélectionnez un ticker pour voir ses détails.", 
+        html.P("Search for a stock ticker to get more information.",
                style={'textAlign': 'center', 'marginTop': '10px'}),
 
         html.Div([
             dbc.Input(
                 id="stock-search",
                 type="text",
-                placeholder="Rechercher un ticker...",
+                placeholder="Search for a stock ticker...",
                 style={'width': '50%', 'margin': '10px', 'display': 'inline-block'}
             ),
             dbc.Button("+", id="add-ticker-btn", color="primary", outline=True, className="ms-2", 
@@ -37,17 +37,17 @@ def stocks_list_layout():
     layout_children.append(
         dbc.Modal(
             [
-                dbc.ModalHeader("Ajouter un Ticker"),
+                dbc.ModalHeader("Add a new stock ticker"),
                 dbc.ModalBody([
-                    dbc.Label("Nom du Ticker"),
+                    dbc.Label("Enter the stock ticker symbol to add:"),
                     dbc.Input(id="new-ticker-input", type="text", placeholder="Ex: AAPL"),
                     html.Br(),
                     dbc.Checkbox(id="force-toggle", label="Forcer l'ajout"),
                 ]),
                 dbc.ModalFooter([
-                    dbc.Button("Annuler", id="close-modal-btn", color="secondary"),
+                    dbc.Button("Cancel", id="close-modal-btn", color="secondary"),
                     # Ajout de `disabled=False` pour permettre la gestion en callback
-                    dbc.Button("Ajouter", id="confirm-add-ticker-btn", color="primary", n_clicks=0, disabled=False),
+                    dbc.Button("Add ticker", id="confirm-add-ticker-btn", color="primary", n_clicks=0, disabled=False),
                 ]),
             ],
             id="add-ticker-modal",
@@ -74,7 +74,7 @@ def update_ticker_list(search_value):
             if search_value in t["symbol"].lower() or search_value in t["name"].lower()
         ]
     if not filtered_tickers:
-        return html.P("Aucun résultat trouvé.", style={"color": "red", "marginTop": "10px"})
+        return html.P("No results found.",style={"color": "red", "marginTop": "10px"})
     
     return html.Div(
         style={'maxWidth': '700px', 'margin': '0 auto'},

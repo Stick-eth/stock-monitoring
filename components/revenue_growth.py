@@ -6,7 +6,7 @@ def create_growth_chart(data):
     try:
         """Crée un graphique de croissance annuelle pour le CA et le Bénéfice Net sans utiliser pandas."""
         if not data or "annualReports" not in data:
-            return go.Figure().update_layout(title="Graphique non disponible")
+            return go.Figure().update_layout(title="Chart data not available")
 
         # Extraire les rapports annuels et les trier par date
         annual_reports = data["annualReports"]
@@ -40,9 +40,9 @@ def create_growth_chart(data):
         fig.add_trace(go.Bar(
             x=fiscal_dates,
             y=revenue_growth,
-            name="Croissance du Chiffre d'Affaires",
+            name="Total Revenue Growth",
             marker_color=["green" if v is not None and v > 0 else "red" for v in revenue_growth],
-            hovertemplate='Croissance CA : %{y:.2f}%<extra></extra>',
+            hovertemplate='Revenue Growth : %{y:.2f}%<extra></extra>',
             marker_line_color='rgba(0,0,0,0)'
         ))
 
@@ -50,9 +50,9 @@ def create_growth_chart(data):
         fig.add_trace(go.Bar(
             x=fiscal_dates,
             y=net_income_growth,
-            name="Croissance du Bénéfice Net",
+            name="Net Income Growth",
             marker_color=["#66CC66" if v is not None and v > 0 else "#FF6347" for v in net_income_growth],
-            hovertemplate='Croissance Bénéf. Net : %{y:.2f}%<extra></extra>',
+            hovertemplate='Net Income Growth : %{y:.2f}%<extra></extra>',
             marker_line_color='rgba(0,0,0,0)'
         ))
 
@@ -66,7 +66,7 @@ def create_growth_chart(data):
 
         # Personnaliser le graphique
         fig.update_layout(
-            title="Croissance Chiffre d'Affaires & Bénéfice Net",
+            title="Annual Growth Chart",
             barmode="group",
             hovermode="x unified",
             legend=dict(
@@ -78,12 +78,12 @@ def create_growth_chart(data):
             showlegend=True,
             plot_bgcolor='rgba(0,0,0,0)',
             paper_bgcolor='rgba(0,0,0,0)',
-            yaxis=dict(showticklabels=True, title="Croissance (%)"),
+            yaxis=dict(showticklabels=True, title="Growth (%)"),
             xaxis=dict(title="Date")
         )
 
         return fig
 
     except Exception as e:
-        print(f"Erreur lors de la création du graphique de croissance : {e}")
-        return go.Figure().update_layout(title="Graphique non disponible")
+        print(f"Error creating growth chart: {e}")
+        return go.Figure().update_layout(title="An error occurred while creating the chart.")

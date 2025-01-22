@@ -47,22 +47,22 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
                     ]), className="d-flex align-items-center justify-content-center"),
 
                     dbc.Col(html.Div([
-                        html.P("Secteur", id="tooltip-sector", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'}, className="fw-bold mb-0"),
+                        html.P("Sector", id="tooltip-sector", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'}, className="fw-bold mb-0"),
                         html.H6(sector if sector != "N/A" else "", className=" mb-0")
                     ]), className="d-flex align-items-center justify-content-center"),
 
                     dbc.Col(html.Div([
-                        html.P("Industrie", id="tooltip-industry", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'}, className="fw-bold mb-0"),
+                        html.P("Industry", id="tooltip-industry", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'}, className="fw-bold mb-0"),
                         html.H6(industry if industry != "N/A" else "", className="mb-0")
                     ]), className="d-flex align-items-center justify-content-center"),
 
                     dbc.Col(html.Div([
-                        html.P("Pays", id="tooltip-country", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'}, className="fw-bold mb-0"),
+                        html.P("Country", id="tooltip-country", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'}, className="fw-bold mb-0"),
                         html.H6(country if country != "N/A" else "", className="mb-0")
                     ]), className="d-flex align-items-center justify-content-center"),
 
                     dbc.Col(html.Div([
-                        html.P("Prix", id="tooltip-price", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'}, className="fw-bold mb-0"),
+                        html.P("Price", id="tooltip-price", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'}, className="fw-bold mb-0"),
                         html.H6(f"{current_price:.2f}$",  style={'fontSize': '1.2rem'}, className="fw-bold mb-0"),
                         dbc.Badge(f"1Y: {variation:.2f}%", color=price_badge_color, className="mt-2")
                     ]), className="d-flex align-items-center justify-content-center")

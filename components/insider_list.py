@@ -4,7 +4,7 @@ def create_insider_list(data):
     try:
         """Crée une liste scrollable des transactions d'insiders avec coloration basée sur les mots-clés."""
         if not data:
-            return html.P("Aucune transaction d'insiders disponible.")
+            return html.P("No insider transactions available.", style={'textAlign': 'center'})
 
         max_items = 30
         items = []
@@ -13,7 +13,7 @@ def create_insider_list(data):
             # Récupérer le champ 'Text' ou indiquer "Détail non spécifié" si vide
             text = tx.get('Text', '').strip()
             if not text:
-                text = "Détail non spécifié"
+                text = "No details provided."
 
             # Détecter les mots-clés dans le champ 'Text'
             background_color = '#FFFFFF'  # Couleur par défaut (blanc)
@@ -35,5 +35,5 @@ def create_insider_list(data):
         return items
 
     except Exception as e:
-        print(f"Erreur lors de la création de la liste des insiders : {e}")
-        return html.P("Erreur lors de la création de la liste des insiders.")
+        print(f"Error in create_insider_list: {str(e)}")
+        return html.P("An error occurred while fetching insider transactions.", style={'textAlign': 'center'})

@@ -25,5 +25,13 @@ def about_layout():
                 href='https://aniss-sej.notion.site',
                 style={'fontSize': '20px', 'textDecoration': 'none'}
             )
-        ], style={'display': 'flex', 'justifyContent': 'center'})
+        ], style={'display': 'flex', 'justifyContent': 'center'}),
+        # Link to the privacy policy page
+        html.Div([
+            html.A(
+                'Privacy Policy',
+                href='/privacy',
+                style={'fontSize': '20px', 'textDecoration': 'none'}
+            )
+        ], style={'display': 'flex', 'justifyContent': 'center', 'marginTop': '20px'}),
     ])

@@ -43,7 +43,7 @@ def create_price_chart(data):
         # Mettre à jour la mise en page
         fig = apply_common_layout(
             fig,
-            title="Prix de l'Action",
+            title="Price",
             xaxis_title=None,
             yaxis_title=None,
             showlegend=False
@@ -57,5 +57,5 @@ def create_price_chart(data):
         return fig
 
     except Exception as e:
-        print(f"Erreur lors de la création du graphique des prix : {e}")
-        return go.Figure().update_layout(title="Graphique non disponible")
+        print(f"Error creating price chart: {e}")
+        return go.Figure().update_layout(title="An error occurred while creating the chart.")

@@ -8,9 +8,9 @@ def create_roce_chart(data_income_statement, data_balance_sheet):
         """Crée un graphique de l'évolution du ROCE."""
         # Vérification des données
         if not data_income_statement or "annualReports" not in data_income_statement:
-            return go.Figure().update_layout(title="Données non disponibles (Income Statement)")
+            return go.Figure().update_layout(title="Data not available (Income Statement)")
         if not data_balance_sheet or "annualReports" not in data_balance_sheet:
-            return go.Figure().update_layout(title="Données non disponibles (Balance Sheet)")
+            return go.Figure().update_layout(title="Data not available (Balance Sheet)")
 
         # Extraire les rapports
         income_reports = data_income_statement["annualReports"]
@@ -52,7 +52,7 @@ def create_roce_chart(data_income_statement, data_balance_sheet):
 
         # Mettre à jour la mise en page
         fig.update_layout(
-            title="Évolution du ROCE",
+            title="Return on Capital Employed (ROCE) Evolution",
             xaxis_title="Date",
             yaxis_title="ROCE (%)",
             plot_bgcolor='rgba(0,0,0,0)',
@@ -69,5 +69,10 @@ def create_roce_chart(data_income_statement, data_balance_sheet):
         return fig
 
     except Exception as e:
-        print(f"Erreur lors de la création du graphique ROCE : {e}")
-        return go.Figure().update_layout(title="Graphique non disponible")
+        print(f"Error creating ROCE chart: {e}")
+        fig = go.Figure().update_layout(title="An error occurred while creating the chart.")
+        fig.update_layout(
+            plot_bgcolor='rgba(0,0,0,0)',
+            paper_bgcolor='rgba(0,0,0,0)'
+        )
+        return fig

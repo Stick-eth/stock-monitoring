@@ -31,7 +31,7 @@ def stocks_layout(ticker=None):
     if ticker and ticker not in tickers:
         return html.Div([
             html.H1("💻 Stock Screener", style={'textAlign': 'center', 'marginTop': '20px'}),
-            html.P(f"Le ticker '{ticker}' est invalide. Veuillez sélectionner un ticker valide.",
+            html.P(f"ticker {ticker} not found",
                    style={'textAlign': 'center', 'color': 'red', 'marginTop': '20px'}),
             html.Div([
             html.Div([
@@ -113,7 +113,7 @@ def stocks_layout(ticker=None):
                 },className="responsive-div"),
 
                 # Liste scrollable des insiders
-                html.H6("Transactions d'Insiders", style={'textAlign': 'center', 'marginTop': '20px'}),
+                html.H6("Insiders Tx", style={'textAlign': 'center', 'marginTop': '20px'}),
                 html.Div(id='insider-list', style={
                     'width': '50%',
                     'height': '350px',
@@ -134,7 +134,7 @@ def stocks_layout(ticker=None):
                 # Bouton pour ajouter le ticker à la liste des favoris
                 html.Div([
                     dcc.Store(id="user-email-store", data={"user_email": user_email, "ticker" : ticker }),  # Stocker user_email + ticker
-                    dbc.Button("Ajouter aux favoris", id="add-to-favorites", color="primary", n_clicks=0),
+                    dbc.Button("Add to favorites", id="add-to-favorites", color="primary", n_clicks=0),
                 ]),
 
                 # Footer
@@ -155,18 +155,18 @@ def toggle_favorite(n_clicks, user_data):
 
 
     if not user_email:
-        return "Vous devez être connecté"
+        return "You must be logged in to add to favorites"
 
     if n_clicks == 0:
         if ticker in get_favorite_tickers(user_email):
-            return "Retirer des favoris"
+            return "Remove from favorites"
         else:
-            return "Ajouter aux favoris"
+            return "Add to favorites"
     else:
         if ticker in get_favorite_tickers(user_email):
             remove_favorite_ticker(user_email, ticker)
-            return "Ajouter aux favoris"
+            return "Add to favorites"
         else:
             add_favorite_ticker(user_email, ticker)
-            return "Retirer des favoris"
+            return "Remove from favorites"
 

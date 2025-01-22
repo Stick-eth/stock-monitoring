@@ -55,7 +55,7 @@ def create_navbar():
                                 in_navbar=True,
                                 label="Portfolio",
                             ),
-                            dbc.NavItem(dbc.NavLink("À propos", href="/about")),
+                            dbc.NavItem(dbc.NavLink("About", href="/about")),
 
                             html.Div(style={"width": "40px"}),
 

@@ -26,8 +26,8 @@ def create_revenue_chart(data):
         fig.add_trace(go.Bar(
             x=fiscal_dates,
             y=[revenue / 1e9 for revenue in total_revenues],  # Convertir en milliards
-            name="Chiffre d'Affaires",
-            hovertemplate='Chiffre d\'Affaires : $%{y:.2f} milliards<extra></extra>',
+            name="Total Revenue",
+            hovertemplate='Total Revenue : $%{y:.2f} billion<extra></extra>', 
             marker_color='rgb(107, 102, 153)',  # Couleur pour le Chiffre d'Affaires
             marker_line_color='rgba(0,0,0,0)'
         ))
@@ -36,8 +36,8 @@ def create_revenue_chart(data):
         fig.add_trace(go.Bar(
             x=fiscal_dates,
             y=[income / 1e9 for income in net_incomes],  # Convertir en milliards
-            name="Bénéfice Net",
-            hovertemplate='Bénéfice Net : $%{y:.2f} milliards<extra></extra>',
+            name="Net Income",
+            hovertemplate='Net Income : $%{y:.2f} billion<extra></extra>',
             marker_color=['rgb(167, 163, 194)' if val >= 0 else 'red' for val in net_incomes]  # Couleur basée sur la valeur
         ))
 
@@ -50,7 +50,7 @@ def create_revenue_chart(data):
         )
         # Mettre à jour la mise en page
         fig.update_layout(
-            title="Chiffre d'Affaires et Bénéfice Net",
+            title="Total Revenue and Net Income",
             barmode="group",  # Barres côte-à-côte
             legend=dict(
                 orientation="h",
@@ -67,5 +67,5 @@ def create_revenue_chart(data):
         return fig
 
     except Exception as e:
-        print(f"Erreur lors de la création du graphique du CA et Bénéfice Net : {e}")
-        return go.Figure().update_layout(title="Graphique non disponible")
+        print(f"Error creating revenue chart: {e}")
+        return go.Figure().update_layout(title="An error occurred while creating the chart.")

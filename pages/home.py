@@ -19,7 +19,7 @@ def home_layout():
         favorite_tickers_info = []
 
     # Définir le titre
-    title = f"Bienvenue sur DataStick, {user_name}" if user_name else "Bienvenue sur DataStick !"
+    title = f"Welcome to DataStick, {user_name}" if user_name else "Welcome to DataStick !"
 
     # Création de la grille horizontale avec les cartes Bootstrap pour les tickers favoris
     if favorite_tickers_info:
@@ -42,11 +42,11 @@ def home_layout():
             style={"marginTop": "20px"}
         )
     else:
-        grid = html.P("Vous n'avez aucun ticker favori.", style={"textAlign": "center", "marginTop": "20px"})
+        grid = html.P("You don't have any favorite tickers yet.", style={"textAlign": "center", "marginTop": "20px"})
 
     # Retourner le layout complet
     return html.Div([
         html.H1(title, style={'textAlign': 'center'}),
-        html.P("Utilisez cette application pour surveiller et analyser les actions financières.", style={'textAlign': 'center'}),
+        html.P("Here are your favorite tickers:", style={'textAlign': 'center'}),
         grid
     ])
