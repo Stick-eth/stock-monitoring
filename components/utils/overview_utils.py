@@ -260,3 +260,15 @@ def get_score_badge_color(score):
     except:
         score_badge_color = "secondary"
     return score_badge_color
+
+
+def extract_company_score_data(data_overview):
+    name = data_overview.get("Name", "N/A") if data_overview else "N/A"
+    dividend_yield = data_overview.get("DividendYield", "N/A") if data_overview else "N/A"
+    pe_ratio = data_overview.get("PERatio", "N/A") if data_overview else "N/A"
+    beta = data_overview.get("Beta", "N/A") if data_overview else "N/A"
+    exchange = data_overview.get("Exchange", "N/A") if data_overview else "N/A"
+    capitalization = data_overview.get("MarketCapitalization", "N/A") if data_overview else "N/A"
+
+
+    return name,dividend_yield,pe_ratio,beta,exchange,capitalization

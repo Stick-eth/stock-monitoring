@@ -1,4 +1,4 @@
-def calculate_stock_score(cagr, beta, pe_ratio, eps, dividend_yield):
+def calculate_stock_score(cagr, beta, pe_ratio, eps, dividend_yield,for_radar=False):
     try:
         try:
             cagr = float(cagr.replace('%', ''))
@@ -51,8 +51,16 @@ def calculate_stock_score(cagr, beta, pe_ratio, eps, dividend_yield):
         dividend_yield_score * weights["dividend_yield"]
     )
 
-    return round(total_score * 10, 2)  # Note finale sur 10
+    if for_radar:
+        return [{"criteria": "CAGR", "score": cagr_score, "out of": 1.0},
+                {"criteria": "Beta", "score": beta_score, "out of": 1.0},
+                {"criteria": "P/E Ratio", "score": pe_score, "out of": 1.0},
+                {"criteria": "EPS", "score": eps_score, "out of": 1.0},
+                {"criteria": "Dividend Yield", "score": dividend_yield_score, "out of": 1.0}]
+    else:
+        return round(total_score * 10, 2)
 
+# Fonctions de calcul des scores individuels
 def calculate_dividend_yield_score(dividend_yield):
     if dividend_yield < 0.01:
         return 1.0

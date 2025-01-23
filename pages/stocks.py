@@ -45,103 +45,128 @@ def stocks_layout(ticker=None):
         ])
 
     return html.Div([
-        dmc.LoadingOverlay(
-                    visible=True,
-                    id="loading-overlay",
-                    zIndex=10,
-                    loaderProps={
-                        "variant": "custom",
-                        "children": dmc.Image(
-                            h=150,
-                            radius="md",
-                            src="/assets/loading.gif",
-                            style={
-                                "objectFit": "contain", # Empêche le GIF d'être coupé
-                                "width": "100%",        # S'assure que le GIF occupe tout l'espace horizontal
-                                "height": "100%",       # S'assure que le GIF occupe tout l'espace vertical
-                                "display": "block",     # Évite les marges automatiques indésirables
-                            },
-                        ),
-                    },
-                    overlayProps={
-                        "radius": "sm",
-                        "blur": 2,
-                        "style": {
-                            "display": "flex",           # Permet un centrage avec flexbox
-                            "alignItems": "center",      # Centre verticalement
-                            "justifyContent": "center",  # Centre horizontalement
-                            "position": "fixed",         # Assure une position absolue pleine page
-                            "top": 0,
-                            "left": 0,
-                            "width": "100%",
-                            "height": "100%",
-                            "overflow": "hidden",        # Empêche tout dépassement
+        html.Div([
+            dmc.RadarChart(
+                h=250,
+                data=[{"criteria": "1", "score": 0},
+                    {"criteria": "2", "score": 0},
+                    {"criteria": "3", "score": 0},
+                    {"criteria": "4", "score": 0},
+                    {"criteria": "5", "score": 0},],
+                dataKey="criteria",
+                withPolarGrid=True,
+                withPolarRadiusAxis=True,
+                withPolarAngleAxis=True,
+                polarRadiusAxisProps={"angle": 90},
+                radarProps={
+                    "isAnimationActive": True,
+                },
+                series=[
+                    {"name": "score", "color": "blue.4", "opacity": 0.1},
+                ],
+                id="radar-chart",
+                gridColor="gray.3")
+        ], style={'textAlign': 'center', 'marginTop': '20px','maxWidth': '1200px', 'margin': '0 auto', 'padding': '20px'}),
+        
+        html.Div([
+            dmc.LoadingOverlay(
+                        visible=True,
+                        id="loading-overlay",
+                        zIndex=10,
+                        loaderProps={
+                            "variant": "custom",
+                            "children": dmc.Image(
+                                h=150,
+                                radius="md",
+                                src="/assets/loading.gif",
+                                style={
+                                    "objectFit": "contain", # Empêche le GIF d'être coupé
+                                    "width": "100%",        # S'assure que le GIF occupe tout l'espace horizontal
+                                    "height": "100%",       # S'assure que le GIF occupe tout l'espace vertical
+                                    "display": "block",     # Évite les marges automatiques indésirables
+                                },
+                            ),
                         },
-                    },
-                    transitionProps={ "transition": 'fade', "duration": 1000 }
-                ),
-      
-                html.Div([
-                    html.Div(
-                        id='company-overview'
+                        overlayProps={
+                            "radius": "sm",
+                            "blur": 2,
+                            "style": {
+                                "display": "flex",           # Permet un centrage avec flexbox
+                                "alignItems": "center",      # Centre verticalement
+                                "justifyContent": "center",  # Centre horizontalement
+                                "position": "fixed",         # Assure une position absolue pleine page
+                                "top": 0,
+                                "left": 0,
+                                "width": "100%",
+                                "height": "100%",
+                                "overflow": "hidden",        # Empêche tout dépassement
+                            },
+                        },
+                        transitionProps={ "transition": 'fade', "duration": 1000 }
                     ),
-                        dcc.Graph(id='price-graph',style={'display': 'inline-block', 'marginLeft': '4%'}, config=no_interaction),
-                ], style={
-                    'display': 'flex',
-                    'flexWrap': 'wrap',  # Permet de basculer les éléments sur une nouvelle ligne
-                    'marginTop': '20px'
-                },className="responsive-div"),
+        
+                    html.Div([
+                        html.Div(
+                            id='company-overview'
+                        ),
+                            dcc.Graph(id='price-graph',style={'display': 'inline-block', 'marginLeft': '4%'}, config=no_interaction),
+                    ], style={
+                        'display': 'flex',
+                        'flexWrap': 'wrap',  # Permet de basculer les éléments sur une nouvelle ligne
+                        'marginTop': '20px'
+                    },className="responsive-div"),
 
-                # Graphiques financiers
-                html.Div([
-                    dcc.Graph(id='revenue-net-income-graph', style={'display': 'inline-block'}, config=no_interaction),
-                    dcc.Graph(id='growth-graph', style={'display': 'inline-block', 'marginLeft': '4%'}, config=no_interaction)
-                ], style={
-                    'display': 'flex',
-                    'flexWrap': 'wrap',  # Permet de basculer les éléments sur une nouvelle ligne
-                    'marginTop': '20px'
-                },className="responsive-div"),
+                    # Graphiques financiers
+                    html.Div([
+                        dcc.Graph(id='revenue-net-income-graph', style={'display': 'inline-block'}, config=no_interaction),
+                        dcc.Graph(id='growth-graph', style={'display': 'inline-block', 'marginLeft': '4%'}, config=no_interaction)
+                    ], style={
+                        'display': 'flex',
+                        'flexWrap': 'wrap',  # Permet de basculer les éléments sur une nouvelle ligne
+                        'marginTop': '20px'
+                    },className="responsive-div"),
 
-                # Autres graphiques
-                html.Div([
-                    dcc.Graph(id='fcf-op-graph', style={'display': 'inline-block'}, config=no_interaction),
-                    dcc.Graph(id='roce-graph', style={'display': 'inline-block', 'marginLeft': '4%'}, config=no_interaction)
-                ], style={
-                    'display': 'flex',
-                    'flexWrap': 'wrap',  # Permet de basculer les éléments sur une nouvelle ligne
-                    'marginTop': '20px'
-                },className="responsive-div"),
+                    # Autres graphiques
+                    html.Div([
+                        dcc.Graph(id='fcf-op-graph', style={'display': 'inline-block'}, config=no_interaction),
+                        dcc.Graph(id='roce-graph', style={'display': 'inline-block', 'marginLeft': '4%'}, config=no_interaction)
+                    ], style={
+                        'display': 'flex',
+                        'flexWrap': 'wrap',  # Permet de basculer les éléments sur une nouvelle ligne
+                        'marginTop': '20px'
+                    },className="responsive-div"),
 
-                # Liste scrollable des insiders
-                html.H6("Insiders Tx", style={'textAlign': 'center', 'marginTop': '20px'}),
-                html.Div(id='insider-list', style={
-                    'width': '50%',
-                    'height': '350px',
-                    'overflowY': 'scroll',
-                    'border': '1px solid #ccc',
-                    'margin': '20px auto',
-                    'padding': '10px'
-                }),
+                    # Liste scrollable des insiders
+                    html.H6("Insiders Tx", style={'textAlign': 'center', 'marginTop': '20px'}),
+                    html.Div(id='insider-list', style={
+                        'width': '50%',
+                        'height': '350px',
+                        'overflowY': 'scroll',
+                        'border': '1px solid #ccc',
+                        'margin': '20px auto',
+                        'padding': '10px'
+                    }),
 
-                # Description de l'entreprise
-                html.Div(id='company-description', style={
-                    'width': '80%',
-                    'margin': '20px auto',
-                    'color': 'rgb(80, 77, 113)'
-                }),
-                # Bouton TradingView
-                html.Div(id='tradingview-button', style={'textAlign': 'center'}),
-                # Bouton pour ajouter le ticker à la liste des favoris
-                html.Div([
-                    dcc.Store(id="user-email-store", data={"user_email": user_email, "ticker" : ticker }),  # Stocker user_email + ticker
-                    dbc.Button("Add to favorites", id="add-to-favorites", color="warning", n_clicks=0, style={'margin': '20px auto', 'display': 'block', 'width': '100%'}),
-                ]),
+                    # Description de l'entreprise
+                    html.Div(id='company-description', style={
+                        'width': '80%',
+                        'margin': '20px auto',
+                        'color': 'rgb(80, 77, 113)'
+                    }),
+                    # Bouton TradingView
+                    html.Div(id='tradingview-button', style={'textAlign': 'center'}),
+                    # Bouton pour ajouter le ticker à la liste des favoris
+                    html.Div([
+                        dcc.Store(id="user-email-store", data={"user_email": user_email, "ticker" : ticker }),  # Stocker user_email + ticker
+                        dbc.Button("Add to favorites", id="add-to-favorites", color="warning", n_clicks=0, style={'margin': '20px auto', 'display': 'block', 'width': '100%'}),
+                    ]),
 
-                # Footer
-                html.Footer([
-                    html.P("Aniss SEJEAN", style={'textAlign': 'center'})
-                ])
-    ], className="border rounded p-6 shadow-sm mb-4", style={'maxWidth': '1200px', 'margin': '0 auto', 'padding': '20px', 'marginTop': '200px'})
+                    # Footer
+                    html.Footer([
+                        html.P("Aniss SEJEAN", style={'textAlign': 'center'})
+                    ])
+        ], className="border rounded p-6 shadow-sm mb-4", style={'maxWidth': '1200px', 'margin': '0 auto', 'padding': '20px'})
+    ])
 
     
 @callback(

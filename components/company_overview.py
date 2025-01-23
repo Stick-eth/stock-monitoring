@@ -3,7 +3,7 @@ import dash_bootstrap_components as dbc
 from components.utils.overview_utils import *
 from components.utils.stock_score import *
 
-def create_company_overview(data_overview, data_income, data_cashflow, data_earnings):
+def create_company_overview(data_overview, data_income, data_earnings):
     """Crée un composant affichant les données principales de l'entreprise dans une grille avec tooltips,
     même si certaines données sont manquantes, sans pandas."""
 
@@ -80,7 +80,7 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
                         dbc.Badge(get_marketcap_badge_info(capitalization)[0], color=get_marketcap_badge_info(capitalization)[1])
                     ]), className="d-flex align-items-center justify-content-center"),
                     dbc.Col(html.Div([
-                        html.P("CAGR Sales (5Y)", id="tooltip-cagr-ca", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'},className="fw-bold mb-0"),
+                        html.P("CAGR S (5Y)", id="tooltip-cagr-ca", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'},className="fw-bold mb-0"),
                         html.H5(cagr_ca, className="fw-bold mb-0"),
                         dbc.Badge("> 5%", color=get_cagr_ca_badge_color(cagr_ca))
                     ]), className="d-flex align-items-center justify-content-center"),
