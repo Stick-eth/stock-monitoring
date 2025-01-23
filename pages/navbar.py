@@ -49,7 +49,7 @@ def create_navbar():
                             dbc.DropdownMenu(
                                 children=[
                                     dbc.DropdownMenuItem("Manage", header=True),
-                                    dbc.DropdownMenuItem("Overview", href="#"),
+                                    dbc.DropdownMenuItem("Overview", href="/portfolio/overview"),
                                 ],
                                 nav=True,
                                 in_navbar=True,

@@ -17,7 +17,7 @@ def create_description_company(data_overview):
             ])
         ])
     except Exception as e:
-        print(f"Erreur lors de la création de la description de l'entreprise : {e}")
-        return html.P("Erreur lors de la création de la description de l'entreprise.")
+        print(f"Error in create description company: {e}")
+        return html.P("An error occured while trying to display the company description.")
     
     

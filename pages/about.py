@@ -26,6 +26,9 @@ def about_layout():
                 style={'fontSize': '20px', 'textDecoration': 'none'}
             )
         ], style={'display': 'flex', 'justifyContent': 'center'}),
+
+        # Ajout d'un diviseur
+        html.Div(style={'borderTop': '1px solid #ccc', 'marginTop': '40px', 'marginLeft': '20%', 'marginRight': '20%'}),
         # Link to the privacy policy page
         html.Div([
             html.A(

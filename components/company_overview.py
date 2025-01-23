@@ -23,6 +23,7 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
         # Calcul du badge de la variation en pourcentage
         current_price, variation, price_badge_color = calculate_price_variation(current_price, last_price_year_ago)
     
+        
         # Charger les emojis
         emoji = get_emoji_by_ticker(ticker)
     
@@ -79,12 +80,12 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
                         dbc.Badge(get_marketcap_badge_info(capitalization)[0], color=get_marketcap_badge_info(capitalization)[1])
                     ]), className="d-flex align-items-center justify-content-center"),
                     dbc.Col(html.Div([
-                        html.P("CAGR CA (5Y)", id="tooltip-cagr-ca", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'},className="fw-bold mb-0"),
+                        html.P("CAGR Sales (5Y)", id="tooltip-cagr-ca", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'},className="fw-bold mb-0"),
                         html.H5(cagr_ca, className="fw-bold mb-0"),
                         dbc.Badge("> 5%", color=get_cagr_ca_badge_color(cagr_ca))
                     ]), className="d-flex align-items-center justify-content-center"),
                     dbc.Col(html.Div([
-                        html.P("CAGR B. net", id="tooltip-cagr-net-income", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'},className="fw-bold mb-0"),
+                        html.P("CAGR Net I.(5Y)", id="tooltip-cagr-net-income", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'},className="fw-bold mb-0"),
                         html.H5(cagr_benefice_net, className="fw-bold mb-0"),
                         dbc.Badge("> 0%", color="secondary")
                     ]), className="d-flex align-items-center justify-content-center"),
@@ -107,7 +108,7 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
                         dbc.Badge("> 1", color=get_eps_badge_color(latest_eps))
                     ]), className="d-flex align-items-center justify-content-center"),
                     dbc.Col(html.Div([
-                        html.P("Dividendes", id="tooltip-dividend-yield", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'},className="fw-bold mb-0"),
+                        html.P("Dividends", id="tooltip-dividend-yield", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'},className="fw-bold mb-0"),
                         html.H5(dividend_to_percent(dividend_yield) if dividend_to_percent(dividend_yield) != "N/A" else "", className="fw-bold mb-0"),
                         dbc.Badge("< 2%", color=get_dividend_yield_badge_color(dividend_yield))
                     ]), className="d-flex align-items-center justify-content-center"),
@@ -131,40 +132,40 @@ def create_company_overview(data_overview, data_income, data_cashflow, data_earn
             ], fluid=True, className="border rounded p-4 shadow-sm mb-4", style={'marginleft': 'auto', 'marginright': 'auto'}),
 
             # Tooltips
-            dbc.Tooltip("Le secteur d'activité de l'entreprise.", target="tooltip-sector", placement="top"),
-            dbc.Tooltip("L'industrie précise au sein du secteur.", target="tooltip-industry", placement="top"),
-            dbc.Tooltip("Le pays où l'entreprise est basée.", target="tooltip-country", placement="top"),
-            dbc.Tooltip("Pourcentage des profits distribués sous forme de dividendes.", target="tooltip-dividend-yield", placement="right"),
-            dbc.Tooltip("Le ratio entre le prix de l'action et le bénéfice par action.", target="tooltip-pe-ratio", placement="right"),
-            dbc.Tooltip("Mesure de la volatilité de l'action par rapport au marché.", target="tooltip-beta", placement="bottom"),
+            dbc.Tooltip("The company's business sector.", target="tooltip-sector", placement="top"),
+            dbc.Tooltip("The industry is precise within the sector.", target="tooltip-industry", placement="top"),
+            dbc.Tooltip("The country where the company is based.", target="tooltip-country", placement="top"),
+            dbc.Tooltip("Percentage of profits distributed in the form of dividends.", target="tooltip-dividend-yield", placement="right"),
+            dbc.Tooltip("The ratio between share price and earnings per share.", target="tooltip-pe-ratio", placement="right"),
+            dbc.Tooltip("Measure of a share's volatility relative to the market.", target="tooltip-beta", placement="bottom"),
             dbc.Tooltip(
                 dcc.Markdown(
                     """
-                    L'EPS mesure le bénéfice net par action en USD d'une entreprise.
-                    - **Technologie** : >10  
-                    - **Énergie** : >10  
-                    - **Conso.Disc.** : 5-15  
-                    - **Industrie** : 5-15 
-                    - **Finance** : 8-15  
-                    - **Santé** : 5-10
+                    EPS measures a company's earnings per share in USD.
+                    - **Technology**: >10  
+                    - **Energy**: >10  
+                    - **Disc. consumption** : 5-15  
+                    - **Industrial**: 5-15 
+                    - **Finance**: 8-15  
+                    - **Health**: 5-10
                     """
                 ),
                 target="tooltip-eps",
                 placement="bottom",
             ),
-            dbc.Tooltip("Le taux de croissance annuel composé du chiffre d'affaires.", target="tooltip-cagr-ca", placement="top"),
-            dbc.Tooltip("Le taux de croissance annuel composé du bénéfice net.", target="tooltip-cagr-net-income", placement="top"),
-            dbc.Tooltip("le nombre total d'actions multiplié par le prix de l'action, indiquant la taille de l'entreprise.", target="tooltip-market-cap", placement="top"),
-            dbc.Tooltip("Le prix actuel de l'action.", target="tooltip-price", placement="top"),
+            dbc.Tooltip("The compound annual growth rate of sales.", target="tooltip-cagr-ca", placement="top"),
+            dbc.Tooltip("The compound annual growth rate of net income.", target="tooltip-cagr-net-income", placement="top"),
+            dbc.Tooltip("the total number of shares multiplied by the share price, indicating the size of the company.", target="tooltip-market-cap", placement="top"),
+            dbc.Tooltip("Current share price.", target="tooltip-price", placement="top"),
             dbc.Tooltip(dcc.Markdown(
                     """
-                    ### Score expérimental
+                    ### Experimental score
                     -----------------
-                    Ce score est donné à titre indicatif. 
-                    Il est calculé en fonction de plusieurs critères et se calcule sur 10.
+                    This score is given as an indication. 
+                    It is calculated on the basis of several criteria out of 10.
                     """
                 ), target="tooltip-score", placement="top"),
         ])
     except Exception as e:
-        print(f"Erreur de création de l'aperçu de l'entreprise : {e}")
-        return html.Div("Erreur de création de l'aperçu de l'entreprise", style={'textAlign': 'center', 'marginTop': '20px'})
+        print(f"Error in create company overview: {e}")
+        return html.Div("An error occured while trying to display the company overview.",style={'textAlign': 'center', 'marginTop': '20px'})

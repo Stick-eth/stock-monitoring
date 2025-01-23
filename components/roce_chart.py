@@ -52,7 +52,7 @@ def create_roce_chart(data_income_statement, data_balance_sheet):
 
         # Mettre à jour la mise en page
         fig.update_layout(
-            title="Return on Capital Employed (ROCE) Evolution",
+            title="Return on Capital Employed (ROCE)",
             xaxis_title="Date",
             yaxis_title="ROCE (%)",
             plot_bgcolor='rgba(0,0,0,0)',

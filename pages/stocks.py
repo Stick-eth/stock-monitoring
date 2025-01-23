@@ -134,18 +134,19 @@ def stocks_layout(ticker=None):
                 # Bouton pour ajouter le ticker à la liste des favoris
                 html.Div([
                     dcc.Store(id="user-email-store", data={"user_email": user_email, "ticker" : ticker }),  # Stocker user_email + ticker
-                    dbc.Button("Add to favorites", id="add-to-favorites", color="primary", n_clicks=0),
+                    dbc.Button("Add to favorites", id="add-to-favorites", color="warning", n_clicks=0, style={'margin': '20px auto', 'display': 'block', 'width': '100%'}),
                 ]),
 
                 # Footer
                 html.Footer([
                     html.P("Aniss SEJEAN", style={'textAlign': 'center'})
                 ])
-    ], style={'maxWidth': '1400px', 'margin': '0 auto', 'padding': '20px'})
+    ], className="border rounded p-6 shadow-sm mb-4", style={'maxWidth': '1200px', 'margin': '0 auto', 'padding': '20px', 'marginTop': '200px'})
 
     
 @callback(
-    Output("add-to-favorites", "children"),
+    [Output("add-to-favorites", "children"),
+     Output("add-to-favorites", "color")],
     Input("add-to-favorites", "n_clicks"),
     State("user-email-store", "data")  # Récupérer user_email
 )
@@ -155,18 +156,18 @@ def toggle_favorite(n_clicks, user_data):
 
 
     if not user_email:
-        return "You must be logged in to add to favorites"
+        return "You must be logged in to add to favorites", "secondary"
 
     if n_clicks == 0:
         if ticker in get_favorite_tickers(user_email):
-            return "Remove from favorites"
+            return "Remove from favorites", "danger"
         else:
-            return "Add to favorites"
+            return "Add to favorites","warning"
     else:
         if ticker in get_favorite_tickers(user_email):
             remove_favorite_ticker(user_email, ticker)
-            return "Add to favorites"
+            return "Add to favorites","warning"
         else:
             add_favorite_ticker(user_email, ticker)
-            return "Remove from favorites"
+            return "Remove from favorites","danger"
 

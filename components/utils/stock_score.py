@@ -56,7 +56,7 @@ def calculate_stock_score(cagr, beta, pe_ratio, eps, dividend_yield):
 def calculate_dividend_yield_score(dividend_yield):
     if dividend_yield < 0.01:
         return 1.0
-    elif 0.01 <= dividend_yield <= 0.02:
+    elif 0.01 <= dividend_yield <= 0.03:
         return 0.5 - 0.5 * (dividend_yield - 0.01) / 0.01
     else:
         return 0.0
