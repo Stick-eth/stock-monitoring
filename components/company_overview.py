@@ -38,14 +38,26 @@ def create_company_overview(data_overview, data_income, data_earnings):
         score = calculate_stock_score(cagr_ca, beta, pe_ratio, latest_eps, dividend_yield)
 
         return html.Div([
+            html.Div(
+                        [
+                            html.H3(
+                                "Datastick Score :  ",  # Le label en plus petit
+                                style={"fontSize": "1.5rem", "marginTop": "5px", "textAlign": "center", 'color': 'rgb(127, 121, 178)','fontweight': 'bold'}
+                            ),
+                            dbc.Badge(
+                                f" {score}",  # Le score en grand
+                                color=get_score_badge_color(score),
+                                className="fw-bold", id="tooltip-score",
+                                style={"fontSize": "1rem", "padding": "10px 20px"}  # Grande taille pour le score
+                            )
+                        ],
+                        style={"textAlign": "center", 'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center', 'marginBottom': '20px'}
+                    ),
+
+
             # Premier container
             dbc.Container([
                 dbc.Row([
-                    dbc.Col(html.Div([
-                        html.H6(emoji if emoji else "📈", style={'fontSize': '1.5rem'}),
-                        html.H6(name, style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'}, className="fw-bold mb-0"),
-                        html.P((ticker if ticker != "N/A" else "") + (" - " + exchange if exchange != "N/A" else ""))
-                    ]), className="d-flex align-items-center justify-content-center"),
 
                     dbc.Col(html.Div([
                         html.P("Sector", id="tooltip-sector", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'}, className="fw-bold mb-0"),
@@ -89,11 +101,7 @@ def create_company_overview(data_overview, data_income, data_earnings):
                         html.H5(cagr_benefice_net, className="fw-bold mb-0"),
                         dbc.Badge("> 0%", color="secondary")
                     ]), className="d-flex align-items-center justify-content-center"),
-                    dbc.Col(html.Div([
-                        html.P("P/E Ratio", id="tooltip-pe-ratio", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'},className="fw-bold mb-0"),
-                        html.H5(pe_ratio if pe_ratio != "N/A" else "", className="fw-bold mb-0"),
-                        dbc.Badge("< 30", color=get_pe_ratio_badge_color(pe_ratio))
-                    ]), className="d-flex align-items-center justify-content-center"),
+                    
                 ], className="mb-4"),
 
                 dbc.Row([
@@ -112,22 +120,11 @@ def create_company_overview(data_overview, data_income, data_earnings):
                         html.H5(dividend_to_percent(dividend_yield) if dividend_to_percent(dividend_yield) != "N/A" else "", className="fw-bold mb-0"),
                         dbc.Badge("< 2%", color=get_dividend_yield_badge_color(dividend_yield))
                     ]), className="d-flex align-items-center justify-content-center"),
-                    dbc.Col(html.Div(
-                        [
-                            html.H6(
-                                "Score",  # Le label en plus petit
-                                style={"fontSize": "1rem", "marginTop": "5px", "textAlign": "center", 'color': 'rgb(127, 121, 178)'}  # Taille réduite et centré
-                            ),
-                            dbc.Badge(
-                                f"{score}",  # Le score en grand
-                                color=get_score_badge_color(score),
-                                className="fw-bold", id="tooltip-score",
-                                style={"fontSize": "1.5rem", "padding": "10px 20px"}  # Grande taille pour le score
-                            )
-                        ],
-                        style={"textAlign": "center"}  # Centrer le tout
-                    )
-                    )
+                    dbc.Col(html.Div([
+                        html.P("P/E Ratio", id="tooltip-pe-ratio", style={'textTransform': 'none', 'color': 'rgb(127, 121, 178)'},className="fw-bold mb-0"),
+                        html.H5(pe_ratio if pe_ratio != "N/A" else "", className="fw-bold mb-0"),
+                        dbc.Badge("< 30", color=get_pe_ratio_badge_color(pe_ratio))
+                    ]), className="d-flex align-items-center justify-content-center"),
                 ]),
             ], fluid=True, className="border rounded p-4 shadow-sm mb-4", style={'marginleft': 'auto', 'marginright': 'auto'}),
 

@@ -46,27 +46,49 @@ def stocks_layout(ticker=None):
 
     return html.Div([
         html.Div([
+            # Informations de l'entreprise (60%)
+            html.Div(id='company-header', 
+                    style={
+                        'textAlign': 'left', 
+                        'margin': '20px auto', 
+                        'flexBasis': '60%',  # Définit la largeur initiale
+                        'flexGrow': '1',  # Permet à l'élément de prendre l'espace disponible
+                        'minWidth': '350px'  # Évite l'écrasement sur petits écrans
+                    }),
+
+            # Radar Chart (40%)
             dmc.RadarChart(
                 h=250,
                 data=[{"criteria": "1", "score": 0},
                     {"criteria": "2", "score": 0},
                     {"criteria": "3", "score": 0},
                     {"criteria": "4", "score": 0},
-                    {"criteria": "5", "score": 0},],
+                    {"criteria": "5", "score": 0}],
                 dataKey="criteria",
                 withPolarGrid=True,
                 withPolarRadiusAxis=True,
                 withPolarAngleAxis=True,
                 polarRadiusAxisProps={"angle": 90},
-                radarProps={
-                    "isAnimationActive": True,
-                },
-                series=[
-                    {"name": "score", "color": "blue.4", "opacity": 0.1},
-                ],
+                radarProps={"isAnimationActive": True},
+                series=[{"name": "score", "color": "blue.4", "opacity": 0.1}],
                 id="radar-chart",
-                gridColor="gray.3")
-        ], style={'textAlign': 'center', 'marginTop': '20px','maxWidth': '1200px', 'margin': '0 auto', 'padding': '20px'}),
+                gridColor="gray.3",
+                style={
+                    'textAlign': 'right', 
+                    'marginTop': '20px', 
+                    'flexBasis': '40%',  # Définit la largeur initiale
+                    'flexGrow': '1',  # Permet à l'élément de s’adapter
+                    'minWidth': '250px'  # Évite l'écrasement sur petits écrans
+                }
+            )
+        ], style={
+            'display': 'flex',
+            'alignItems': 'center',
+            'justifyContent': 'space-between',
+            'maxWidth': '1200px',
+            'margin': '0 auto'
+        }, className="responsive-div"),
+
         
         html.Div([
             dmc.LoadingOverlay(
@@ -113,7 +135,6 @@ def stocks_layout(ticker=None):
                     ], style={
                         'display': 'flex',
                         'flexWrap': 'wrap',  # Permet de basculer les éléments sur une nouvelle ligne
-                        'marginTop': '20px'
                     },className="responsive-div"),
 
                     # Graphiques financiers

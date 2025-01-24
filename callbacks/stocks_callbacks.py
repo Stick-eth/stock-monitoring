@@ -10,6 +10,7 @@ from components.company_description import create_description_company
 from components.roce_chart import create_roce_chart
 from components.tradingviewbutton import create_tradingview_button
 from components.radar_chart import create_radar_chart
+from components.company_header import create_company_header
 
 def register_stocks_callbacks(app):
     """Enregistre les callbacks Dash pour l'application."""
@@ -24,6 +25,7 @@ def register_stocks_callbacks(app):
          Output('roce-graph', 'figure'),
          Output('tradingview-button', 'children'),
          Output("radar-chart", "data"),
+         Output('company-header', 'children'),
          Output("loading-overlay", "visible")],
         [Input('url', 'pathname')]
     )
@@ -32,13 +34,13 @@ def register_stocks_callbacks(app):
         if pathname.startswith("/stocks/"):
             ticker = pathname.split("/stocks/")[-1]
         else:
-            return (None, None, None, None, None, None, None, None ,None, None ,False)
+            return (None, None, None, None, None, None, None, None ,None, None, None ,False)
 
         # Charger les données pour le ticker si ce n'est pas un point
         if ticker != "":
             data = load_data(ticker)
         else:
-            return (None, None, None, None, None, None, None, None, None, None, False)
+            return (None, None, None, None, None, None, None, None, None, None, None, False)
 
         # Générer les composants avec les données
         revenue_chart = create_revenue_chart(data.get("INCOME_STATEMENT"))
@@ -51,6 +53,7 @@ def register_stocks_callbacks(app):
         roce_chart = create_roce_chart(data.get("INCOME_STATEMENT"),data.get("BALANCE_SHEET"))
         tradingview_button = create_tradingview_button(data.get("OVERVIEW"))
         radar_chart = create_radar_chart(data.get("OVERVIEW"), data.get("INCOME_STATEMENT"), data.get("EARNINGS"))
+        company_header = create_company_header(data.get("OVERVIEW"))
         return (
             revenue_chart,
             price_chart,
@@ -62,5 +65,6 @@ def register_stocks_callbacks(app):
             roce_chart,
             tradingview_button,
             radar_chart,
+            company_header,
             False
         )
