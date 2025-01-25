@@ -40,7 +40,7 @@ server.secret_key = os.getenv("SECRET_KEY", "ajoutezmonlinkedin")  # Nécessaire
 app = Dash(
     __name__,
     server=server,
-    external_stylesheets=[dbc.themes.LUMEN, dbc.icons.FONT_AWESOME],
+    external_stylesheets=[dbc.themes.LUMEN, dbc.icons.FONT_AWESOME] + dmc.styles.ALL ,
     title="DataStick - Financial Tool",
     suppress_callback_exceptions=True,
 )

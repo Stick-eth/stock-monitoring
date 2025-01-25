@@ -1,6 +1,7 @@
 import threading
 from dash import html, dcc, Input, Output, State, callback, ctx
 import dash_bootstrap_components as dbc
+import dash_mantine_components as dmc
 from model.tickers_list import get_tickers
 from model.add_stock import get_ticker
 from flask import session
@@ -8,6 +9,9 @@ import os
 import dash
 
 ALL_TICKERS = get_tickers()
+
+# Recupérer les x premiers tickers (triés par "mk")
+top_tickers = sorted(ALL_TICKERS, key=lambda x: float(x["mk"]), reverse=True)[:5]
 
 def stocks_list_layout():
     user_email = session.get("user_email", "")
@@ -29,6 +33,44 @@ def stocks_list_layout():
                        style={"display": "inline-block" if admin else "none"})
         ], style={'textAlign': 'center'}),
 
+        # Trending tickers list horizontal (Top 3 market cap)
+        html.P("Trending tickers 🔥", style={'textAlign': 'center', 'marginTop': '20px',"fontWeight": "bold", "fontSize": "1.2em"}),
+        html.Div(
+            # Wrapper div is added for demonstration purposes only,
+            #  It is not required in real projects
+            dmc.Carousel(
+                [
+                    dmc.CarouselSlide(
+                    html.Div([
+                        html.Div([
+                            html.A(
+                                href=f"/stocks/{ticker['symbol']}",
+                                children=[
+                                    html.P(ticker["symbol"], style={"fontWeight": "bold", "fontSize": "1.2em", "marginRight": "2rem", "marginBottom": "0"}),
+                                    html.P(ticker["name"], style={"fontSize": "1em", "opacity": "0.8", "marginTop": "0"})
+                                ],
+                                style={"textDecoration": "none", "color": "inherit"}
+                            ),
+                        ], style={"marginBottom": "8px"}),
+                        html.P(f"Market Cap: {ticker['market_cap']}", 
+                            style={"fontSize": "0.8em", "marginTop": "5px", "opacity": "0.6"})
+                    ], 
+                    )  # Style individuel de chaque carte
+                ) for ticker in top_tickers
+                ],
+            id="carousel-size",
+            withIndicators=False,
+            withControls=False,
+            autoScroll=True,
+            skipSnaps=True,
+            slideSize='25%',
+            slideGap=10,
+            loop=True,
+            align="start",
+            style={"margin": "20px auto",'maxWidth': '700px'}
+            )
+        ),
+        html.Hr(style={'maxWidth': '700px', 'margin': '0 auto'}),
         html.Div(id="filtered-ticker-list", style={'textAlign': 'center', 'marginTop': '20px'}),
         dcc.Store(id="ticker-add-status", data=None),
         html.Div(id="add-ticker-status-message")

@@ -42,8 +42,8 @@ def get_tickers(limit=100):
             if doc and "data" in doc:
                 name = doc["data"].get("Name", "Unknown")
                 market_cap = format_market_cap(doc["data"].get("MarketCapitalization", "N/A"))
-
-                tickers_info.append({"symbol": ticker, "name": name, "market_cap": market_cap})
+                mk = doc["data"].get("MarketCapitalization", "N/A")
+                tickers_info.append({"symbol": ticker, "name": name, "market_cap": market_cap, "mk": mk})
 
             # Limiter le nombre de résultats
             if len(tickers_info) >= limit:
