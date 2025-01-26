@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 from pymongo import MongoClient, errors
+import time
 
 # Charger les variables d'environnement
 load_dotenv()
@@ -25,6 +26,7 @@ def update_scores(email, new_scores):
     
     new_scores doit être une **liste** de dictionnaires.
     """
+    time.sleep(0.1)
     try:
         if not email or not isinstance(new_scores, list):
             return False  # Vérification des entrées
@@ -49,6 +51,7 @@ def get_scores(email):
     """
     Récupère la liste complète des scores d'un utilisateur.
     """
+    time.sleep(0.1)
     try:
         if not email:
             return []
@@ -64,6 +67,7 @@ def clear_scores(email):
     """
     Supprime tous les scores d'un utilisateur.
     """
+    time.sleep(0.1)
     try:
         if not email:
             return False
