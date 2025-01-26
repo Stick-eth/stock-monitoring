@@ -2,7 +2,7 @@ from dash import html, dcc, callback, Input, Output, State, MATCH, ALL, ctx
 import dash_bootstrap_components as dbc
 import json
 from flask import session
-from model.user_score import update_scores, get_scores
+from model.user_score import update_scores, get_scores, clear_scores
 
 CRITERES = {
     "Critère 1": "Valeur attendue en %",
@@ -132,6 +132,8 @@ def save_criteria(n_clicks, criteria_values, min_values, max_values):
                 db_result.append({criteria_values[i]: [db_min_val, db_max_val]})
 
         update_scores(user_email, db_result)
+    else:
+        clear_scores(user_email)
 
 def create_criteria_item(index, criterion, min_val, max_val):
     return dbc.ListGroupItem([
