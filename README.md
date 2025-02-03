@@ -1,4 +1,4 @@
-- Live at [aniss.xyz](https://www.aniss.xyz)
+- Live at [data.aniss.xyz](https://data.aniss.xyz)
 # 📊 Analyse Financière des Tickers
 
 Un outil pour récupérer et visualiser facilement des données financières d'entreprises. 🚀
