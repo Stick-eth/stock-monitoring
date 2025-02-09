@@ -9,7 +9,12 @@ import os
 import dash
 
 ALL_TICKERS = get_tickers()
-
+#Order by market capa
+try :
+    ALL_TICKERS = sorted(ALL_TICKERS, key=lambda x: float(x["mk"]), reverse=True)
+except Exception as e:
+    print(f"Erreur dans le tri des tickers : {e}")
+    
 # Recupérer les x premiers tickers (triés par "mk")
 top_tickers = sorted(ALL_TICKERS, key=lambda x: float(x["mk"]), reverse=True)[:5]
 
