@@ -6,9 +6,6 @@ import dash_mantine_components as dmc
 from flask import session, request
 from model.user_favorite import get_favorite_tickers, add_favorite_ticker, remove_favorite_ticker
 
-
-
-
 # Configuration pour désactiver certaines interactions
 no_interaction = {
     'scrollZoom': False,
