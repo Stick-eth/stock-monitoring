@@ -1,6 +1,6 @@
 from dash import html
-
 import dash_bootstrap_components as dbc
+
 def portfolio_overview_layout():
     """Retourne le layout de la page Portfolio Overview, pour l'instant vide."""
     return html.Div([

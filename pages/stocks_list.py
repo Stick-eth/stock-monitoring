@@ -158,8 +158,6 @@ def update_ticker_list(search_value):
         ]
     )
 
-
-
 def threaded_get_ticker(ticker, force, store_component):
     """Exécute get_ticker dans un thread et met à jour l'état après exécution."""
     try:

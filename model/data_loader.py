@@ -15,7 +15,7 @@ DATA_DIRS = {
     "DIVIDENDS": "./data/DIVIDENDS",
 }
 
-@cache.memoize()
+@cache.memoize(timeout=86400)
 def load_data(ticker):
     time.sleep(0.15) # DDOS protection du pauvre
     """
