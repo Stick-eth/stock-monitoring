@@ -10,7 +10,7 @@ CRITERES = {
     "EPS": "Earnings per share",
     "Dividend Yield": "Dividend yield"
 }
-
+    
 
 def profile_layout():
     """Layout principal de la page de profil."""
@@ -278,3 +278,4 @@ def create_criteria_item(index, criterion, min_val, max_val):
             )
         ], className="align-items-center")
     ], id={"type": "criteria-item", "index": index})
+

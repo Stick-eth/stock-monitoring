@@ -1,6 +1,6 @@
 dash==2.15.0
 dash-bootstrap-components
-yfinance==0.2.36
+yfinance
 requests==2.31.0
 plotly==5.22.0
 python-dotenv==1.0.1
